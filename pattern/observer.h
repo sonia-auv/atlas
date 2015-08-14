@@ -1,0 +1,213 @@
+/**
+ * \file	observer.h
+ * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \date	28/06/2015
+ * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
+ * Use of this source code is governed by the MIT license that can be
+ * found in the LICENSE file.
+ */
+
+#ifndef ATLAS_PATTERN_OBSERVER_H_
+#define ATLAS_PATTERN_OBSERVER_H_
+
+#include <type_traits>
+#include <vector>
+#include <functional>
+#include <mutex>
+
+#include <lib_atlas/details/macros.h>
+
+namespace atlas {
+
+template <typename... Args_>
+class Observer;
+
+/**
+ * A subject is an object that will send notification when is internal state
+ * have changed.
+ *
+ * Object inheriting from Observer<Args_...> can be attached to the subject.
+ * They will then receive the notifications that are sent from the subject.
+ *
+ * When inhering from a subject, the derived class can specify a list of
+ * parameter it wants to send while sending a notifycation. Thus, the observer
+ * that wants to subscibe to this derived subject will have to implement a
+ * method providing the same parameters.
+ *
+ * Sample usage:
+ *
+ * public class ImageProvider : public atlas::Subject<const cv::Mat &> {
+ *  public:
+ *   void SearchForImage() {
+ *     while (!must_stop_searching_) {
+ *       std::shared_ptr<cv::Mat> image =
+ *           GetImageFromDirectory("~/.image_dir");
+ *       if (image != nullptr) {
+ *         Notify(*image);
+ *       }
+ *     }
+ *   }
+ *  private:
+ *   bool must_stop_searching_ = {false};
+ * };
+ *
+ * \template Args_ A list of arguments to send when a notification is thown.
+ * This will usually be the list of the member an observer wants to access --
+ * e.g. A reference to an image if the subject is an image provider
+ */
+template <typename... Args_>
+class Subject {
+  // For optimization purpose, we want the observer to call the detach from
+  // the subject without calling a OnSubjectDisconnected after.
+  // In this case, we created a DetachNoCallback private function that can be
+  // called only from the Observer or internally.
+  friend class Observer<Args_...>;
+
+ public:
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
+  Subject() ATLAS_NOEXCEPT;
+
+  virtual ~Subject() ATLAS_NOEXCEPT;
+
+  explicit Subject(const Subject<Args_...> &) = delete;
+
+  //============================================================================
+  // P U B L I C   O P E R A T O R S
+
+  void operator=(const Subject<Args_...> &) = delete;
+
+  //============================================================================
+  // P U B L I C  M E T H O D S
+
+  /**
+   * Throw a notification to all the observers that have attached to this
+   * subject.
+   *
+   * \param args The arguments that
+   */
+  auto Notify(Args_... args) ATLAS_NOEXCEPT -> void;
+
+  /**
+   * Return the number of observers attached to this subject.
+   */
+  auto ObserverCount() const ATLAS_NOEXCEPT -> size_t;
+
+  /**
+   * Add a new observer to the list. Return false if already in the attached.
+   */
+  auto Attach(Observer<Args_...> &observer) -> void;
+
+  /**
+   * Remove an observer from the list. Return false if it was not attached.
+   */
+  auto Detach(Observer<Args_...> &observer) -> void;
+
+  /**
+   * Remove an observer from the list. Return false if it was not attached.
+   */
+  auto DetachAll() ATLAS_NOEXCEPT -> void;
+
+ private:
+  //============================================================================
+  // P R I V A T E   M E T H O D S
+
+  /**
+   * Detach an observer without calling a callback.
+   *
+   * This provides the same functionality as DetachObserver but guarantees not
+   * to call back the observer being disconnect (as is done in DetachObserver).
+   * This is used strictly by ObserverBase during its destruction.
+   *
+   * Throws an invalid_argument arguments exception if the observer passed in
+   * argument is not attached to this subject.
+   *
+   * \param observer The observer we want to detach from this subject.
+   */
+  auto DetachNoCallback(Observer<Args_...> &observer) -> void;
+
+  //============================================================================
+  // P R I V A T E   M E M B E R S
+
+  /**
+   * This list of all the observers that are currently attached to this subject.
+   */
+  std::vector<Observer<Args_...> *> observers_;
+
+  /**
+   * A mutex that is going to be locked every time we try to access the list
+   * of observers.
+   * This provides thread safety for the all class ressources.
+   */
+  mutable std::mutex observers_mutex_;
+};
+
+template <typename... Args_>
+class Observer {
+  // The callback on the Observer class are private by default.
+  // We don't want other class than the Subject to be able to call the
+  // OnSubjectXXX() method.
+  friend class Subject<Args_...>;
+
+ public:
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
+  Observer() ATLAS_NOEXCEPT;
+
+  explicit Observer(Subject<Args_...> &subject) ATLAS_NOEXCEPT;
+
+  explicit Observer(const Observer<Args_...> &) = delete;
+
+  virtual ~Observer() ATLAS_NOEXCEPT;
+
+  //============================================================================
+  // P U B L I C   O P E R A T O R S
+
+  void operator=(const Observer<Args_...> &) = delete;
+
+  //============================================================================
+  // P U B L I C  M E T H O D S
+
+  auto Observe(Subject<Args_...> &subject) -> void;
+
+  auto IsAttached(const Subject<Args_...> &subject) const ATLAS_NOEXCEPT
+      -> bool;
+
+  auto DetachFromAllSubject() ATLAS_NOEXCEPT -> void;
+
+ protected:
+  //============================================================================
+  // P R O T E C T E D   M E T H O D S
+
+  /**
+   * This method is used if you want to use the observer without delegates.
+   * If so, then the method will be called instead of the delegate.
+   * If not, then simply override this and do nothing.
+   */
+  virtual auto OnSubjectNotify(Subject<Args_...> &subject,
+                               Args_... args) ATLAS_NOEXCEPT -> void = 0;
+
+ private:
+  //============================================================================
+  // P R I V A T E   M E T H O D S
+
+  virtual auto OnSubjectConnected(Subject<Args_...> &subject)
+      ATLAS_NOEXCEPT -> void;
+
+  virtual auto OnSubjectDisconnected(Subject<Args_...> &subject) -> void;
+
+  //============================================================================
+  // P R I V A T E   M E M B E R S
+
+  std::vector<Subject<Args_...> *> subjects_ = {};
+
+  mutable std::mutex subjects_mutex_ = {};
+};
+
+}  // namespace atlas
+
+#include <lib_atlas/pattern/observer_inl.h>
+
+#endif  // ATLAS_PATTERN_OBSERVER_H_

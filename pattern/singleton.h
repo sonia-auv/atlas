@@ -1,0 +1,88 @@
+/**
+ * \file	singleton.h
+ * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \date	28/06/2015
+ * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
+ * Use of this source code is governed by the MIT license that can be
+ * found in the LICENSE file.
+ */
+
+#ifndef ATLAS_PATTERN_SINGLETON_H_
+#define ATLAS_PATTERN_SINGLETON_H_
+
+#include <type_traits>
+
+#include <lib_atlas/details/macros.h>
+
+namespace atlas {
+
+/**
+ * This class is an implementation of the GOF pattern Singleton.
+ *
+ * This aims to provide a class to extend in order to have a unique object
+ * through the whole runtime. You can extends this class to have the behavior
+ * applied to your own class.
+ *
+ * Sample usage:
+ * class Foo: public Singleton<Foo>
+ * {
+ *  private:
+ *    explicit Foo() {};
+ *    ~Foo() {};
+ *
+ *    // Frienship so Singleton<Foo> can access the constructor and destructor.
+ *    friend class Singleton<Foo>;
+ *  };
+ */
+template <class Tp_>
+class Singleton {
+ public:
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
+  /**
+   * Deleting the copy constructor so we are sure we cannot create another
+   * instance of the singleton.
+   */
+  explicit Singleton(const Singleton &) ATLAS_NOEXCEPT = delete;
+
+  virtual ~Singleton() ATLAS_NOEXCEPT = default;
+
+  //============================================================================
+  // P U B L I C   O P E R A T O R S
+
+  /**
+   * Do not implement the assignement operator.
+   */
+  auto operator=(const Singleton &) ATLAS_NOEXCEPT -> void = delete;
+
+  //============================================================================
+  // P U B L I C  M E T H O D S
+
+  /**
+   * This is the method to use when you want to get the instance of the
+   * Singleton.
+   */
+  static auto instance()
+      ATLAS_NOEXCEPT_(std::is_nothrow_constructible<Tp_>::value) -> Tp_ &;
+
+ protected:
+  //============================================================================
+  // P R O T E C T E D   C / D T O R S
+
+  explicit Singleton() ATLAS_NOEXCEPT = default;
+};
+
+//==============================================================================
+// I N L I N E   M E T H O D S   S E C T I O N
+
+template <class Tp_>
+auto Singleton<Tp_>::instance()
+    ATLAS_NOEXCEPT_(std::is_nothrow_constructible<Tp_>::value) -> Tp_ & {
+  static Tp_ instance;
+  return instance;
+}
+
+}  // namespace atlas
+
+#endif  // ATLAS_PATTERN_SINGLETON_H_
