@@ -1,0 +1,47 @@
+`atlas/pattern/observer.h`
+--------------------------
+
+### Synopsis
+***
+
+```Cpp
+    namespace atlas {
+    
+    template <typename... Args>
+    class Subject {
+     public:
+      explicit Subject() noexcept;
+      virtual ~Subject() noexcept;
+    
+      void Notify(Args &&... args) noexcept;
+      std::size_t ObserverCount() const noexcept;
+      void Attach(Observer<Args...> &observer);
+      void Detach(Observer<Args...> &observer);
+      void DetachNoCallback(const Observer<Args...> &observer) noexcept;
+    };
+    
+    template <typename... Args>
+    class Observer {
+     public:
+      explicit Observer() noexcept;
+      explicit Observer(Subject<Args...> &subject) noexcept;
+      virtual ~Observer() noexcept;
+      void Observe(Subject<Args...> &subject);
+    
+     protected:
+      virtual void OnSubjectNotify(const Subject<Args...> &subject,
+                                   Args &&... args) noexcept = 0;
+      virtual void OnSubjectConnected(Subject<Args...> &subject) noexcept;
+      virtual void OnSubjectDisconnected(const Subject<Args_...> &subject) noexcept;
+      bool IsAttached(const Subject<Args_...> &subject) const noexcept;
+      void DetachFromAllSubject() noexcept;
+    
+      std::vector<const std::shared_ptr<Subject<Args_...>>> subjects_;
+      std::mutex subjects_mutex_;
+    };
+    
+    }  // namespace atlas
+```
+
+### Usage
+***
