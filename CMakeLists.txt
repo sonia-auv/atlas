@@ -14,8 +14,8 @@ project( lib_atlas )
 
 if ( NOT CMAKE_BUILD_TYPE )
   set( CMAKE_BUILD_TYPE Debug CACHE STRING
-     "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-     FORCE )
+      "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
+      FORCE )
 endif ( NOT CMAKE_BUILD_TYPE )
 
 set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++1y " )
@@ -25,15 +25,15 @@ set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++1y -O3" )
 # C A T K I N   C O N F I G U R A T I O N
 
 find_package( catkin REQUIRED COMPONENTS
-   std_msgs
-   roscpp
+    std_msgs
+    roscpp
 )
 
 # Declare this project as a catkin package and export the necessary build flags
 catkin_package(
-   INCLUDE_DIRS src
-   LIBRARIES sonia_atlas
-   CATKIN_DEPENDS roscpp
+    INCLUDE_DIRS src
+    LIBRARIES sonia_atlas
+    CATKIN_DEPENDS roscpp
 )
 
 #===============================================================================
@@ -47,8 +47,8 @@ file( GLOB_RECURSE lib_atlas_SRC_FILES "${lib_atlas_SRC_DIR}/*.cc" )
 
 # Include all the directories where source can be found.
 include_directories(
-   ${lib_atlas_SRC_DIR}
-   ${catkin_INCLUDE_DIRS}
+    ${lib_atlas_SRC_DIR}
+    ${catkin_INCLUDE_DIRS}
 )
 
 #==========================================================================
@@ -59,20 +59,30 @@ set( TARGET_NAME sonia_atlas )
 add_library( ${TARGET_NAME} ${lib_atlas_SRC_FILES} )
 target_link_libraries( ${TARGET_NAME} ${roscpp_LIBRARIES} )
 
-SET_TARGET_PROPERTIES( ${TARGET_NAME}
-   PROPERTIES
-   LINKER_LANGUAGE CXX
+set_target_properties( ${TARGET_NAME}
+    PROPERTIES
+    LINKER_LANGUAGE CXX
 )
 
+#==========================================================================
+# C R E A T I N G   U N I T   T E S T S
+
+catkin_add_gtest( utest_fsinfo test/fsinfo_test.cc )
+catkin_add_gtest( utest_observer test/observer_test.cc )
+catkin_add_gtest( utest_timer test/timer_test.cc )
+
+#==========================================================================
+# I N S T A L L I N G   T A R G E T S
+
 install( TARGETS ${TARGET_NAME}
-   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 install(
-   DIRECTORY ${lib_atlas_SRC_DIR}/${PROJECT_NAME}/
-   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-   FILES_MATCHING PATTERN "*.h*"
-   PATTERN ".git" EXCLUDE
+    DIRECTORY ${lib_atlas_SRC_DIR}/${PROJECT_NAME}/
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.h*"
+    PATTERN ".git" EXCLUDE
 )
