@@ -14,15 +14,14 @@
 
 namespace atlas {
 
-namespace details {
+/// The path where the system will save all the configurations.
+const auto kWorkspaceRoot = getenv("ROS_SONIA_WS");
 
 /// The path where the system will save all the configurations.
 const auto kConfigPath = strcat(getenv("ROS_SONIA_WS"), "config");
 
 /// The path where the system will save all the log files (e.g. from Logger).
 const auto kLogPath = strcat(getenv("ROS_SONIA_WS"), "log");
-
-}  // namespace details
 
 }  // namespace atlas
 
