@@ -22,7 +22,7 @@
 
 #ifndef ATLAS_ALWAYS_INLINE
 #define ATLAS_ALWAYS_INLINE \
-  __attribute__((__visibility__("hidden"), __always_inline__))
+  __attribute__((__visibility__("default"), __always_inline__)) inline
 #endif
 
 #endif  // ATLAS_DETAILS_MACROS_H_
