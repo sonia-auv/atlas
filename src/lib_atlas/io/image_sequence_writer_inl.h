@@ -18,12 +18,27 @@
 namespace atlas {
 
 //==============================================================================
+// C / D T O R S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE ImageSequenceWriter::ImageSequenceWriter() ATLAS_NOEXCEPT
+    : frame_count_(0),
+      streaming_(false),
+      running_(false) {}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE ImageSequenceWriter::~ImageSequenceWriter() ATLAS_NOEXCEPT {
+}
+
+//==============================================================================
 // M E T H O D S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE void ImageSequenceWriter::OnSubjectNotify(
-    Subject<const cv::Mat &> &subject, const cv::Mat &image) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::OnSubjectNotify(
+    Subject<const cv::Mat &> &subject, const cv::Mat &image) ATLAS_NOEXCEPT -> void {
   if (streaming()) {
     WriteImage(image);
     ++frame_count_;
@@ -33,44 +48,48 @@ ATLAS_ALWAYS_INLINE void ImageSequenceWriter::OnSubjectNotify(
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE void ImageSequenceWriter::write(const cv::Mat &image) {
-  if (running_ && !streaming()) {
-    ++frame_count_;
-    WriteImage(image);
-    return;
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::write(const cv::Mat &image) -> void{
+  if (running_) {
+    if(!streaming()) {
+      ++frame_count_;
+      WriteImage(image);
+      return;
+    }
+    throw std::logic_error(
+        "The image writer is not running, cannot write the image.");
   }
   throw std::logic_error(
-      "The image capture is streaming, cannot write the image.");
+      "The image writer is streaming, cannot write the image.");
 }
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceWriter::start() ATLAS_NOEXCEPT { running_ = true; }
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::start() ATLAS_NOEXCEPT -> void { running_ = true; }
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceWriter::stop() ATLAS_NOEXCEPT { running_ = false; }
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::stop() ATLAS_NOEXCEPT -> void { running_ = false; }
 
 //------------------------------------------------------------------------------
 //
-uint64_t ImageSequenceWriter::frame_count() const ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::frame_count() const ATLAS_NOEXCEPT -> uint64_t {
   return frame_count_;
 }
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceWriter::set_streaming(bool streaming) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::set_streaming(bool streaming) ATLAS_NOEXCEPT -> void {
   streaming_ = streaming;
 }
 
 //------------------------------------------------------------------------------
 //
-bool ImageSequenceWriter::streaming() const ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::streaming() const ATLAS_NOEXCEPT -> bool{
   return streaming_;
 }
 
 //------------------------------------------------------------------------------
 //
-bool ImageSequenceWriter::running() const ATLAS_NOEXCEPT { return running_; }
+ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::running() const ATLAS_NOEXCEPT -> bool { return running_; }
 
 }  // namespace atlas

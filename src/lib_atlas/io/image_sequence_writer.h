@@ -27,9 +27,9 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  ImageSequenceWriter() ATLAS_NOEXCEPT = default;
+  ImageSequenceWriter() ATLAS_NOEXCEPT;
 
-  virtual ~ImageSequenceWriter() ATLAS_NOEXCEPT = default;
+  virtual ~ImageSequenceWriter() ATLAS_NOEXCEPT;
 
   //============================================================================
   // P U B L I C  M E T H O D S
@@ -111,11 +111,11 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
   //============================================================================
   // P R I V A T E   M E M B E R S
 
-  uint64_t frame_count_ = {0};
+  uint64_t frame_count_;
 
-  std::atomic<bool> streaming_ = {false};
+  bool streaming_;
 
-  std::atomic<bool> running_ = {false};
+  bool running_;
 };
 
 }  // namespace atlas

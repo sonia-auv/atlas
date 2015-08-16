@@ -12,13 +12,15 @@
 #include <lib_atlas/ros/image_subscriber.h>
 #include <lib_atlas/ros/image_publisher.h>
 
+
+#include <lib_atlas/ros/service_server_manager.h>
+
+atlas::ServiceServerManager<std::string> test();
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
 
   ros::init(argc, argv, "atlas_image_node_test");
-  ros::NodeHandle nhl;
-
-  static atlas::ImagePublisher publisher(nhl, "atlas_image_node_test/image");
 
   return RUN_ALL_TESTS();
 }

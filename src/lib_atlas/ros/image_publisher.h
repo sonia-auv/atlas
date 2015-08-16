@@ -16,20 +16,21 @@
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 
-#include <lib_atlas/io/image_sequence_writer.h>
+#include <lib_atlas/typedef.h>
 #include <lib_atlas/macros.h>
+#include <lib_atlas/io/image_sequence_writer.h>
 
 namespace atlas {
 
-class ImagePublisher : ImageSequenceWriter {
+class ImagePublisher : public ImageSequenceWriter {
  public:
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ImagePublisher(const ros::NodeHandle &node_handle,
+  explicit ImagePublisher(NodeHandlePtr node_handle,
                           const std::string &topic_name) ATLAS_NOEXCEPT;
 
-  virtual ~ImagePublisher() ATLAS_NOEXCEPT;
+  ~ImagePublisher() ATLAS_NOEXCEPT;
 
  private:
   //============================================================================

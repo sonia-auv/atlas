@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <exception>
 #include <algorithm>
+#include <functional>
 #include <ros/ros.h>
 #include <lib_atlas/macros.h>
 #include <lib_atlas/typedef.h>
@@ -33,6 +34,10 @@ class ServiceServerManager {
 
   /**
    * A pointer to the real callback that you are going to define in your class.
+   *
+   * ROS is using boost functions for delegates.
+   * We don't want to rollback because of ROS code base, we will rather
+   * use a row pointer to sore the function and send it to ros.
    */
   template <typename M>
   using CallBackPtr = bool (T::*)(typename M::Request &,
