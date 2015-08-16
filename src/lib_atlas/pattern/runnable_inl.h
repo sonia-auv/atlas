@@ -18,7 +18,7 @@ namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE Runnable::Runnable() ATLAS_NOEXCEPT : _stop(), _thread() {}
+ATLAS_ALWAYS_INLINE Runnable::Runnable() ATLAS_NOEXCEPT : stop_(), thread_() {}
 
 //------------------------------------------------------------------------------
 //
@@ -30,14 +30,14 @@ ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT { stop(); }
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE void Runnable::start() ATLAS_NOEXCEPT {
-  _thread = std::thread(&Runnable::run, this);
+  thread_ = std::thread(&Runnable::run, this);
 }
 
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE void Runnable::stop() ATLAS_NOEXCEPT {
-  _stop = true;
-  _thread.join();
+  stop_ = true;
+  thread_.join();
 }
 
 } // namespace atlas

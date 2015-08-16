@@ -12,7 +12,7 @@
 
 #include <iostream>
 #include <chrono>
-
+#include <mutex>
 #include <lib_atlas/macros.h>
 
 namespace atlas {

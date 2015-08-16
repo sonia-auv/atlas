@@ -43,13 +43,12 @@ class Runnable
 
   virtual void run() = 0;
 
- private:
   //============================================================================
-  // P R I V A T E   M E M B E R S
+  // P R O T E C T E D   M E M B E R S
 
-  std::thread _thread;
+  std::thread thread_;
 
-  std::atomic<bool> _stop;
+  std::atomic<bool> stop_;
 };
 
 }  // namespace atlas
