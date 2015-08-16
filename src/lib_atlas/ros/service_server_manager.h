@@ -14,7 +14,6 @@
 #include <ros/ros.h>
 
 // Sonia Atlas includes
-#include <lib_atlas/ros/ros_manager.h>
 #include <lib_atlas/details/macros.h>
 
 namespace atlas {
@@ -37,8 +36,8 @@ class ServiceServerManager {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ServiceServerManager(const ROSManager &manager) ATLAS_NOEXCEPT
-      : node_handler_(manager.node_handler()),
+  explicit ServiceServerManager(const ros::NodeHandle &node_handle) ATLAS_NOEXCEPT
+      : node_handler_(node_handle),
         services_() {}
 
   virtual ~ServiceServerManager() {
