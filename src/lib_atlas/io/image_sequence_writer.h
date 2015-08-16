@@ -16,7 +16,7 @@
 
 #include <opencv2/core/core.hpp>
 
-#include <lib_atlas/details/macros.h>
+#include <lib_atlas/macros.h>
 #include <lib_atlas/sys/timer.h>
 #include <lib_atlas/pattern/observer.h>
 

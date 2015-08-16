@@ -9,8 +9,8 @@
 
 #include <string>
 
-#ifndef ATLAS_DETAILS_CONFIG_H_
-#define ATLAS_DETAILS_CONFIG_H_
+#ifndef ATLAS_CONFIG_H_
+#define ATLAS_CONFIG_H_
 
 namespace atlas {
 
@@ -22,4 +22,4 @@ const std::string kLogPath = kWorkspaceRoot + std::string{"log"};
 
 }  // namespace atlas
 
-#endif  // ATLAS_DETAILS_CONFIG_H_
+#endif  // ATLAS_CONFIG_H_

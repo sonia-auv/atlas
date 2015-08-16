@@ -12,7 +12,7 @@
 
 #include <type_traits>
 
-#include <lib_atlas/details/macros.h>
+#include <lib_atlas/macros.h>
 
 namespace atlas {
 

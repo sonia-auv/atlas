@@ -15,7 +15,7 @@
 #include <functional>
 #include <mutex>
 
-#include <lib_atlas/details/macros.h>
+#include <lib_atlas/macros.h>
 #include <lib_atlas/pattern/subject.h>
 
 namespace atlas {

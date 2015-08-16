@@ -17,7 +17,7 @@
 #include <opencv2/opencv.hpp>
 
 #include <lib_atlas/io/image_sequence_writer.h>
-#include <lib_atlas/details/macros.h>
+#include <lib_atlas/macros.h>
 
 namespace atlas {
 

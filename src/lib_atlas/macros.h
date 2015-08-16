@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_DETAILS_MACROS_H_
-#define ATLAS_DETAILS_MACROS_H_
+#ifndef ATLAS_MACROS_H_
+#define ATLAS_MACROS_H_
 
 #if (__cplusplus >= 201103L)
 #define ATLAS_NOEXCEPT noexcept
@@ -25,4 +25,4 @@
   __attribute__((__visibility__("default"), __always_inline__)) inline
 #endif
 
-#endif  // ATLAS_DETAILS_MACROS_H_
+#endif  // ATLAS_MACROS_H_
