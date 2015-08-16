@@ -11,23 +11,29 @@
 #define ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
 
 #include <assert.h>
+#include <exception>
+#include <algorithm>
 #include <ros/ros.h>
 #include <lib_atlas/macros.h>
 #include <lib_atlas/typedef.h>
 
 namespace atlas {
 
-/// This class is an helper for storing ServiceServer.
-///
-/// By inheriting this class and then call the RegisterService, you abstract
-/// the managment of storing and deleting ROS Services.
+/**
+ * This class is an helper for storing ServiceServer.
+ *
+ * By inheriting this class and then call the RegisterService, you abstract
+ * the managment of storing and deleting ROS Services.
+ */
 template <class T>
 class ServiceServerManager {
  public:
   //============================================================================
   // T Y P E D E F   A N D   E N U M
 
-  /// A pointer to the real callback that you are going to define in your class.
+  /**
+   * A pointer to the real callback that you are going to define in your class.
+   */
   template <typename M>
   using CallBackPtr = bool (T::*)(typename M::Request &,
                                   typename M::Response &);
@@ -50,61 +56,84 @@ class ServiceServerManager {
   //============================================================================
   // P U B L I C   M E T H O D S
 
-  /// The method register a service given its name and a pointer to the callback
-  /// method that will handle the callback.
-  ///
-  /// \param name  The name of the service you want to register.
-  /// \param function  A pointer to the the defined callback.
-  /// \param manager Take a reference to the real object in order to call
-  /// ROS advertiseService.
+  /**
+   * The method register a service given its name and a pointer to the callback
+   * method that will handle the callback.
+   *
+   * \param name  The name of the service you want to register.
+   * \param function  A pointer to the the defined callback.
+   * \param manager Take a reference to the real object in order to call
+   * ROS advertiseService.
+   */
   template <typename M>
   auto RegisterService(const std::string &name, CallBackPtr<M> function,
                        T &manager) -> void {
     if (function != nullptr) {
-      auto result_advertise =
-          node_handler_->advertiseService(name.c_str(), function, &manager);
-      auto pair =
-          std::pair<std::string, ros::ServiceServer>(name, result_advertise);
-      services_.insert(pair);
+      auto it = std::find_if(
+          services_.begin(), services_.end(),
+          [name](const std::pair<std::string, ros::ServiceServer> &srv)
+              -> bool { return srv.first == name; });
+
+      if (it == services_.end()) {
+        auto result_advertise =
+            node_handler_->advertiseService(name.c_str(), function, &manager);
+        auto pair =
+            std::pair<std::string, ros::ServiceServer>(name, result_advertise);
+        services_.insert(pair);
+        return;
+      }
+      throw std::invalid_argument(
+          "A service with this name has already been registered.");
     }
   }
 
-  /// Shutdown a service given its name.
-  ///
-  /// \return True if the service was shutdown correctly.
-  auto ShutdownService(const std::string &service_name) -> bool {
-    for (auto &service : services_) {
-      if (service.first == service_name) {
-        service.second.shutdown();
-        services_.erase(service.first);
-        return true;
-      }
+  /**
+   * Shutdown a service given its name.
+   *
+   * \return True if the service was shutdown correctly.
+   */
+  auto ShutdownService(const std::string &service_name) -> void {
+    auto it = std::find_if(
+        services_.begin(), services_.end(),
+        [service_name](const std::pair<std::string, ros::ServiceServer> &srv)
+            -> bool { return srv.first == service_name; });
+    if (it != services_.end()) {
+      services_.erase(it);
+      return;
     }
-    return false;
+    throw std::invalid_argument("No service with such a name.");
   }
 
-  /// Get a service given its name.
-  ///
-  /// \return A pointer to the service. This will return nullptr if there is no
-  /// pointer with this name.
-  auto GetService(const std::string &service_name)
-      -> ros::ServiceServer *const {
-    for (auto &service : services_) {
-      if (service.first == service_name) {
-        return &(service.second);
-      }
+  /**
+   * Get a service given its name.
+   *
+   * \return A pointer to the service. This will return nullptr if there is no
+   * pointer with this name.
+   */
+  auto GetService(const std::string &service_name) -> const ros::ServiceServer
+      & {
+    auto it = std::find_if(
+        services_.begin(), services_.end(),
+        [service_name](const std::pair<std::string, ros::ServiceServer> &srv)
+            -> bool { return srv.first == service_name; });
+    if (it != services_.end()) {
+      return (*it).second;
     }
-    return nullptr;
+    throw std::invalid_argument("No service with such a name.");
   }
 
  private:
   //============================================================================
   // P R I V A T E   M E M B E R S
 
-  /// The Node Handler provided by ROS to manage nodes
+  /**
+   * The Node Handler provided by ROS to manage nodes.
+   */
   NodeHandlePtr node_handler_;
 
-  /// List of ROS services offered by this class
+  /**
+   * List of ROS services offered by this class.
+   */
   std::map<std::string, ros::ServiceServer> services_;
 };
 

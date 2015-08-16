@@ -40,9 +40,7 @@ class ImageSubscriber : public ImageSequenceCapture {
   //============================================================================
   // P U B L I C   M E T H O D S
 
-  ATLAS_ALWAYS_INLINE auto image() const -> const cv::Mat & {
-    return image_;
-  }
+  ATLAS_ALWAYS_INLINE auto image() const -> const cv::Mat & { return image_; }
 
  private:
   //============================================================================

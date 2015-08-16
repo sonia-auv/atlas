@@ -17,6 +17,6 @@ namespace atlas {
 
 using NodeHandlePtr = std::shared_ptr<ros::NodeHandle>;
 
-} // namespace atlas
+}  // namespace atlas
 
 #endif  // ATLAS_TYPEDEF_H_

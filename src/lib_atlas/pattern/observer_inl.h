@@ -13,7 +13,6 @@
 
 #include <cassert>
 #include <algorithm>
-#include <lib_atlas/details/container.h>
 
 namespace atlas {
 

@@ -26,7 +26,6 @@ ATLAS_ALWAYS_INLINE const cv::Mat &ImageSequenceCapture::image() {
   if (!streaming()) {
     ++frame_count_;
     return GetNextImage();
-
   }
   throw std::logic_error(
       "The image provider is streaming, cannot get next image.");
@@ -41,9 +40,7 @@ void ImageSequenceCapture::start() ATLAS_NOEXCEPT {
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceCapture::stop() ATLAS_NOEXCEPT {
-  running_ = false;
-}
+void ImageSequenceCapture::stop() ATLAS_NOEXCEPT { running_ = false; }
 
 //------------------------------------------------------------------------------
 //
@@ -77,9 +74,7 @@ bool ImageSequenceCapture::streaming() const ATLAS_NOEXCEPT {
 
 //------------------------------------------------------------------------------
 //
-bool ImageSequenceCapture::running() const ATLAS_NOEXCEPT {
-  return running_;
-}
+bool ImageSequenceCapture::running() const ATLAS_NOEXCEPT { return running_; }
 
 //------------------------------------------------------------------------------
 //

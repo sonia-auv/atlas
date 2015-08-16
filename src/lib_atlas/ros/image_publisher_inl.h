@@ -13,7 +13,6 @@
 
 #include <cassert>
 #include <algorithm>
-#include <lib_atlas/details/container.h>
 
 namespace atlas {
 
@@ -22,12 +21,12 @@ namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE ImagePublisher::ImagePublisher(const ros::NodeHandle &node_handle,
-                        const std::string &topic_name) ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE ImagePublisher::ImagePublisher(
+    const ros::NodeHandle &node_handle,
+    const std::string &topic_name) ATLAS_NOEXCEPT
     : topic_name_(topic_name),
       img_transport_(node_handle),
-      publisher_(img_transport_.advertise(topic_name_, 1)) {
-}
+      publisher_(img_transport_.advertise(topic_name_, 1)) {}
 
 //------------------------------------------------------------------------------
 //
@@ -40,11 +39,11 @@ ATLAS_ALWAYS_INLINE ImagePublisher::~ImagePublisher() ATLAS_NOEXCEPT {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImagePublisher::WriteImage(const cv::Mat &image) ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE auto ImagePublisher::WriteImage(const cv::Mat &image)
+    ATLAS_NOEXCEPT -> void {
   sensor_msgs::ImagePtr msg =
       cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
   publisher_.publish(msg);
 }
-
 
 }  // namespace atlas

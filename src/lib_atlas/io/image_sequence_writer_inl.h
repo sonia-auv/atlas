@@ -22,9 +22,9 @@ namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE void ImageSequenceWriter::OnSubjectNotify(Subject<const cv::Mat &> &subject,
-                                                              const cv::Mat &image) ATLAS_NOEXCEPT {
-  if(streaming()){
+ATLAS_ALWAYS_INLINE void ImageSequenceWriter::OnSubjectNotify(
+    Subject<const cv::Mat &> &subject, const cv::Mat &image) ATLAS_NOEXCEPT {
+  if (streaming()) {
     WriteImage(image);
     ++frame_count_;
     return;
@@ -45,16 +45,11 @@ ATLAS_ALWAYS_INLINE void ImageSequenceWriter::write(const cv::Mat &image) {
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceWriter::start() ATLAS_NOEXCEPT {
-  running_ = true;
-}
+void ImageSequenceWriter::start() ATLAS_NOEXCEPT { running_ = true; }
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceWriter::stop() ATLAS_NOEXCEPT {
-  running_ = false;
-}
-
+void ImageSequenceWriter::stop() ATLAS_NOEXCEPT { running_ = false; }
 
 //------------------------------------------------------------------------------
 //
@@ -76,8 +71,6 @@ bool ImageSequenceWriter::streaming() const ATLAS_NOEXCEPT {
 
 //------------------------------------------------------------------------------
 //
-bool ImageSequenceWriter::running() const ATLAS_NOEXCEPT {
-  return running_;
-}
+bool ImageSequenceWriter::running() const ATLAS_NOEXCEPT { return running_; }
 
 }  // namespace atlas
