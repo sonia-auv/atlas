@@ -9,6 +9,7 @@
 
 #include "gtest/gtest.h"
 #include <lib_atlas/pattern/observer.h>
+#include <lib_atlas/pattern/subject.h>
 
 class ConcreateObserver : public atlas::Observer<const std::string &, int> {
  public:

@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_IO_IMAGE_SEQUENCE_PROVIDER_H_
-#error This file may only be included from image_sequence_provider.h
+#ifndef ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#error This file may only be included from image_sequence_capture.h
 #endif
 
 #include <lib_atlas/sys/timer.h>
@@ -18,30 +18,15 @@
 namespace atlas {
 
 //==============================================================================
-// C / D T O R S   S E C T I O N
-
-//------------------------------------------------------------------------------
-//
-ATLAS_ALWAYS_INLINE ImageSequenceProvider::ImageSequenceProvider()
-    ATLAS_NOEXCEPT {
-  streaming_thread_ = std::unique_ptr<std::thread>(
-      new std::thread(&ImageSequenceProvider::StreamingLoop, this));
-}
-
-//------------------------------------------------------------------------------
-//
-ATLAS_ALWAYS_INLINE ImageSequenceProvider::~ImageSequenceProvider()
-    ATLAS_NOEXCEPT {}
-
-//==============================================================================
 // M E T H O D S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE const cv::Mat &ImageSequenceProvider::image() const {
+ATLAS_ALWAYS_INLINE const cv::Mat &ImageSequenceCapture::image() {
   if (!streaming()) {
-    std::unique_lock<std::mutex> lock(image_mutex_);
+    ++frame_count_;
     return GetNextImage();
+
   }
   throw std::logic_error(
       "The image provider is streaming, cannot get next image.");
@@ -49,56 +34,56 @@ ATLAS_ALWAYS_INLINE const cv::Mat &ImageSequenceProvider::image() const {
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceProvider::start() ATLAS_NOEXCEPT {
-  std::unique_lock<std::mutex> lock(image_mutex_);
-  Open();
-  {
-    std::lock_guard<std::mutex> lock(cv_mutex_);
-    running_ = true;
-  }
+void ImageSequenceCapture::start() ATLAS_NOEXCEPT {
+  std::lock_guard<std::mutex> lock(cv_mutex_);
+  running_ = true;
 }
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceProvider::stop() ATLAS_NOEXCEPT {
+void ImageSequenceCapture::stop() ATLAS_NOEXCEPT {
   running_ = false;
-  std::lock_guard<std::mutex> lock(image_mutex_);
-  Close();
 }
 
 //------------------------------------------------------------------------------
 //
-double ImageSequenceProvider::max_framerate() const ATLAS_NOEXCEPT {
+double ImageSequenceCapture::max_framerate() const ATLAS_NOEXCEPT {
   return max_framerate_;
 }
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceProvider::set_max_framerate(double framerate) {
+void ImageSequenceCapture::set_max_framerate(double framerate) {
   max_framerate_ = framerate;
 }
 
 //------------------------------------------------------------------------------
 //
-uint64_t ImageSequenceProvider::frame_count() const ATLAS_NOEXCEPT {
+uint64_t ImageSequenceCapture::frame_count() const ATLAS_NOEXCEPT {
   return frame_count_;
 }
 
 //------------------------------------------------------------------------------
 //
-void ImageSequenceProvider::set_streaming(bool streaming) ATLAS_NOEXCEPT {
+void ImageSequenceCapture::set_streaming(bool streaming) ATLAS_NOEXCEPT {
   streaming_ = streaming;
 }
 
 //------------------------------------------------------------------------------
 //
-bool ImageSequenceProvider::streaming() const ATLAS_NOEXCEPT {
+bool ImageSequenceCapture::streaming() const ATLAS_NOEXCEPT {
   return streaming_;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE void ImageSequenceProvider::StreamingLoop() ATLAS_NOEXCEPT {
+bool ImageSequenceCapture::running() const ATLAS_NOEXCEPT {
+  return running_;
+}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE void ImageSequenceCapture::StreamingLoop() ATLAS_NOEXCEPT {
   std::unique_lock<std::mutex> lock(cv_mutex_);
   cv.wait(lock, [=] { return static_cast<bool>(running_); });
 
@@ -107,12 +92,11 @@ ATLAS_ALWAYS_INLINE void ImageSequenceProvider::StreamingLoop() ATLAS_NOEXCEPT {
   while (running_) {
     if (streaming_) {
       if (max_framerate_ != 0 && max_framerate_ < 1 / timer.seconds()) {
-        cv.wait(lock, [=] { return max_framerate_ < 1 / timer.seconds(); });
+        cv.wait(lock, [&] { return max_framerate_ < 1 / timer.seconds(); });
       }
       timer.reset();
-
-      std::unique_lock<std::mutex> lock(image_mutex_);
       Notify(GetNextImage());
+      ++frame_count_;
     }
   }
 }

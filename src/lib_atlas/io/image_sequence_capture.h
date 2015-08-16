@@ -6,27 +6,29 @@
  * Use of this source code is governed by the MIT license that can be
  * found in the LICENSE file.
  */
-#ifndef ATLAS_IO_IMAGE_SEQUENCE_PROVIDER_H_
-#define ATLAS_IO_IMAGE_SEQUENCE_PROVIDER_H_
 
+#ifndef ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#define ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+
+#include <condition_variable>
 #include <atomic>
 #include <mutex>
 #include <thread>
 
-#include <lib_atlas/pattern/observer.h>
+#include <lib_atlas/pattern/subject.h>
 #include <lib_atlas/sys/timer.h>
 #include <opencv2/core/core.hpp>
 
 namespace atlas {
 
-class ImageSequenceProvider : public Subject<const cv::Mat &> {
+class ImageSequenceCapture : public Subject<cv::Mat> {
  public:
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  ImageSequenceProvider() ATLAS_NOEXCEPT;
+  ImageSequenceCapture() ATLAS_NOEXCEPT = default;
 
-  ~ImageSequenceProvider() ATLAS_NOEXCEPT;
+  virtual ~ImageSequenceCapture() ATLAS_NOEXCEPT = default;
 
   //============================================================================
   // P U B L I C  M E T H O D S
@@ -64,7 +66,7 @@ class ImageSequenceProvider : public Subject<const cv::Mat &> {
    *
    * \return The next image, if the ImageSequenceProvider is not streaming.
    */
-  const cv::Mat &image() const;
+  const cv::Mat &image();
 
   /**
    * Start the ImageSequenceProvider by Openning the media -- see Open().
@@ -75,6 +77,16 @@ class ImageSequenceProvider : public Subject<const cv::Mat &> {
    * Stop the ImageSequenceProvider by closing the media -- see Close().
    */
   void stop() ATLAS_NOEXCEPT;
+
+  /**
+   * Returns either if the ImageSequence is running or not.
+   *
+   * You can set the running state of the ImageSequence by calling start or stop
+   * methods.
+   *
+   * \return The running state of the ImageSequence
+   */
+  bool running() const ATLAS_NOEXCEPT;
 
   /**
    * Set the streaming mode to true or false.
@@ -97,10 +109,6 @@ class ImageSequenceProvider : public Subject<const cv::Mat &> {
   // P R O T E C T E D   M E T H O D S
 
   virtual const cv::Mat &GetNextImage() const = 0;
-
-  virtual void Open() noexcept = 0;
-
-  virtual void Close() noexcept = 0;
 
  private:
   //============================================================================
@@ -127,8 +135,6 @@ class ImageSequenceProvider : public Subject<const cv::Mat &> {
 
   std::atomic<bool> running_ = {false};
 
-  mutable std::mutex image_mutex_ = {};
-
   std::unique_ptr<std::thread> streaming_thread_ = {};
 
   std::condition_variable cv = {};
@@ -138,6 +144,6 @@ class ImageSequenceProvider : public Subject<const cv::Mat &> {
 
 }  // namespace atlas
 
-#include <lib_atlas/io/image_sequence_provider_inl.h>
+#include <lib_atlas/io/image_sequence_capture_inl.h>
 
-#endif  // ATLAS_IO_IMAGE_SEQUENCE_PROVIDER_H_
+#endif  // ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_

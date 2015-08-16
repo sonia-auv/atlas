@@ -1,35 +1,35 @@
-/// \file	image_subscriber.h
-/// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
-/// \date	23/05/2015
-/// \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
-/// Use of this source code is governed by the MIT license that can be
-/// found in the LICENSE file.
+/**
+ * \file	image_publisher.h
+ * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \date	23/05/2015
+ * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
+ * Use of this source code is governed by the MIT license that can be
+ * found in the LICENSE file.
+ */
 
 #ifndef ATLAS_ROS_IMAGE_SUBSCRIBER_H_
 #define ATLAS_ROS_IMAGE_SUBSCRIBER_H_
 
 #include <mutex>
-#include <string>
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
-#include <opencv2/opencv.hpp>
 #include <cv_bridge/cv_bridge.h>
+#include <opencv2/opencv.hpp>
 
-#include <lib_atlas/pattern/observer.h>
-#include <lib_atlas/ros/ros_manager.h>
+#include <lib_atlas/io/image_sequence_capture.h>
 #include <lib_atlas/details/macros.h>
 
 namespace atlas {
 
-class ImageSubscriber : public Observer<const cv::Mat> {
+class ImageSubscriber : public ImageSequenceCapture {
  public:
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ImageSubscriber(const ROSManager &manager,
+  explicit ImageSubscriber(const ros::NodeHandle &node_handle,
                            const std::string &topic_name)
-      : topic_name_(manager.node_name() + topic_name),
-        img_transport_(manager.node_handler()),
+      : topic_name_(topic_name),
+        img_transport_(node_handle),
         subscriber_(img_transport_.subscribe(
             topic_name_, 1, &ImageSubscriber::ImageCallback, this)),
         image_(),
@@ -41,7 +41,7 @@ class ImageSubscriber : public Observer<const cv::Mat> {
   // P U B L I C   M E T H O D S
 
   ATLAS_ALWAYS_INLINE auto image() const -> const cv::Mat & {
-    return const_cast<const cv::Mat &>(image_);
+    return image_;
   }
 
  private:
