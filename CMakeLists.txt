@@ -82,6 +82,7 @@ catkin_add_gtest( utest_observer test/observer_test.cc )
 catkin_add_gtest( utest_timer test/timer_test.cc )
 catkin_add_gtest( utest_image_publisher test/image_node_test.cc )
 target_link_libraries( utest_image_publisher ${catkin_LIBRARIES} )
+catkin_add_gtest( utest_runnable test/runnable_test.cc )
 
 #==========================================================================
 # I N S T A L L I N G   T A R G E T S
