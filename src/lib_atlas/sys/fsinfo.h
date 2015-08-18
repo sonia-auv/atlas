@@ -33,9 +33,8 @@ enum class BitUnit { BLOCK = 0, B, KB, MB, GB, TB };
  * \param path A directory being contained by the mounted point to analyze.
  * \return The size of the mounted point where path is located in unit
  */
-static auto total_physical_memory(BitUnit unit = BitUnit::KB,
-                                  const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+auto total_physical_memory(BitUnit unit = BitUnit::KB,
+                           const char *path = ".") ATLAS_NOEXCEPT -> double;
 
 /**
  * For a given directory and a bit unit, this method will return the
@@ -48,9 +47,8 @@ static auto total_physical_memory(BitUnit unit = BitUnit::KB,
  * \param path A directory being contained by the mounted point to analyze.
  * \return The free space on the mounted point where path is located in unit
  */
-static auto free_physical_memory(BitUnit unit = BitUnit::KB,
-                                 const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+auto free_physical_memory(BitUnit unit = BitUnit::KB,
+                          const char *path = ".") ATLAS_NOEXCEPT -> double;
 
 /**
  * For a given directory and a bit unit, this method will return the
@@ -64,9 +62,8 @@ static auto free_physical_memory(BitUnit unit = BitUnit::KB,
  * \return The available space on the mounted point where path is located in
  *unit
  */
-static auto available_physical_memory(BitUnit unit = BitUnit::KB,
-                                      const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+auto available_physical_memory(BitUnit unit = BitUnit::KB,
+                               const char *path = ".") ATLAS_NOEXCEPT -> double;
 
 /**
  * For a given directory and a bit unit, this method will return the
@@ -79,9 +76,8 @@ static auto available_physical_memory(BitUnit unit = BitUnit::KB,
  * \param path A directory being contained by the mounted point to analyze.
  * \return The size of the mounted point where path is located in unit
  */
-static auto used_physical_memory(BitUnit unit = BitUnit::KB,
-                                 const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+auto used_physical_memory(BitUnit unit = BitUnit::KB,
+                          const char *path = ".") ATLAS_NOEXCEPT -> double;
 
 /**
  * Compare the total space of the mounted point with the used physical memory
@@ -90,7 +86,7 @@ static auto used_physical_memory(BitUnit unit = BitUnit::KB,
  * \param path A directory being contained by the mounted point to analyze.
  * \return The used space of the mounted point in percentage
  */
-static auto percentage_used_physical_memory(const char *path = ".")
+auto percentage_used_physical_memory(const char *path = ".")
     ATLAS_NOEXCEPT -> double;
 
 /**
@@ -114,7 +110,7 @@ static auto percentage_available_physical_memory(const char *path = ".")
  * \param path A directory being contained by the mounted point to analyze.
  * \return The size of the block for the file system used.
  */
-static auto block_size(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
+auto block_size(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
 
 /**
  * For the mounted point containing the given path, this will return maximum
@@ -124,7 +120,7 @@ static auto block_size(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
  * \return The maximum length of the filenames of the mounted point where path
  * is located in unit
  */
-static auto max_filename(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
+auto max_filename(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
 
 }  // namespace sys
 
