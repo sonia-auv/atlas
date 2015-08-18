@@ -40,4 +40,4 @@ ATLAS_ALWAYS_INLINE void Runnable::stop() ATLAS_NOEXCEPT {
   thread_.join();
 }
 
-} // namespace atlas
+}  // namespace atlas

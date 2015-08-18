@@ -67,39 +67,39 @@ class ThreadPool {
 //------------------------------------------------------------------------------
 //
 ThreadPool::ThreadPool(size_t threads) ATLAS_NOEXCEPT {
- for (size_t i = 0; i < threads; ++i) {
-  workers_.emplace_back([this] {
-    for (;;) {
-     std::function<void()> task;
+  for (size_t i = 0; i < threads; ++i) {
+    workers_.emplace_back([this] {
+      for (;;) {
+        std::function<void()> task;
 
-     {
-      auto lock = std::unique_lock<std::mutex>{queue_mutex_};
-      condition_.wait(lock,
-                      [this] { return is_stoped_ || !tasks_.empty(); });
-      if (is_stoped_ && tasks_.empty()) {
-       return;
+        {
+          auto lock = std::unique_lock<std::mutex>{queue_mutex_};
+          condition_.wait(lock,
+                          [this] { return is_stoped_ || !tasks_.empty(); });
+          if (is_stoped_ && tasks_.empty()) {
+            return;
+          }
+          task = std::move(tasks_.front());
+          tasks_.pop();
+        }
+
+        task();
       }
-      task = std::move(tasks_.front());
-      tasks_.pop();
-     }
-
-     task();
-    }
-  });
- }
+    });
+  }
 }
 
 //------------------------------------------------------------------------------
 //
 ThreadPool::~ThreadPool() ATLAS_NOEXCEPT {
- {
-  auto lock = std::unique_lock<std::mutex>{queue_mutex_};
-  is_stoped_ = true;
- }
- condition_.notify_all();
- for (std::thread &worker : workers_) {
-  worker.join();
- }
+  {
+    auto lock = std::unique_lock<std::mutex>{queue_mutex_};
+    is_stoped_ = true;
+  }
+  condition_.notify_all();
+  for (std::thread &worker : workers_) {
+    worker.join();
+  }
 }
 
 //==============================================================================
@@ -109,27 +109,27 @@ ThreadPool::~ThreadPool() ATLAS_NOEXCEPT {
 //
 template <class Tp_, class... Args_>
 auto ThreadPool::Enqueue(Tp_ &&f, Args_ &&... args)
--> std::future<typename std::result_of<Tp_(Args_...)>::type> {
- using return_type = typename std::result_of<Tp_(Args_...)>::type;
+    -> std::future<typename std::result_of<Tp_(Args_...)>::type> {
+  using return_type = typename std::result_of<Tp_(Args_...)>::type;
 
- auto task = std::make_shared<std::packaged_task<return_type()> >(
-     std::bind(std::forward<Tp_>(f), std::forward<Args_>(args)...));
+  auto task = std::make_shared<std::packaged_task<return_type()>>(
+      std::bind(std::forward<Tp_>(f), std::forward<Args_>(args)...));
 
- std::future<return_type> res = task->get_future();
+  std::future<return_type> res = task->get_future();
 
- {
-  auto lock = std::unique_lock<std::mutex>{queue_mutex_};
+  {
+    auto lock = std::unique_lock<std::mutex>{queue_mutex_};
 
-  // don't allow enqueueing after stopping the pool
-  if (is_stoped_) {
-   throw std::runtime_error("enqueue on stopped ThreadPool");
+    // don't allow enqueueing after stopping the pool
+    if (is_stoped_) {
+      throw std::runtime_error("enqueue on stopped ThreadPool");
+    }
+
+    tasks_.emplace([task]() { (*task)(); });
   }
 
-  tasks_.emplace([task]() { (*task)(); });
- }
-
- condition_.notify_one();
- return res;
+  condition_.notify_one();
+  return res;
 }
 
 }  // namespace atlas

@@ -16,8 +16,7 @@
 
 namespace atlas {
 
-class Runnable
-{
+class Runnable {
  public:
   //============================================================================
   // P U B L I C   C / D T O R S
@@ -28,7 +27,7 @@ class Runnable
 
   Runnable(Runnable const&) = delete;
 
-  Runnable& operator =(Runnable const&) = delete;
+  Runnable& operator=(Runnable const&) = delete;
 
   //============================================================================
   // P U B L I C  M E T H O D S
