@@ -10,6 +10,7 @@
 #ifndef ATLAS_MATHS_STATS_H_
 #define ATLAS_MATHS_STATS_H_
 
+#include <array>
 #include <lib_atlas/macros.h>
 
 namespace atlas {
@@ -22,8 +23,8 @@ namespace atlas {
  *
  * \return The euclidean distance of v1 and v2.
  */
-template <class Tp_, typename Up_>
-auto euclidean(const Tp_<Up_> &v1, const Tp_<Up_> &v2) -> double;
+template <typename Tp_, typename Up_>
+auto euclidean(const Tp_ &v1, const Up_ &v2) -> double;
 
 /**
  * Returns the Jaccard index of the two data set provided.
@@ -33,8 +34,8 @@ auto euclidean(const Tp_<Up_> &v1, const Tp_<Up_> &v2) -> double;
  *
  * \return The Jaccard index of v1 and v2.
  */
-template <class Tp_, typename Up_>
-auto jaccard(const Tp_<Up_> &v1, const Tp_<Up_> &v2) -> double;
+template <typename Tp_, typename Up_>
+auto jaccard(const Tp_ &v1, const Up_ &v2) -> double;
 
 /**
  * Returns the mean of the data set provided.
@@ -44,8 +45,32 @@ auto jaccard(const Tp_<Up_> &v1, const Tp_<Up_> &v2) -> double;
  *
  * \returns The means of the elements of v.
  */
-template <class Tp_, typename Up_>
-auto mean(const Tp_<Up_> &v) ATLAS_NOEXCEPT -> double;
+template <typename Tp_>
+auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double;
+
+/**
+ *
+ */
+template <typename Tp_>
+auto min(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
+
+/**
+ *
+ */
+template <typename Tp_>
+auto max(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
+
+/**
+ *
+ */
+template <typename Tp_>
+auto least_square(const Tp_ &v) -> std::array<double, 3>;
+
+/**
+ *
+ */
+template <typename Tp_>
+auto predict(int i) -> typename Tp_::value_type;
 
 /**
  * Returns the covariance of the two data set provided.
@@ -55,9 +80,8 @@ auto mean(const Tp_<Up_> &v) ATLAS_NOEXCEPT -> double;
  *
  * \return The covariance of v1 and v2
  */
-template <class Tp_, typename Up_>
-auto covariance(const Tp_<Up_> &v1,
-                const Tp_<Up_> &v2) ATLAS_NOEXCEPT -> double;
+template <typename Tp_, typename Up_>
+auto covariance(const Tp_ &v1, const Tp_ &v2) -> double;
 
 /**
  * Returns the standard deviation of the provided set.
@@ -68,8 +92,8 @@ auto covariance(const Tp_<Up_> &v1,
  * For more informations:
  * https://en.wikipedia.org/wiki/Standard_deviation
  */
-template <class Tp_, typename Up_>
-auto std_dev(const Tp_<Up_> &v) -> double;
+template <typename Tp_>
+auto std_dev(const Tp_ &v) ATLAS_NOEXCEPT -> double;
 
 /**
  * Returns the Pearson correlation coefficient.
@@ -83,8 +107,8 @@ auto std_dev(const Tp_<Up_> &v) -> double;
  * \return The Pearson product-moment correlation coefficient of the provided
  * sets.
  */
-template <class Tp_, typename Up_>
-auto pearson(const Tp_<Up_> &v1, const Tp_<Up_> &v2) -> double;
+template <typename Tp_, typename Up_>
+auto pearson(const Tp_ &v1, const Up_ &v2) -> double;
 
 }  // namespace atlas
 

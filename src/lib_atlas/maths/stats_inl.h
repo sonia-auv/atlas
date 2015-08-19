@@ -12,20 +12,48 @@
 #endif
 
 #include <math.h>
+#include <algorithm>
 
 namespace atlas {
 
+namespace details {
+
+// Allow us to check if the type we received is actually iterable.
+// If the data set must be iterable, we can static assert it with this
+// type traits.
+// Fore more informations:
+// http://stackoverflow.com/questions/13830158/check-if-a-variable-is-iterable
+
 //------------------------------------------------------------------------------
 //
-template <class Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto euclidean(const Tp_<Up_> &v1,
-                                   const Tp_<Up_> &v2) -> double {
-  if (v1.size() == v2.size()) {
+template <typename T>
+auto is_iterable_impl(int) -> decltype(
+    std::begin(std::declval<T &>()) != std::end(std::declval<T &>()),
+    ++std::declval<decltype(std::begin(std::declval<T &>())) &>(),
+    *begin(std::declval<T &>()), std::true_type{});
+
+template <typename T>
+std::false_type is_iterable_impl(...);
+
+template <typename T>
+using is_iterable = decltype(is_iterable_impl<T>(0));
+
+}  // namespace details
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_, typename Up_>
+ATLAS_ALWAYS_INLINE auto euclidean(const Tp_ &v1, const Up_ &v2) -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
+  static_assert(details::is_iterable<Up_>::value,
+                "The data set must me iterable");
+  if (v1.size() != v2.size()) {
     throw std::invalid_argument("The lengh of the data set is not the same");
   }
 
-  Up_ diff = {v1[0] - v2[0]};
-  Up_ s = {diff * diff};
+  typename Tp_::value_type diff = {v1[0] - v2[0]};
+  typename Tp_::value_type s = {diff * diff};
 
   for (uint64_t i = 1; i < v1.size(); ++i) {
     diff = v1[i] - v2[i];
@@ -36,10 +64,13 @@ ATLAS_ALWAYS_INLINE auto euclidean(const Tp_<Up_> &v1,
 
 //------------------------------------------------------------------------------
 //
-template <class Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto jaccard(const Tp_<Up_> &v1,
-                                 const Tp_<Up_> &v2) -> double {
-  if (v1.size() == v2.size()) {
+template <typename Tp_, typename Up_>
+ATLAS_ALWAYS_INLINE auto jaccard(const Tp_ &v1, const Up_ &v2) -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
+  static_assert(details::is_iterable<Up_>::value,
+                "The data set must me iterable");
+  if (v1.size() != v2.size()) {
     throw std::invalid_argument("The lengh of the data set is not the same");
   }
 
@@ -50,21 +81,21 @@ ATLAS_ALWAYS_INLINE auto jaccard(const Tp_<Up_> &v1,
     if (v1[i] == v2[i]) {
       if (v1[i] != 0) {
         ++eq;
-      }
-      else {
+      } else {
         ++nq;
       }
     }
   }
-  return static_cast<double>(eq) /
-         static_cast<double>(v1.size() - (nq + eq));
+  return static_cast<double>(eq) / static_cast<double>(v1.size() - (nq + eq));
 }
 
 //------------------------------------------------------------------------------
 //
-template <class Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto mean(const Tp_<Up_> &v) -> double {
-  Up_ s = {0};
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
+  typename Tp_::value_type s = {0};
   for (const auto &e : v) {
     s += e;
   }
@@ -73,37 +104,64 @@ ATLAS_ALWAYS_INLINE auto mean(const Tp_<Up_> &v) -> double {
 
 //------------------------------------------------------------------------------
 //
-template <class Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto covariance(const Tp_<Up_> &v1,
-                                    const Tp_<Up_> &v2) -> double {
-  if (v1.size() == v2.size()) {
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE auto min(const Tp_ &v) ATLAS_NOEXCEPT ->
+    typename Tp_::value_type {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
+  return std::max_element(v.cbegin(), v.cend());
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE auto max(const Tp_ &v) ATLAS_NOEXCEPT ->
+    typename Tp_::value_type {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
+  return std::min_element(v.cbegin(), v.cend());
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_, typename Up_>
+ATLAS_ALWAYS_INLINE auto covariance(const Tp_ &v1, const Up_ &v2) -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
+  static_assert(details::is_iterable<Up_>::value,
+                "The data set must me iterable");
+  if (v1.size() != v2.size()) {
     throw std::invalid_argument("The lengh of the data set is not the same");
   }
 
   double m1 = mean(v1);
   double m2 = mean(v2);
-  double s = (static_cast<double>(v1[0]) - m1) *
-               (static_cast<double>(v2[0]) - m2);
+  double s =
+      (static_cast<double>(v1[0]) - m1) * (static_cast<double>(v2[0]) - m2);
 
   for (uint64_t i = 1; i < v1.size(); ++i) {
-    s += (static_cast<double>(v1[i]) - m1) *
-           (static_cast<double>(v2[i]) - m2);
+    s += (static_cast<double>(v1[i]) - m1) * (static_cast<double>(v2[i]) - m2);
   }
   return s / static_cast<double>(v1.size() - 1);
 }
 
 //------------------------------------------------------------------------------
 //
-template <class Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto std_dev(const Tp_<Up_> &v) ATLAS_NOEXCEPT -> double {
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE auto std_dev(const Tp_ &v) ATLAS_NOEXCEPT -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
   return sqrt(covariance(v, v));
 }
 
 //------------------------------------------------------------------------------
 //
-template <class Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto pearson(const Tp_<Up_> &v1,
-                                 const Tp_<Up_> &v2) -> double {
+template <typename Tp_, typename Up_>
+ATLAS_ALWAYS_INLINE auto pearson(const Tp_ &v1, const Up_ &v2) -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must me iterable");
+  static_assert(details::is_iterable<Up_>::value,
+                "The data set must me iterable");
   double std_dev1 = std_dev(v1);
   double std_dev2 = std_dev(v2);
 
