@@ -26,17 +26,17 @@ namespace details {
 
 //------------------------------------------------------------------------------
 //
-template <typename T>
+template <typename Tp_>
 auto is_iterable_impl(int) -> decltype(
-    std::begin(std::declval<T &>()) != std::end(std::declval<T &>()),
-    ++std::declval<decltype(std::begin(std::declval<T &>())) &>(),
-    *begin(std::declval<T &>()), std::true_type{});
+    std::begin(std::declval<Tp_ &>()) != std::end(std::declval<Tp_ &>()),
+    ++std::declval<decltype(std::begin(std::declval<Tp_ &>())) &>(),
+    *begin(std::declval<Tp_ &>()), std::true_type{});
 
-template <typename T>
+template <typename Tp_>
 std::false_type is_iterable_impl(...);
 
-template <typename T>
-using is_iterable = decltype(is_iterable_impl<T>(0));
+template <typename Tp_>
+using is_iterable = decltype(is_iterable_impl<Tp_>(0));
 
 }  // namespace details
 
@@ -109,7 +109,7 @@ ATLAS_ALWAYS_INLINE auto min(const Tp_ &v) ATLAS_NOEXCEPT ->
     typename Tp_::value_type {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must me iterable");
-  return std::max_element(v.cbegin(), v.cend());
+  return *std::min_element(v.cbegin(), v.cend());
 }
 
 //------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ ATLAS_ALWAYS_INLINE auto max(const Tp_ &v) ATLAS_NOEXCEPT ->
     typename Tp_::value_type {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must me iterable");
-  return std::min_element(v.cbegin(), v.cend());
+  return *std::max_element(v.cbegin(), v.cend());
 }
 
 //------------------------------------------------------------------------------
