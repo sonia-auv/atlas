@@ -102,6 +102,20 @@ TEST(StatsTest, pearson) {
   ASSERT_EQ(floor(atlas::pearson(v11, v13)), -1);
 }
 
+TEST(StatsTest, clamp) {
+  ASSERT_EQ(atlas::clamp(1, 0, 5), 1);
+  ASSERT_EQ(atlas::clamp(-1, 0, 3), 0);
+  ASSERT_EQ(atlas::clamp(15, 0, 3), 3);
+
+  ASSERT_EQ(atlas::clamp(1.f, 0.f, 3.f), 1);
+  ASSERT_EQ(atlas::clamp(-1.f, 0.f, 3.f), 0);
+  ASSERT_EQ(atlas::clamp(15, 0, 3), 3);
+
+  ASSERT_EQ(atlas::clamp(543, v1), 543);
+  ASSERT_EQ(atlas::clamp(-143, v1), 71);
+  ASSERT_EQ(atlas::clamp(14143, v1), 977);
+}
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
