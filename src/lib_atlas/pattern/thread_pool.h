@@ -50,15 +50,15 @@ class ThreadPool {
   //============================================================================
   // P R I V A T E   M E M B E R S
 
-  std::vector<std::thread> workers_ = {};
+  std::vector<std::thread> workers_;
 
-  std::queue<std::function<void()>> tasks_ = {};
+  std::queue<std::function<void()>> tasks_;
 
-  mutable std::mutex queue_mutex_ = {};
+  mutable std::mutex queue_mutex_;
 
-  std::condition_variable condition_ = {};
+  std::condition_variable condition_;
 
-  bool is_stoped_ = {false};
+  bool is_stoped_;
 };
 
 //==============================================================================
@@ -66,7 +66,11 @@ class ThreadPool {
 
 //------------------------------------------------------------------------------
 //
-ThreadPool::ThreadPool(size_t threads) ATLAS_NOEXCEPT {
+ThreadPool::ThreadPool(size_t threads) ATLAS_NOEXCEPT : workers_(),
+                                                        tasks_(),
+                                                        queue_mutex_(),
+                                                        condition_(),
+                                                        is_stoped_(false) {
   for (size_t i = 0; i < threads; ++i) {
     workers_.emplace_back([this] {
       for (;;) {
@@ -120,7 +124,6 @@ auto ThreadPool::Enqueue(Tp_ &&f, Args_ &&... args)
   {
     auto lock = std::unique_lock<std::mutex>{queue_mutex_};
 
-    // don't allow enqueueing after stopping the pool
     if (is_stoped_) {
       throw std::runtime_error("enqueue on stopped ThreadPool");
     }
