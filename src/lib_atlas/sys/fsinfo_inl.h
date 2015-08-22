@@ -113,7 +113,7 @@ ATLAS_ALWAYS_INLINE auto block_size(const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE static auto max_filename(const char *path)
+ATLAS_ALWAYS_INLINE auto max_filename(const char *path)
     ATLAS_NOEXCEPT -> uint64_t {
   auto vfs = details::GenerateVFS(path);
   return vfs.f_namemax;

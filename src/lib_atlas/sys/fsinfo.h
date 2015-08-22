@@ -96,7 +96,7 @@ auto percentage_used_physical_memory(const char *path = ".")
  * \param path A directory being contained by the mounted point to analyze.
  * \return The available space of the mounted point in percentage
  */
-static auto percentage_available_physical_memory(const char *path = ".")
+auto percentage_available_physical_memory(const char *path = ".")
     ATLAS_NOEXCEPT -> double;
 
 /**
