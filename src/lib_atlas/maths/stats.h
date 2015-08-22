@@ -64,6 +64,24 @@ auto max(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
  *
  */
 template <typename Tp_>
+auto clamp(const Tp_ &x, const Tp_ &xmin,
+           const Tp_ &xmax) ATLAS_NOEXCEPT -> Tp_;
+
+/**
+ * Clamp x into the data set v.
+ *
+ * This will actuall call the clamp method with the minimum and the maximum
+ * element found on the data set.
+ *
+ * \return The element x, clamped into the data set v.
+ */
+template <typename Tp_, typename Up_>
+auto clamp(const Tp_ &x, const Up_ &v) -> decltype(clamp(x, min(v), max(v)));
+
+/**
+ *
+ */
+template <typename Tp_>
 auto least_square(const Tp_ &v) -> std::array<double, 3>;
 
 /**
