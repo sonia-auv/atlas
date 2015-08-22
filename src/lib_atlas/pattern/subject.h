@@ -71,12 +71,12 @@ class Subject {
 
   virtual ~Subject() ATLAS_NOEXCEPT;
 
-  explicit Subject(const Subject<Args_...> &) = delete;
+  explicit Subject(const Subject<Args_...> &rhs) ATLAS_NOEXCEPT;
 
   //============================================================================
   // P U B L I C   O P E R A T O R S
 
-  void operator=(const Subject<Args_...> &) = delete;
+  auto operator=(const Subject<Args_...> &) ATLAS_NOEXCEPT -> void;
 
   //============================================================================
   // P U B L I C  M E T H O D S

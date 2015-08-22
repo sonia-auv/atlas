@@ -23,15 +23,40 @@ namespace atlas {
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE Subject<Args_...>::Subject() ATLAS_NOEXCEPT : observers_{} {
-}
+ATLAS_ALWAYS_INLINE Subject<Args_...>::Subject() ATLAS_NOEXCEPT
+    : observers_(),
+      observers_mutex_() {}
 
+//------------------------------------------------------------------------------
+//
+template <typename... Args_>
+ATLAS_ALWAYS_INLINE Subject<Args_...>::Subject(const Subject<Args_...> &rhs)
+    ATLAS_NOEXCEPT : observers_(),
+                     observers_mutex_() {
+  for (auto &observer : rhs.observers_) {
+    observer->Observe(*this);
+  }
+}
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
 ATLAS_ALWAYS_INLINE Subject<Args_...>::~Subject() ATLAS_NOEXCEPT {
   for (const auto &observer : observers_) {
     observer->OnSubjectDisconnected(*this);
+  }
+}
+
+//==============================================================================
+// O P E R A T O R S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
+template <typename... Args_>
+ATLAS_ALWAYS_INLINE auto Subject<Args_...>::operator=(
+    const Subject<Args_...> &rhs) -> void {
+  DetachAll();
+  for (auto &observer : rhs.observers_) {
+    Attach(*observer);
   }
 }
 

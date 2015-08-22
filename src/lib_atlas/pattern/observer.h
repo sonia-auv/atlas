@@ -35,14 +35,26 @@ class Observer {
 
   explicit Observer(Subject<Args_...> &subject) ATLAS_NOEXCEPT;
 
-  explicit Observer(const Observer<Args_...> &) = delete;
+  /**
+   * Copy ctor of an observer. This will attach this instance of an Observer
+   * to all listened subject of the passed observer.
+   *
+   * \param rhs The Observer base used to create this instance.
+   */
+  explicit Observer(const Observer<Args_...> &rhs) ATLAS_NOEXCEPT;
 
   virtual ~Observer() ATLAS_NOEXCEPT;
 
   //============================================================================
   // P U B L I C   O P E R A T O R S
 
-  void operator=(const Observer<Args_...> &) = delete;
+  /**
+   * Copy ctor of an observer. This will attach this instance of an Observer
+   * to all listened subject of the passed observer.
+   *
+   * \param rhs The Observer base used to create this instance.
+   */
+  auto operator=(const Observer<Args_...> &rhs) ATLAS_NOEXCEPT -> void;
 
   //============================================================================
   // P U B L I C  M E T H O D S
@@ -78,9 +90,9 @@ class Observer {
   //============================================================================
   // P R I V A T E   M E M B E R S
 
-  std::vector<Subject<Args_...> *> subjects_ = {};
+  std::vector<Subject<Args_...> *> subjects_;
 
-  mutable std::mutex subjects_mutex_ = {};
+  mutable std::mutex subjects_mutex_;
 };
 
 }  // namespace atlas
