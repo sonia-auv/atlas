@@ -28,7 +28,17 @@ namespace atlas {
 // C L A S S E S
 
 /**
- * The ThreadPool class provides an
+ * Creates a specific number of thread in order to perform a specific number
+ * of tasks.
+ * All the thread are organized in a queue an an amount of time will be assigned
+ * one by one for the threads.
+ *
+ * Creating a thread pool can be particulary usefull when you need to create
+ * an instance of a task in, for exemple, a loop. You could use a thread pool
+ * for your application and simply add a thread in this pool fo your need.
+ *
+ * This thread pool is based on this open implementation from:
+ * https://github.com/progschj/ThreadPool
  */
 class ThreadPool {
  public:
