@@ -32,28 +32,26 @@ ATLAS_ALWAYS_INLINE auto GenerateVFS(const char *path) -> struct statvfs {
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE auto ConvertToBit(fsblkcnt_t block_ctn, uint64_t block_size,
-                                      sys::BitUnit unit)
+                                      BitUnit unit)
     ATLAS_NOEXCEPT -> double {
   auto bytes = static_cast<double>(block_ctn * block_size);
   switch (unit) {
-    case sys::BitUnit::BLOCK:
+    case BitUnit::BLOCK:
       return static_cast<double>(block_ctn);
-    case sys::BitUnit::B:
+    case BitUnit::B:
       return bytes;
-    case sys::BitUnit::KB:
+    case BitUnit::KB:
       return bytes / 1024;
-    case sys::BitUnit::MB:
+    case BitUnit::MB:
       return bytes / pow(1024, 2);
-    case sys::BitUnit::GB:
+    case BitUnit::GB:
       return bytes / pow(1024, 3);
-    case sys::BitUnit::TB:
+    case BitUnit::TB:
       return bytes / pow(1024, 4);
   }
 }
 
 }  // namespace details
-
-namespace sys {
 
 //------------------------------------------------------------------------------
 //
@@ -118,7 +116,5 @@ ATLAS_ALWAYS_INLINE auto max_filename(const char *path)
   auto vfs = details::GenerateVFS(path);
   return vfs.f_namemax;
 }
-
-}  // namespace sys
 
 }  // namespace atlas

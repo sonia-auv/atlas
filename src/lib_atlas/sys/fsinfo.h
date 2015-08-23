@@ -16,8 +16,6 @@
 
 namespace atlas {
 
-namespace sys {
-
 /**
  * Represent a unit of data.
  * A Unit can be a multiple of 10^3B, or a block.
@@ -121,8 +119,6 @@ auto block_size(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
  * is located in unit
  */
 auto max_filename(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
-
-}  // namespace sys
 
 }  // namespace atlas
 
