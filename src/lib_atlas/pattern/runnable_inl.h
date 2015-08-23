@@ -32,22 +32,22 @@ ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT { stop(); }
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE auto Runnable::start() -> void {
-  if(thread_ == nullptr) {
+  if (thread_ == nullptr) {
     thread_ = std::make_unique<std::thread>(&Runnable::run, this);
   } else {
-    throw std::logic_error( "The thread must be stoped before it is started." );
+    throw std::logic_error("The thread must be stoped before it is started.");
   }
 }
 
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE auto Runnable::stop() ATLAS_NOEXCEPT -> void {
-  if(running()) {
+  if (running()) {
     stop_ = true;
     thread_->join();
     thread_ = nullptr;
   } else {
-    throw std::logic_error( "The thread is not running." );
+    throw std::logic_error("The thread is not running.");
   }
 }
 

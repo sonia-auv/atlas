@@ -32,8 +32,7 @@ ATLAS_ALWAYS_INLINE auto GenerateVFS(const char *path) -> struct statvfs {
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE auto ConvertToBit(fsblkcnt_t block_ctn, uint64_t block_size,
-                                      BitUnit unit)
-    ATLAS_NOEXCEPT -> double {
+                                      BitUnit unit) ATLAS_NOEXCEPT -> double {
   auto bytes = static_cast<double>(block_ctn * block_size);
   switch (unit) {
     case BitUnit::BLOCK:

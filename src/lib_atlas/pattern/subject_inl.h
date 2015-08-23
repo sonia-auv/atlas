@@ -11,7 +11,7 @@
 #error This file may only be included from subject.h
 #endif
 
-#include <cassert>
+#include <assert.h>
 #include <algorithm>
 #include <lib_atlas/pattern/observer.h>
 

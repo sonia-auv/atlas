@@ -10,9 +10,7 @@
 #ifndef ATLAS_PATTERN_SUBJECT_H_
 #define ATLAS_PATTERN_SUBJECT_H_
 
-#include <type_traits>
 #include <vector>
-#include <functional>
 #include <mutex>
 
 #include <lib_atlas/macros.h>
