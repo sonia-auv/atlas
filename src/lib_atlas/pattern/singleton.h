@@ -10,8 +10,6 @@
 #ifndef ATLAS_PATTERN_SINGLETON_H_
 #define ATLAS_PATTERN_SINGLETON_H_
 
-#include <type_traits>
-
 #include <lib_atlas/macros.h>
 
 namespace atlas {
@@ -63,22 +61,20 @@ class Singleton {
    * This is the method to use when you want to get the instance of the
    * Singleton.
    */
-  static auto instance()
-      ATLAS_NOEXCEPT_(std::is_nothrow_constructible<Tp_>::value) -> Tp_ &;
+  static auto instance() ATLAS_NOEXCEPT_ -> Tp_ &;
 
  protected:
   //============================================================================
   // P R O T E C T E D   C / D T O R S
 
-  explicit Singleton() ATLAS_NOEXCEPT = default;
+  Singleton() ATLAS_NOEXCEPT = default;
 };
 
 //==============================================================================
 // I N L I N E   M E T H O D S   S E C T I O N
 
 template <class Tp_>
-auto Singleton<Tp_>::instance()
-    ATLAS_NOEXCEPT_(std::is_nothrow_constructible<Tp_>::value) -> Tp_ & {
+auto Singleton<Tp_>::instance() ATLAS_NOEXCEPT_ -> Tp_ & {
   static Tp_ instance;
   return instance;
 }
