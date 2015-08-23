@@ -26,9 +26,9 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  ImageSequenceCapture() ATLAS_NOEXCEPT = default;
+  ImageSequenceCapture() ATLAS_NOEXCEPT;
 
-  virtual ~ImageSequenceCapture() ATLAS_NOEXCEPT = default;
+  virtual ~ImageSequenceCapture() ATLAS_NOEXCEPT;
 
   //============================================================================
   // P U B L I C  M E T H O D S
@@ -125,21 +125,21 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
   //============================================================================
   // P R I V A T E   M E M B E R S
 
-  double max_framerate_ = {0};
+  double max_framerate_;
 
-  uint64_t frame_count_ = {0};
+  uint64_t frame_count_;
 
-  double total_streaming_time_ = {0};
+  double total_streaming_time_;
 
-  std::atomic<bool> streaming_ = {false};
+  std::atomic<bool> streaming_;
 
-  std::atomic<bool> running_ = {false};
+  std::atomic<bool> running_;
 
-  std::unique_ptr<std::thread> streaming_thread_ = {};
+  std::unique_ptr<std::thread> streaming_thread_;
 
-  std::condition_variable cv = {};
+  std::condition_variable cv;
 
-  mutable std::mutex cv_mutex_ = {};
+  mutable std::mutex cv_mutex_;
 };
 
 }  // namespace atlas

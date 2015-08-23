@@ -18,6 +18,26 @@
 namespace atlas {
 
 //==============================================================================
+// C / D T O R   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE ImageSequenceCapture::ImageSequenceCapture() ATLAS_NOEXCEPT
+    : max_framerate_(0),
+      frame_count_(0),
+      total_streaming_time_(0),
+      streaming_(false),
+      running_(false),
+      streaming_thread_(),
+      cv(),
+      cv_mutex_() {}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE ImageSequenceCapture::~ImageSequenceCapture()
+    ATLAS_NOEXCEPT {}
+
+//==============================================================================
 // M E T H O D S   S E C T I O N
 
 //------------------------------------------------------------------------------
