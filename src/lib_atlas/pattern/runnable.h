@@ -16,6 +16,16 @@
 
 namespace atlas {
 
+/**
+ * Runnable is  a simple wrapper around C++11 thread.
+ * It is design to allow a class that aims to provide a parrallel task to do
+ * in without any overhead.
+ *
+ * A Runnable instance can be started and stoped.
+ * The user of this class must consider checking the state of the thread with
+ * running when implementing its run method (or any other method that will try
+ * to access the thread). The running() method as been provided at this effect.
+ */
 class Runnable {
  public:
   //============================================================================
@@ -25,27 +35,80 @@ class Runnable {
 
   virtual ~Runnable() ATLAS_NOEXCEPT;
 
-  Runnable(Runnable const&) = delete;
+  /**
+   * Makes no sense to copy a thread, delete the copy ctor instead.
+   */
+  explicit Runnable(Runnable const&) = delete;
 
+  //============================================================================
+  // P U B L I C   O P E R A T O R S
+
+  /**
+   * Makes no sense to copy a thread, delete the copy operator instead.
+   */
   Runnable& operator=(Runnable const&) = delete;
 
   //============================================================================
   // P U B L I C  M E T H O D S
 
-  void start() ATLAS_NOEXCEPT;
+  /**
+   * Start the parrallel task of this Runnable instance.
+   *
+   * This will create a new thread with the Runnable.run() method.
+   */
+  auto start() -> void;
 
-  void stop() ATLAS_NOEXCEPT;
+  /**
+   * Stop the parallel task.
+   *
+   * This will state the stop_ data member to true and join the thread member.
+   * Thus, a derived class that implement the Runnable interface and provid
+   * a looping parallel task must check for the stop_ member state, otherwise,
+   * the stop() call will be blocking forever.
+   */
+  auto stop() ATLAS_NOEXCEPT -> void;
+
+  /**
+   * Return either if the derived Runnable is currently running or not.
+   *
+   * This is a simple wrapper around the thread_ is joinable method.
+   *
+   * \return The running state of the thread member.
+   */
+  auto running() const ATLAS_NOEXCEPT -> bool;
 
  protected:
   //============================================================================
   // P R O T E C T E D   M E T H O D S
 
-  virtual void run() = 0;
+  /**
+   * This is the actual method that must be implemented by derived Runnable
+   * classes.
+   * The run method will be called when the Runnable object is started (using
+   * start()).
+   * If the Runnable class must be running during the whole lifetime of the
+   * thread member, implement your loop by checking the state of the thread (
+   * calling running()). This way, no unexpected behavior will appear when
+   * the thread is interrupted.
+   */
+  virtual auto run() -> void = 0;
 
+  /**
+   * Indicates either if this Runnable instance must stop its processing or not.
+   *
+   * This is to provide derived class a way to know when the stop() method has
+   * been called into the run method. If the run() method is a looping method,
+   * check for the result of the must_stop() method.
+   *
+   * \return Either if the parallel task must stop or not.
+   */
+  auto must_stop() const ATLAS_NOEXCEPT -> bool;
+
+ private:
   //============================================================================
-  // P R O T E C T E D   M E M B E R S
+  // P R I V A T E   M E M B E R S
 
-  std::thread thread_;
+  std::unique_ptr<std::thread> thread_;
 
   std::atomic<bool> stop_;
 };

@@ -11,6 +11,8 @@
 #error This file may only be included from runnable.h
 #endif
 
+#include <lib_atlas/details/pointers.h>
+
 namespace atlas {
 
 //==============================================================================
@@ -29,15 +31,36 @@ ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT { stop(); }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE void Runnable::start() ATLAS_NOEXCEPT {
-  thread_ = std::thread(&Runnable::run, this);
+ATLAS_ALWAYS_INLINE auto Runnable::start() -> void {
+  if(thread_ == nullptr) {
+    thread_ = std::make_unique<std::thread>(&Runnable::run, this);
+  } else {
+    throw std::logic_error( "The thread must be stoped before it is started." );
+  }
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE void Runnable::stop() ATLAS_NOEXCEPT {
-  stop_ = true;
-  thread_.join();
+ATLAS_ALWAYS_INLINE auto Runnable::stop() ATLAS_NOEXCEPT -> void {
+  if(running()) {
+    stop_ = true;
+    thread_->join();
+    thread_ = nullptr;
+  } else {
+    throw std::logic_error( "The thread is not running." );
+  }
+}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE auto Runnable::running() const ATLAS_NOEXCEPT -> bool {
+  return thread_ != nullptr && thread_->joinable() && !must_stop();
+}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE auto Runnable::must_stop() const ATLAS_NOEXCEPT -> bool {
+  return stop_;
 }
 
 }  // namespace atlas
