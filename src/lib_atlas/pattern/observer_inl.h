@@ -62,7 +62,7 @@ ATLAS_ALWAYS_INLINE Observer<Args_...>::~Observer() ATLAS_NOEXCEPT {
 //
 template <typename... Args_>
 ATLAS_ALWAYS_INLINE auto Observer<Args_...>::operator=(
-    const Observer<Args_...> &rhs) -> void {
+    const Observer<Args_...> &rhs) ATLAS_NOEXCEPT -> void {
   DetachFromAllSubject();
   for (auto &subject : rhs.subjects_) {
     subject->Attach(*this);
