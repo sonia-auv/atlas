@@ -120,6 +120,15 @@ auto block_size(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
  */
 auto max_filename(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
 
+/**
+ * Check if the file exist by check it's accessibility
+ *
+ * \param path of the file we want to check the existance of
+ * \return True when the file is accessible (exist)
+ */
+auto is_file_exist(const std::string &file_path) ATLAS_NOEXCEPT -> bool;
+
+
 }  // namespace atlas
 
 #include <lib_atlas/sys/fsinfo_inl.h>

@@ -13,7 +13,7 @@
 
 #include <math.h>
 #include <sys/statvfs.h>
-
+#include <fstream>
 namespace atlas {
 
 namespace details {
@@ -115,5 +115,14 @@ ATLAS_ALWAYS_INLINE auto max_filename(const char *path)
   auto vfs = details::GenerateVFS(path);
   return vfs.f_namemax;
 }
+
+//------------------------------------------------------------------------------
+//
+ATLAS_ALWAYS_INLINE auto is_file_exist(const std::string &file_path)
+    ATLAS_NOEXCEPT -> bool {
+  std::ifstream f(file_path);
+  return f.good();
+}
+
 
 }  // namespace atlas
