@@ -1,6 +1,7 @@
 /**
  * \file	stats_test.cc
  * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \author  Antoine Dozois <dozois.a@gmail.com>
  * \date	28/06/2015
  * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
  * Use of this source code is governed by the MIT license that can be
@@ -60,6 +61,23 @@ static std::vector<int> v2 = {{
 TEST(StatsTest, mean) {
   ASSERT_EQ(atlas::mean(v1), 500.1);
   ASSERT_EQ(atlas::mean(v2), 510.55);
+}
+
+TEST(StatsTest, median) {
+  ASSERT_EQ(atlas::median(v1), 581);
+  ASSERT_EQ(atlas::median(v2), 451);
+}
+
+TEST(StatsTest, geometric_mean) {
+  // Added ceil function for averaging the number with 3 decimals precision
+  ASSERT_EQ(ceil(atlas::geometric_mean(v1)*1000)/1000, 361.123);
+  ASSERT_EQ(ceil(atlas::geometric_mean(v2)*1000)/1000, 394.537);
+}
+
+TEST(StatsTest, harmonic_mean) {
+  //  Added ceil function for averaging the number with 3 decimals precision
+  ASSERT_EQ(ceil(atlas::harmonic_mean(v1)*1000)/1000, 231.529);
+  ASSERT_EQ(ceil(atlas::harmonic_mean(v2)*1000)/1000, 273.124);
 }
 
 TEST(StatsTest, min) {

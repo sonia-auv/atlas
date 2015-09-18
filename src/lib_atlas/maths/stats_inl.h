@@ -1,6 +1,7 @@
 /**
  * \file	stats_inl.h
  * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \author  Antoine Dozois <dozois.a@gmail.com>
  * \date	17/08/2015
  * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
  * Use of this source code is governed by the MIT license that can be
@@ -100,6 +101,45 @@ ATLAS_ALWAYS_INLINE auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double {
     s += e;
   }
   return static_cast<double>(s) / static_cast<double>(v.size());
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Data>
+Data median(std::vector<Data> const &vector_data) {
+  std::vector<Data> sorted_vector;
+  sorted_vector = vector_data;
+  std::sort(sorted_vector.begin(), sorted_vector.end());
+  return sorted_vector[ceil(sorted_vector.size() / 2)];
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Data>
+float geometric_mean(std::vector<Data> const &vector_data) {
+  double sum = 1.f;
+
+  for (const auto &data : vector_data) {
+    sum *= data;
+  }
+
+  return static_cast<float>(pow(sum, 1.0f / static_cast<float>(vector_data.size())));
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Data>
+float harmonic_mean(std::vector<Data> const &vector_data) {
+  float harmonic = 0.f;
+  for (const auto &data : vector_data) {
+    harmonic += 1.f / static_cast<float>(data);
+  }
+
+  if (harmonic == 0.f) {
+    throw std::logic_error("The harmonic equal zero! Can't return result");
+  }
+
+  return static_cast<float>(vector_data.size()) / harmonic;
 }
 
 //------------------------------------------------------------------------------

@@ -85,7 +85,6 @@ target_link_libraries( utest_image_publisher ${catkin_LIBRARIES} )
 catkin_add_gtest( utest_runnable test/runnable_test.cc )
 catkin_add_gtest( utest_stats test/stats_test.cc )
 catkin_add_gtest( utest_histogram test/histogram_test.cc )
-catkin_add_gtest( utest_averaging test/averaging_test.cc )
 
 
 #==========================================================================
