@@ -105,41 +105,41 @@ ATLAS_ALWAYS_INLINE auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double {
 
 //------------------------------------------------------------------------------
 //
-template <typename Data>
-Data median(std::vector<Data> const &vector_data) {
-  std::vector<Data> sorted_vector;
-  sorted_vector = vector_data;
+template <typename Tp_>
+Tp_ median(std::vector<Tp_> const &v) {
+  std::vector<Tp_> sorted_vector;
+  sorted_vector = v;
   std::sort(sorted_vector.begin(), sorted_vector.end());
   return sorted_vector[ceil(sorted_vector.size() / 2)];
 }
 
 //------------------------------------------------------------------------------
 //
-template <typename Data>
-float geometric_mean(std::vector<Data> const &vector_data) {
+template <typename Tp_>
+float geometric_mean(std::vector<Tp_> const &v) {
   double sum = 1.f;
 
-  for (const auto &data : vector_data) {
-    sum *= data;
+  for (const auto &e : v) {
+    sum *= e;
   }
 
-  return static_cast<float>(pow(sum, 1.0f / static_cast<float>(vector_data.size())));
+  return static_cast<float>(pow(sum, 1.0f / static_cast<float>(v.size())));
 }
 
 //------------------------------------------------------------------------------
 //
-template <typename Data>
-float harmonic_mean(std::vector<Data> const &vector_data) {
+template <typename Tp_>
+float harmonic_mean(std::vector<Tp_> const &v) {
   float harmonic = 0.f;
-  for (const auto &data : vector_data) {
-    harmonic += 1.f / static_cast<float>(data);
+  for (const auto &e : v) {
+    harmonic += 1.f / static_cast<float>(e);
   }
 
   if (harmonic == 0.f) {
     throw std::logic_error("The harmonic equal zero! Can't return result");
   }
 
-  return static_cast<float>(vector_data.size()) / harmonic;
+  return static_cast<float>(v.size()) / harmonic;
 }
 
 //------------------------------------------------------------------------------

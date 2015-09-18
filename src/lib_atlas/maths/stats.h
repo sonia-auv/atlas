@@ -56,8 +56,8 @@ auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double;
  *
  * \returns The median of the vector vector_data.
  */
-template <typename Data>
-Data median(std::vector<Data> const &vector_data);
+template <typename Tp_>
+Tp_ median(std::vector<Tp_> const &v);
 
 /**
  * Returns the geometric mean of the data set provided.
@@ -67,8 +67,8 @@ Data median(std::vector<Data> const &vector_data);
  *
  * \returns The geometric mean of the vector vector_data.
  */
-template <typename Data>
-float geometric_mean(std::vector<Data> const &vector_data);
+template <typename Tp_>
+float geometric_mean(std::vector<Tp_> const &v);
 
 /**
  * Returns the harmonic mean of the data set provided.
@@ -78,8 +78,8 @@ float geometric_mean(std::vector<Data> const &vector_data);
  *
  * \returns The harmonic mean of the vector vector_data.
  */
-template <typename Data>
-float harmonic_mean(std::vector<Data> const &vector_data);
+template <typename Tp_>
+float harmonic_mean(std::vector<Tp_> const &v);
 
 /**
  *
