@@ -57,7 +57,8 @@ auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double;
  * \returns The median of the vector vector_data.
  */
 template <typename Tp_>
-Tp_ median(std::vector<Tp_> const &v);
+auto median(std::vector<Tp_> const &v) ATLAS_NOEXCEPT ->
+    typename Tp_::value_type;
 
 /**
  * Returns the geometric mean of the data set provided.
@@ -68,7 +69,7 @@ Tp_ median(std::vector<Tp_> const &v);
  * \returns The geometric mean of the vector vector_data.
  */
 template <typename Tp_>
-float geometric_mean(std::vector<Tp_> const &v);
+auto geometric_mean(std::vector<Tp_> const &v) ATLAS_NOEXCEPT -> double;
 
 /**
  * Returns the harmonic mean of the data set provided.
@@ -79,7 +80,7 @@ float geometric_mean(std::vector<Tp_> const &v);
  * \returns The harmonic mean of the vector vector_data.
  */
 template <typename Tp_>
-float harmonic_mean(std::vector<Tp_> const &v);
+auto harmonic_mean(std::vector<Tp_> const &v) -> double;
 
 /**
  *
@@ -97,8 +98,8 @@ auto max(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
  *
  */
 template <typename Tp_>
-auto clamp(const Tp_ &x, const Tp_ &xmin,
-           const Tp_ &xmax) ATLAS_NOEXCEPT -> Tp_;
+auto clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT
+    -> Tp_;
 
 /**
  * Clamp x into the data set v.

@@ -28,10 +28,11 @@ namespace details {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-auto is_iterable_impl(int) -> decltype(
-    std::begin(std::declval<Tp_ &>()) != std::end(std::declval<Tp_ &>()),
-    ++std::declval<decltype(std::begin(std::declval<Tp_ &>())) &>(),
-    *begin(std::declval<Tp_ &>()), std::true_type{});
+auto is_iterable_impl(int)
+    -> decltype(std::begin(std::declval<Tp_ &>()) !=
+                    std::end(std::declval<Tp_ &>()),
+                ++std::declval<decltype(std::begin(std::declval<Tp_ &>())) &>(),
+                *begin(std::declval<Tp_ &>()), std::true_type{});
 
 template <typename Tp_>
 std::false_type is_iterable_impl(...);
@@ -69,8 +70,6 @@ template <typename Tp_, typename Up_>
 ATLAS_ALWAYS_INLINE auto jaccard(const Tp_ &v1, const Up_ &v2) -> double {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
-  static_assert(details::is_iterable<Up_>::value,
-                "The data set must be iterable");
   if (v1.size() != v2.size()) {
     throw std::invalid_argument("The lengh of the data set is not the same");
   }
@@ -106,40 +105,45 @@ ATLAS_ALWAYS_INLINE auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-Tp_ median(std::vector<Tp_> const &v) {
-  std::vector<Tp_> sorted_vector;
-  sorted_vector = v;
-  std::sort(sorted_vector.begin(), sorted_vector.end());
-  return sorted_vector[ceil(sorted_vector.size() / 2)];
+ATLAS_ALWAYS_INLINE auto median(const Tp_ &v) ATLAS_NOEXCEPT ->
+    typename Tp_::value_type {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must be iterable");
+  Tp_ sorted_data = {v};
+  std::sort(sorted_data.cbegin(), sorted_data.cend());
+  return sorted_data.at(ceil(sorted_data.size() / 2));
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-float geometric_mean(std::vector<Tp_> const &v) {
+ATLAS_ALWAYS_INLINE auto geometric_mean(const Tp_ &v) ATLAS_NOEXCEPT -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must be iterable");
   double sum = 1.f;
 
   for (const auto &e : v) {
     sum *= e;
   }
-
-  return static_cast<float>(pow(sum, 1.0f / static_cast<float>(v.size())));
+  return pow(sum, 1.0 / static_cast<double>(v.size()));
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-float harmonic_mean(std::vector<Tp_> const &v) {
-  float harmonic = 0.f;
+ATLAS_ALWAYS_INLINE auto harmonic_mean(const Tp_ &v) -> double {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must be iterable");
+  double harmonic = 0.;
   for (const auto &e : v) {
-    harmonic += 1.f / static_cast<float>(e);
+    harmonic += 1. / static_cast<double>(e);
   }
 
-  if (harmonic == 0.f) {
+  if (harmonic == 0) {
     throw std::logic_error("The harmonic equal zero! Can't return result");
   }
 
-  return static_cast<float>(v.size()) / harmonic;
+  return static_cast<double>(v.size()) / harmonic;
 }
 
 //------------------------------------------------------------------------------
