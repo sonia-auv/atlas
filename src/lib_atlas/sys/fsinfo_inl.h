@@ -11,6 +11,8 @@
 #error This file may only be included from fsinfo.h
 #endif
 
+#include <exception>
+#include <stdexcept>
 #include <math.h>
 #include <sys/statvfs.h>
 #include <fstream>
@@ -23,7 +25,7 @@ namespace details {
 ATLAS_ALWAYS_INLINE auto GenerateVFS(const char *path) -> struct statvfs {
   struct statvfs vfs;
 
-  if ((statvfs(path, &vfs)) < 0) {
+  if ( statvfs(path, &vfs) < 0 ) {
     throw std::runtime_error("Could not read system information");
   }
   return vfs;
