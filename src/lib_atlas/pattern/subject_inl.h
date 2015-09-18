@@ -120,8 +120,8 @@ ATLAS_ALWAYS_INLINE auto Subject<Args_...>::DetachAll() ATLAS_NOEXCEPT -> void {
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Notify(Args_... args)
-    ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Notify(Args_... args) ATLAS_NOEXCEPT
+    -> void {
   std::unique_lock<std::mutex> locker(observers_mutex_);
   for (const auto &observer : observers_) {
     observer->OnSubjectNotify(*this, args...);

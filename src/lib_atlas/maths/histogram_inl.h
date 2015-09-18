@@ -38,7 +38,7 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data)
 
 template <typename Data>
 ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
-                                         double inter)
+                                               double inter)
     : min_data_(min(data)),
       max_data_(max(data)),
       inter_(inter),
@@ -54,7 +54,7 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
 
 template <typename Data>
 ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
-                                         double max, double min)
+                                               double max, double min)
     : min_data_(min),
       max_data_(max),
       inter_((max_data_ - min_data_) / data.size()),
@@ -70,7 +70,8 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
 
 template <typename Data>
 ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
-                                         double inter, double max, double min)
+                                               double inter, double max,
+                                               double min)
     : min_data_(min),
       max_data_(max),
       inter_(inter),
@@ -90,7 +91,7 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::~Histogram();
 //
 
 template <typename Data>
-inline std::vector<Data>* Histogram<Data>::CreateHistogram() {
+inline std::vector<Data> *Histogram<Data>::CreateHistogram() {
   std::vector<std::vector<Data> > histo_init_(size_);
 
   for (int i = 0; i < size_; ++i) {
@@ -157,6 +158,8 @@ inline auto Histogram<Data>::GetMaxIndex() {
 //
 
 template <typename Data>
-inline void Histogram<Data>::SetInter(double inter) { inter_ = inter; }
+inline void Histogram<Data>::SetInter(double inter) {
+  inter_ = inter;
+}
 
 }  // namespace

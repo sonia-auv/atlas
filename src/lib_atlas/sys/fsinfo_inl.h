@@ -54,16 +54,18 @@ ATLAS_ALWAYS_INLINE auto ConvertToBit(fsblkcnt_t block_ctn, uint64_t block_size,
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto total_physical_memory(BitUnit unit, const char *path)
-    ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE auto total_physical_memory(BitUnit unit,
+                                               const char *path) ATLAS_NOEXCEPT
+    -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_blocks, vfs.f_frsize, unit);
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto free_physical_memory(BitUnit unit, const char *path)
-    ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE auto free_physical_memory(BitUnit unit,
+                                              const char *path) ATLAS_NOEXCEPT
+    -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_bfree, vfs.f_frsize, unit);
 }
@@ -78,8 +80,9 @@ ATLAS_ALWAYS_INLINE auto available_physical_memory(
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto used_physical_memory(BitUnit unit, const char *path)
-    ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE auto used_physical_memory(BitUnit unit,
+                                              const char *path) ATLAS_NOEXCEPT
+    -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_blocks - vfs.f_bavail, vfs.f_frsize, unit);
 }
@@ -102,16 +105,16 @@ ATLAS_ALWAYS_INLINE auto percentage_available_physical_memory(const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto block_size(const char *path)
-    ATLAS_NOEXCEPT -> uint64_t {
+ATLAS_ALWAYS_INLINE auto block_size(const char *path) ATLAS_NOEXCEPT
+    -> uint64_t {
   auto vfs = details::GenerateVFS(path);
   return vfs.f_frsize;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto max_filename(const char *path)
-    ATLAS_NOEXCEPT -> uint64_t {
+ATLAS_ALWAYS_INLINE auto max_filename(const char *path) ATLAS_NOEXCEPT
+    -> uint64_t {
   auto vfs = details::GenerateVFS(path);
   return vfs.f_namemax;
 }
@@ -123,6 +126,5 @@ ATLAS_ALWAYS_INLINE auto is_file_exist(const std::string &file_path)
   std::ifstream f(file_path);
   return f.good();
 }
-
 
 }  // namespace atlas

@@ -38,8 +38,8 @@ ATLAS_ALWAYS_INLINE ImageSequenceWriter::~ImageSequenceWriter() ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::OnSubjectNotify(
-    Subject<const cv::Mat &> &subject,
-    const cv::Mat &image) ATLAS_NOEXCEPT -> void {
+    Subject<const cv::Mat &> &subject, const cv::Mat &image) ATLAS_NOEXCEPT
+    -> void {
   if (streaming()) {
     WriteImage(image);
     ++frame_count_;

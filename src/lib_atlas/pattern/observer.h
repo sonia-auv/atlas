@@ -82,8 +82,8 @@ class Observer {
   //============================================================================
   // P R I V A T E   M E T H O D S
 
-  virtual auto OnSubjectConnected(Subject<Args_...> &subject)
-      ATLAS_NOEXCEPT -> void;
+  virtual auto OnSubjectConnected(Subject<Args_...> &subject) ATLAS_NOEXCEPT
+      -> void;
 
   virtual auto OnSubjectDisconnected(Subject<Args_...> &subject) -> void;
 

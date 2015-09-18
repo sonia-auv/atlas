@@ -84,8 +84,8 @@ auto used_physical_memory(BitUnit unit = BitUnit::KB,
  * \param path A directory being contained by the mounted point to analyze.
  * \return The used space of the mounted point in percentage
  */
-auto percentage_used_physical_memory(const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+auto percentage_used_physical_memory(const char *path = ".") ATLAS_NOEXCEPT
+    -> double;
 
 /**
  * Compare the total space of the mounted point with the used physical memory
@@ -94,8 +94,8 @@ auto percentage_used_physical_memory(const char *path = ".")
  * \param path A directory being contained by the mounted point to analyze.
  * \return The available space of the mounted point in percentage
  */
-auto percentage_available_physical_memory(const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+auto percentage_available_physical_memory(const char *path = ".") ATLAS_NOEXCEPT
+    -> double;
 
 /**
  * For the mounted point containing the given path, this will return the size
@@ -127,7 +127,6 @@ auto max_filename(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
  * \return True when the file is accessible (exist)
  */
 auto is_file_exist(const std::string &file_path) ATLAS_NOEXCEPT -> bool;
-
 
 }  // namespace atlas
 

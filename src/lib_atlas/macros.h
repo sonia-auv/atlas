@@ -21,7 +21,6 @@
 #define ATLAS_NOEXCEPT_OR_FALSE(x) false
 #endif
 
-
 // Defining inline macros
 #ifndef ATLAS_ALWAYS_INLINE
 #define ATLAS_ALWAYS_INLINE \
@@ -30,11 +29,11 @@
 
 // Defining OS variables
 #if defined(_WIN32)
-#	define OS_WINDOWS 1
+#define OS_WINDOWS 1
 #elif defined(__APPLE__)
-#  define OS_DARWIN 1
+#define OS_DARWIN 1
 #elif defined(__linux__)
-#  define OS_LINUX 1
+#define OS_LINUX 1
 #endif
 
 #endif  // ATLAS_MACROS_H_

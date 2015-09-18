@@ -105,8 +105,8 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    * This is going to wait for the running_ flag to be true, and the will start.
    */
   virtual auto OnSubjectNotify(Subject<const cv::Mat &> &subject,
-                               const cv::Mat &image)
-      ATLAS_NOEXCEPT -> void override;
+                               const cv::Mat &image) ATLAS_NOEXCEPT
+      -> void override;
 
   //============================================================================
   // P R I V A T E   M E M B E R S

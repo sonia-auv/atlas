@@ -70,8 +70,8 @@ class ServiceClientManager {
   ///
   /// \return A pointer to the service. This will return nullptr if there is no
   /// pointer with this name.
-  auto GetService(const std::string &service_name)
-      -> ros::ServiceClient *const {
+  auto GetService(const std::string &service_name) -> ros::ServiceClient
+      *const {
     for (auto &service : services_) {
       if (service.first == service_name) {
         return &(service.second);
