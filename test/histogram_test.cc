@@ -29,7 +29,6 @@ static std::vector<double> v1 = {{
                                  }};
 
 TEST(HistogramTest, CreationHistogram) {
-  atlas::Histogram test(v1);
 }
 
 int main(int argc, char **argv) {

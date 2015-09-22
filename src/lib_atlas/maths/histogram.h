@@ -20,14 +20,9 @@ class Histogram {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  Histogram(std::vector<Data> const &data);
-
   Histogram(std::vector<Data> const &data, double inter);
 
-  Histogram(std::vector<Data> const &data, double max, double min);
-
-  Histogram(std::vector<Data> const &data, double inter, double max,
-            double min);
+  Histogram(std::vector<Data> const &data, unsigned int function);
 
   ~Histogram();
 
@@ -71,19 +66,27 @@ class Histogram {
   Data GetMinValue();
 
   /**
-* To change the interval.
+* To change the interval by passing a value.
 *
 * If you want to change the interval of the histogram
 */
 
-  void SetInter(double inter);
+  void SetInterNumber(double inter);
+
+  /**
+* To change the interval by passing a function.
+*
+* If you want to change the interval of the histogram
+*/
+
+  void SetInterFunction(unsigned int function);
 
  private:
   //============================================================================
   // P R I V A T E   M E M B E R S
 
   int size_;
-  double inter_;
+  unsigned int (*pfunc_inter_)(unsigned int);  // Or auto pfunc_inter_;
   Data max_data_;
   Data min_data_;
   Data max_histogram_;
@@ -91,6 +94,21 @@ class Histogram {
   std::vector<Data> histogram_;
   std::vector<Data> data_;
   std::vector<Data> value_histogram_;
+  bool inter_func_;
+  double inter_;
+
+  //============================================================================
+  // P R I V A T E  M E T H O D S
+
+  /**
+* Take a double an transform it in a function.
+*
+* Take the double value and transform it in a linear function
+*
+*\return the linear function
+*/
+
+  unsigned int FunctionCreator(double inter);
 };
 }
 

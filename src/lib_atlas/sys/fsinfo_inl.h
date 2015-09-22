@@ -25,7 +25,7 @@ namespace details {
 ATLAS_ALWAYS_INLINE auto GenerateVFS(const char *path) -> struct statvfs {
   struct statvfs vfs;
 
-  if ( statvfs(path, &vfs) < 0 ) {
+  if (statvfs(path, &vfs) < 0) {
     throw std::runtime_error("Could not read system information");
   }
   return vfs;
