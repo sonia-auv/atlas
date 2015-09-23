@@ -11,6 +11,7 @@
 #define ATLAS_MATHS_HISTOGRAM_H_
 
 #include <vector>
+#include <tuple>
 
 namespace atlas {
 
@@ -29,7 +30,7 @@ class Histogram {
   //============================================================================
   // P U B L I C  M E T H O D S
 
-  std::vector<Data> *CreateHistogram();
+  void CreateHistogram();
 
   /**
  * To get the index of the maximum value.
@@ -91,9 +92,8 @@ class Histogram {
   Data min_data_;
   Data max_histogram_;
   Data min_histogram_;
-  std::vector<Data> histogram_;
+  std::vector<std::tuple<int,Data>> histogram_;
   std::vector<Data> data_;
-  std::vector<Data> value_histogram_;
   bool inter_func_;
   double inter_;
 

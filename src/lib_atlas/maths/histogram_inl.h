@@ -32,10 +32,7 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
       pfunc_inter_(NULL),
       data_(data),
       histogram_(NULL),
-      size_(ceil((max_data_ - min_data_) / inter_)),
-      max_histogram_(GetMaxValue()),
-      min_histogram_(GetMinValue()),
-      value_histogram_(0) {}
+      size_(ceil((max_data_ - min_data_) / inter_)) {}
 
 //------------------------------------------------------------------------------
 //
@@ -45,15 +42,14 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
                                                unsigned int function)
     : min_data_(min),
       max_data_(max),
+      min_histogram_(0),
+      max_histogram_(0),
       pfunc_inter_((unsigned int (*)(unsigned int)) function),
       inter_func_(true),
       inter_(0),
       data_(data),
       histogram_(NULL),
-      size_(ceil((max_data_ - min_data_) / inter_)),
-      max_histogram_(GetMaxValue()),
-      min_histogram_(GetMinValue()),
-      value_histogram_(0) {}
+      size_(ceil((max_data_ - min_data_) / pfunc_inter_(max_data_))) {}
 
 template <typename Data>
 ATLAS_ALWAYS_INLINE Histogram<Data>::~Histogram() {}
@@ -64,18 +60,31 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::~Histogram() {}
 //
 
 template <typename Data>
-inline std::vector<Data> *Histogram<Data>::CreateHistogram() {
-  std::vector<std::vector<Data> > histo_init_(size_);
+inline void  Histogram<Data>::CreateHistogram() {
+  std::sort(data_.begin(),data_.end());
+  std::vector<std::tuple<int,Data>> histo_init_ = {std::make_tuple(1,data_[0])};
 
-  for (int i = 0; i < size_; ++i) {
-    histo_init_[0][i] = min_data_ + (inter_ * (i + 1));
+  int i = 0;
+for(typename std::vector<Data>::iterator it = std::next(data_.begin()); it !=data_.end(); ++it){
+  if( *it == std::get<1>(histo_init_[i])){
+    std::get<0>(histo_init_[i]) += 1;
   }
-
-  for (int j = 0; j < data_.size(); ++j) {
-    histo_init_[1][(data_[j] - min_data_) / inter_] += 1;
+  else if(*it - std::get<1>(histo_init_[i]) == 1){
+    histo_init_.push_back(std::make_tuple(1,*it));
   }
+  else{
+    for (int j = std::get<1>(histo_init_[i]); j < *it; j++) {
+      histo_init_.push_back(std::make_tuple(0,j));
+    }
 
-  histogram_ = histo_init_;
+    histogram_ = histo_init_;
+
+  }
+}
+
+
+
+
 }
 
 //------------------------------------------------------------------------------
@@ -83,7 +92,7 @@ inline std::vector<Data> *Histogram<Data>::CreateHistogram() {
 
 template <typename Data>
 inline Data Histogram<Data>::GetMaxValue() {
-  double max = histogram_[1][0];
+  Data max = histogram_[1][0];
 
   for (int i = 1; i < size_; ++i) {
     if (histogram_[1][i] > max) max = histogram_[1][i];
@@ -97,8 +106,8 @@ inline Data Histogram<Data>::GetMaxValue() {
 
 template <typename Data>
 inline Data Histogram<Data>::GetMinValue() {
-  double min = histogram_[1][0];
-  ;
+  Data min = histogram_[1][0];
+
 
   for (int i = 1; i < size_; ++i) {
     if (histogram_[1][i] < min) min = histogram_[1][i];
@@ -133,11 +142,13 @@ inline auto Histogram<Data>::GetMaxIndex() -> double {
 template <typename Data>
 inline void Histogram<Data>::SetInterNumber(double inter){
   inter_ = inter;
+  inter_func_ = false;
 }
 
 template <typename Data>
 inline void Histogram<Data>::SetInterFunction(unsigned int function){
   pfunc_inter_ = (unsigned int (*)(unsigned int)) function;
+  inter_func_ = true;
 }
 
 

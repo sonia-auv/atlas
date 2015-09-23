@@ -6,29 +6,31 @@
 #include <lib_atlas/maths/histogram.h>
 
 static std::vector<double> v1 = {{
-                                     828.0,
-                                     522.0,
-                                     832.0,
-                                     71.0,
-                                     609.0,
-                                     787.0,
-                                     179.0,
-                                     756.0,
-                                     259.0,
-                                     977.0,
-                                     816.0,
-                                     179.0,
-                                     330.0,
-                                     581.0,
-                                     124.0,
-                                     911.0,
-                                     78.0,
-                                     71.0,
-                                     869.0,
-                                     223.0
+                                     2.0,
+                                     2.0,
+                                     5.0,
+                                     1.0,
+                                     9.0,
+                                     7.0,
+                                     9.0,
+                                     30,
+                                     5.0,
+                                     9.0,
+                                     1.0,
+                                     9.0,
+                                     3.0,
+                                     1.0,
+                                     2.0,
+                                     11.0,
+                                     0.0,
+                                     1.0,
+                                     9.0,
+                                     2.0
                                  }};
 
 TEST(HistogramTest, CreationHistogram) {
+  atlas::Histogram<double> test(v1,3.0);
+  test.CreateHistogram();
 }
 
 int main(int argc, char **argv) {
