@@ -13,7 +13,7 @@ static std::vector<double> v1 = {{
                                      9.0,
                                      7.0,
                                      9.0,
-                                     30,
+                                     3.0,
                                      5.0,
                                      9.0,
                                      1.0,
@@ -29,8 +29,9 @@ static std::vector<double> v1 = {{
                                  }};
 
 TEST(HistogramTest, CreationHistogram) {
-  atlas::Histogram<double> test(v1,3.0);
+  atlas::Histogram<double> test(v1,1.0);
   test.CreateHistogram();
+  ASSERT_EQ(test.GetMaxValue(), 5);
 }
 
 int main(int argc, char **argv) {

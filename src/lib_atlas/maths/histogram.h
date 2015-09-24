@@ -92,7 +92,7 @@ class Histogram {
   Data min_data_;
   Data max_histogram_;
   Data min_histogram_;
-  std::vector<std::tuple<int,Data>> histogram_;
+  std::vector<std::tuple<int, Data>> histogram_;
   std::vector<Data> data_;
   bool inter_func_;
   double inter_;
