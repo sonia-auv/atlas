@@ -1,5 +1,5 @@
 /*!
- * \file serial/serial.h
+ * \file serial.h
  * \author  William Woodall <wjwwood@gmail.com>
  * \author  John Harrison   <ash.gti@gmail.com>
  * \version 0.1

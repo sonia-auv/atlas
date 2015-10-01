@@ -1,8 +1,8 @@
 /// \file	service_client_manager.h
 /// \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 /// \date	23/05/2015
-/// \copyright Copyright (c) 2015 S.O.N.I.A.. All rights reserved.
-/// Use of this source code is governed by the MIT license that can be
+/// \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
+/// Use of this source code is governed by the GNU GPL license that can be
 /// found in the LICENSE file.
 
 #ifndef LIB_ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_

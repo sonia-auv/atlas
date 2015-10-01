@@ -1,6 +1,12 @@
-//
-// Created by gemini on 9/10/15.
-//
+/**
+ * \file	histogram_test.cc
+ * \author	Antoine Dozois <dozois.a@gmail.com>
+ * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \date	28/06/2015
+ * \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
+ * Use of this source code is governed by the GNU GPL license that can be
+ * found in the LICENSE file.
+ */
 
 #include <gtest/gtest.h>
 #include <lib_atlas/maths/histogram.h>

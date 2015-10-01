@@ -2,7 +2,7 @@
 # \author   Thibaut Mattio <thibaut.mattio@gmail.com>
 # \date     08/05/2015
 # \copyright    2015 Club SONIA AUV, ETS. All rights reserved.
-# Use of this source code is governed by the MIT license that can be
+# Use of this source code is governed by the GNU GPL license that can be
 # found in the LICENSE file.
 
 #===============================================================================

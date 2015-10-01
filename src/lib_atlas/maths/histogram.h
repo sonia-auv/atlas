@@ -3,7 +3,7 @@
  * \author	Antoine Dozois <dozois.a@gmail.com>
  * \date	8/09/2015
  * \copyright Copyright (c) 2015 Antoine Dozois. All rights reserved.
- * Use of this source code is governed by the MIT license that can be
+ * Use of this source code is governed by the GNU GPL license that can be
  * found in the LICENSE file.
  */
 
