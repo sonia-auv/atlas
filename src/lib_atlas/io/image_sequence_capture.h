@@ -7,17 +7,16 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
-#define ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#define LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
 
 #include <condition_variable>
 #include <atomic>
 #include <mutex>
 #include <thread>
-
+#include <opencv2/core/core.hpp>
 #include <lib_atlas/pattern/subject.h>
 #include <lib_atlas/sys/timer.h>
-#include <opencv2/core/core.hpp>
 
 namespace atlas {
 
@@ -38,7 +37,7 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
    *
    * \return The max framerate being used.
    */
-  virtual double max_framerate() const ATLAS_NOEXCEPT;
+  virtual double GetMaxFramerate() const ATLAS_NOEXCEPT;
 
   /**
    * Set a max framerate for the streaming mode.
@@ -48,13 +47,13 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
    * framerate (only if the framerate is higher that the one manually
    * specified).
    */
-  virtual void set_max_framerate(double framerate);
+  virtual void SetMaxFramerate(double framerate);
 
   /**
    * \return The total of frame count from the moment the ImageSequenceProvider
    *         have been created.
    */
-  virtual uint64_t frame_count() const ATLAS_NOEXCEPT;
+  virtual uint64_t GetFrameCount() const ATLAS_NOEXCEPT;
 
   /**
    * If the ImageSequenceProvider is not streaming, this will return the next
@@ -66,17 +65,17 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
    *
    * \return The next image, if the ImageSequenceProvider is not streaming.
    */
-  const cv::Mat &image();
+  const cv::Mat &GetImage();
 
   /**
    * Start the ImageSequenceProvider by Openning the media -- see Open().
    */
-  void start() ATLAS_NOEXCEPT;
+  void Start() ATLAS_NOEXCEPT;
 
   /**
    * Stop the ImageSequenceProvider by closing the media -- see Close().
    */
-  void stop() ATLAS_NOEXCEPT;
+  void Stop() ATLAS_NOEXCEPT;
 
   /**
    * Returns either if the ImageSequence is running or not.
@@ -86,7 +85,7 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
    *
    * \return The running state of the ImageSequence
    */
-  bool running() const ATLAS_NOEXCEPT;
+  bool IsRunning() const ATLAS_NOEXCEPT;
 
   /**
    * Set the streaming mode to true or false.
@@ -95,14 +94,14 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
    *
    * \param streaming The flag to enable or disable the streaming mode.
    */
-  void set_streaming(bool streaming) ATLAS_NOEXCEPT;
+  void SetStreamingMode(bool streaming) ATLAS_NOEXCEPT;
 
   /**
    * Return either if the ImageSequenceProvider is in streaming mode
    *
    * \return True if in streaming mode, False else.
    */
-  bool streaming() const ATLAS_NOEXCEPT;
+  bool IsStreaming() const ATLAS_NOEXCEPT;
 
  protected:
   //============================================================================
@@ -146,4 +145,4 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
 
 #include <lib_atlas/io/image_sequence_capture_inl.h>
 
-#endif  // ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#endif  // LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_

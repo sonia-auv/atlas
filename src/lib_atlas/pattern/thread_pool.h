@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_THREAD_POOL_H_
-#define ATLAS_PATTERN_THREAD_POOL_H_
+#ifndef LIB_ATLAS_PATTERN_THREAD_POOL_H_
+#define LIB_ATLAS_PATTERN_THREAD_POOL_H_
 
 #include <vector>
 #include <queue>
@@ -53,8 +53,8 @@ class ThreadPool {
   // P U B L I C  M E T H O D S
 
   template <class Tp_, class... Args_>
-  auto Enqueue(Tp_ &&f, Args_ &&... args)
-      -> std::future<typename std::result_of<Tp_(Args_...)>::type>;
+  std::future<typename std::result_of<Tp_(Args_...)>::type> Enqueue(
+      Tp_ &&f, Args_ &&... args);
 
  private:
   //============================================================================
@@ -147,4 +147,4 @@ auto ThreadPool::Enqueue(Tp_ &&f, Args_ &&... args)
 
 }  // namespace atlas
 
-#endif  // ATLAS_PATTERN_THREAD_POOL_H_
+#endif  // LIB_ATLAS_PATTERN_THREAD_POOL_H_

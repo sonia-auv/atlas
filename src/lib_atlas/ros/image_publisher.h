@@ -7,16 +7,15 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_IMAGE_PUBLISHER_H_
-#define ATLAS_ROS_IMAGE_PUBLISHER_H_
+#ifndef LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
+#define LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
 
 #include <mutex>
+#include <string>
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
-
-#include <lib_atlas/typedef.h>
 #include <lib_atlas/macros.h>
 #include <lib_atlas/io/image_sequence_writer.h>
 
@@ -27,7 +26,7 @@ class ImagePublisher : public ImageSequenceWriter {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ImagePublisher(NodeHandlePtr node_handle,
+  explicit ImagePublisher(std::shared_ptr<ros::NodeHandle> node_handle,
                           const std::string &topic_name) ATLAS_NOEXCEPT;
 
   ~ImagePublisher() ATLAS_NOEXCEPT;
@@ -50,7 +49,7 @@ class ImagePublisher : public ImageSequenceWriter {
    * stream the content of a video file in order to publish it to a topic:
    * Everything is going to be handled by the system.
    */
-  virtual auto WriteImage(const cv::Mat &image) ATLAS_NOEXCEPT -> void override;
+  void WriteImage(const cv::Mat &image) ATLAS_NOEXCEPT override;
 
   //============================================================================
   // P R I V A T E   M E M B E R S
@@ -66,4 +65,4 @@ class ImagePublisher : public ImageSequenceWriter {
 
 #include <lib_atlas/ros/image_publisher_inl.h>
 
-#endif  // ATLAS_ROS_IMAGE_PUBLISHER_H_
+#endif  // LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_

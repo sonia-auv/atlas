@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_OBSERVER_H_
-#define ATLAS_PATTERN_OBSERVER_H_
+#ifndef LIB_ATLAS_PATTERN_OBSERVER_H_
+#define LIB_ATLAS_PATTERN_OBSERVER_H_
 
 #include <type_traits>
 #include <vector>
@@ -54,17 +54,16 @@ class Observer {
    *
    * \param rhs The Observer base used to create this instance.
    */
-  auto operator=(const Observer<Args_...> &rhs) ATLAS_NOEXCEPT -> void;
+  void operator=(const Observer<Args_...> &rhs) ATLAS_NOEXCEPT;
 
   //============================================================================
   // P U B L I C  M E T H O D S
 
-  auto Observe(Subject<Args_...> &subject) -> void;
+  void Observe(Subject<Args_...> &subject);
 
-  auto IsAttached(const Subject<Args_...> &subject) const ATLAS_NOEXCEPT
-      -> bool;
+  bool IsAttached(const Subject<Args_...> &subject) const ATLAS_NOEXCEPT;
 
-  auto DetachFromAllSubject() ATLAS_NOEXCEPT -> void;
+  void DetachFromAllSubject() ATLAS_NOEXCEPT;
 
  protected:
   //============================================================================
@@ -75,17 +74,16 @@ class Observer {
    * If so, then the method will be called instead of the delegate.
    * If not, then simply override this and do nothing.
    */
-  virtual auto OnSubjectNotify(Subject<Args_...> &subject,
-                               Args_... args) ATLAS_NOEXCEPT -> void = 0;
+  virtual void OnSubjectNotify(Subject<Args_...> &subject,
+                               Args_... args) ATLAS_NOEXCEPT = 0;
 
  private:
   //============================================================================
   // P R I V A T E   M E T H O D S
 
-  virtual auto OnSubjectConnected(Subject<Args_...> &subject)
-      ATLAS_NOEXCEPT -> void;
+  virtual void OnSubjectConnected(Subject<Args_...> &subject) ATLAS_NOEXCEPT;
 
-  virtual auto OnSubjectDisconnected(Subject<Args_...> &subject) -> void;
+  virtual void OnSubjectDisconnected(Subject<Args_...> &subject);
 
   //============================================================================
   // P R I V A T E   M E M B E R S
@@ -99,4 +97,4 @@ class Observer {
 
 #include <lib_atlas/pattern/observer_inl.h>
 
-#endif  // ATLAS_PATTERN_OBSERVER_H_
+#endif  // LIB_ATLAS_PATTERN_OBSERVER_H_

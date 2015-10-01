@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_MATHS_STATS_H_
-#define ATLAS_MATHS_STATS_H_
+#ifndef LIB_ATLAS_MATHS_STATS_H_
+#define LIB_ATLAS_MATHS_STATS_H_
 
 #include <array>
 #include <lib_atlas/macros.h>
@@ -24,7 +24,7 @@ namespace atlas {
  * \return The euclidean distance of v1 and v2.
  */
 template <typename Tp_, typename Up_>
-auto euclidean(const Tp_ &v1, const Up_ &v2) -> double;
+double Euclidean(const Tp_ &v1, const Up_ &v2);
 
 /**
  * Returns the Jaccard index of the two data set provided.
@@ -35,7 +35,7 @@ auto euclidean(const Tp_ &v1, const Up_ &v2) -> double;
  * \return The Jaccard index of v1 and v2.
  */
 template <typename Tp_, typename Up_>
-auto jaccard(const Tp_ &v1, const Up_ &v2) -> double;
+double Jaccard(const Tp_ &v1, const Up_ &v2);
 
 /**
  * Returns the mean of the data set provided.
@@ -46,26 +46,25 @@ auto jaccard(const Tp_ &v1, const Up_ &v2) -> double;
  * \returns The means of the elements of v.
  */
 template <typename Tp_>
-auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double;
+double Mean(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  *
  */
 template <typename Tp_>
-auto min(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
+typename Tp_::value_type Min(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  *
  */
 template <typename Tp_>
-auto max(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
+typename Tp_::value_type Max(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  *
  */
 template <typename Tp_>
-auto clamp(const Tp_ &x, const Tp_ &xmin,
-           const Tp_ &xmax) ATLAS_NOEXCEPT -> Tp_;
+Tp_ Clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT;
 
 /**
  * Clamp x into the data set v.
@@ -76,19 +75,19 @@ auto clamp(const Tp_ &x, const Tp_ &xmin,
  * \return The element x, clamped into the data set v.
  */
 template <typename Tp_, typename Up_>
-auto clamp(const Tp_ &x, const Up_ &v) -> decltype(clamp(x, min(v), max(v)));
+Tp_ Clamp(const Tp_ &x, const Up_ &v);
 
 /**
  *
  */
 template <typename Tp_>
-auto least_square(const Tp_ &v) -> std::array<double, 3>;
+std::array<double, 3> LeastSquare(const Tp_ &v);
 
 /**
  *
  */
 template <typename Tp_>
-auto predict(int i) -> typename Tp_::value_type;
+typename Tp_::value_type Predict(int i);
 
 /**
  * Returns the covariance of the two data set provided.
@@ -99,7 +98,7 @@ auto predict(int i) -> typename Tp_::value_type;
  * \return The covariance of v1 and v2
  */
 template <typename Tp_, typename Up_>
-auto covariance(const Tp_ &v1, const Tp_ &v2) -> double;
+double Covariance(const Tp_ &v1, const Tp_ &v2);
 
 /**
  * Returns the standard deviation of the provided set.
@@ -111,7 +110,7 @@ auto covariance(const Tp_ &v1, const Tp_ &v2) -> double;
  * https://en.wikipedia.org/wiki/Standard_deviation
  */
 template <typename Tp_>
-auto std_dev(const Tp_ &v) ATLAS_NOEXCEPT -> double;
+double StdDeviation(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  * Returns the Pearson correlation coefficient.
@@ -126,10 +125,10 @@ auto std_dev(const Tp_ &v) ATLAS_NOEXCEPT -> double;
  * sets.
  */
 template <typename Tp_, typename Up_>
-auto pearson(const Tp_ &v1, const Up_ &v2) -> double;
+double Pearson(const Tp_ &v1, const Up_ &v2);
 
 }  // namespace atlas
 
 #include <lib_atlas/maths/stats_inl.h>
 
-#endif  // ATLAS_MATHS_STATS_H_
+#endif  // LIB_ATLAS_MATHS_STATS_H_

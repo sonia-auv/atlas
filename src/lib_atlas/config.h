@@ -10,8 +10,8 @@
 #include <string>
 #include <stdlib.h>
 
-#ifndef ATLAS_CONFIG_H_
-#define ATLAS_CONFIG_H_
+#ifndef LIB_ATLAS_CONFIG_H_
+#define LIB_ATLAS_CONFIG_H_
 
 namespace atlas {
 
@@ -23,4 +23,4 @@ const std::string kLogPath = kWorkspaceRoot + std::string{"log"};
 
 }  // namespace atlas
 
-#endif  // ATLAS_CONFIG_H_
+#endif  // LIB_ATLAS_CONFIG_H_

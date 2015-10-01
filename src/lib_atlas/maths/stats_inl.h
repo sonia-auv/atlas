@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_MATHS_STATS_H_
+#ifndef LIB_ATLAS_MATHS_STATS_H_
 #error This file may only be included from stats.h
 #endif
 
@@ -27,10 +27,11 @@ namespace details {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-auto is_iterable_impl(int) -> decltype(
-    std::begin(std::declval<Tp_ &>()) != std::end(std::declval<Tp_ &>()),
-    ++std::declval<decltype(std::begin(std::declval<Tp_ &>())) &>(),
-    *begin(std::declval<Tp_ &>()), std::true_type{});
+auto is_iterable_impl(int)
+    -> decltype(std::begin(std::declval<Tp_ &>()) !=
+                    std::end(std::declval<Tp_ &>()),
+                ++std::declval<decltype(std::begin(std::declval<Tp_ &>())) &>(),
+                *begin(std::declval<Tp_ &>()), std::true_type{});
 
 template <typename Tp_>
 std::false_type is_iterable_impl(...);
@@ -43,7 +44,7 @@ using is_iterable = decltype(is_iterable_impl<Tp_>(0));
 //------------------------------------------------------------------------------
 //
 template <typename Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto euclidean(const Tp_ &v1, const Up_ &v2) -> double {
+ATLAS_ALWAYS_INLINE double Euclidean(const Tp_ &v1, const Up_ &v2) {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   static_assert(details::is_iterable<Up_>::value,
@@ -65,7 +66,7 @@ ATLAS_ALWAYS_INLINE auto euclidean(const Tp_ &v1, const Up_ &v2) -> double {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto jaccard(const Tp_ &v1, const Up_ &v2) -> double {
+ATLAS_ALWAYS_INLINE double Jaccard(const Tp_ &v1, const Up_ &v2) {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   static_assert(details::is_iterable<Up_>::value,
@@ -92,7 +93,7 @@ ATLAS_ALWAYS_INLINE auto jaccard(const Tp_ &v1, const Up_ &v2) -> double {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE double Mean(const Tp_ &v) ATLAS_NOEXCEPT {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   typename Tp_::value_type s = {0};
@@ -105,8 +106,7 @@ ATLAS_ALWAYS_INLINE auto mean(const Tp_ &v) ATLAS_NOEXCEPT -> double {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE auto min(const Tp_ &v) ATLAS_NOEXCEPT ->
-    typename Tp_::value_type {
+ATLAS_ALWAYS_INLINE typename Tp_::value_type Min(const Tp_ &v) ATLAS_NOEXCEPT {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   return *std::min_element(v.cbegin(), v.cend());
@@ -115,8 +115,7 @@ ATLAS_ALWAYS_INLINE auto min(const Tp_ &v) ATLAS_NOEXCEPT ->
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE auto max(const Tp_ &v) ATLAS_NOEXCEPT ->
-    typename Tp_::value_type {
+ATLAS_ALWAYS_INLINE typename Tp_::value_type Max(const Tp_ &v) ATLAS_NOEXCEPT {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   return *std::max_element(v.cbegin(), v.cend());
@@ -125,25 +124,24 @@ ATLAS_ALWAYS_INLINE auto max(const Tp_ &v) ATLAS_NOEXCEPT ->
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE auto clamp(const Tp_ &x, const Tp_ &xmin,
-                               const Tp_ &xmax) ATLAS_NOEXCEPT -> Tp_ {
+ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Tp_ &xmin,
+                              const Tp_ &xmax) ATLAS_NOEXCEPT {
   return x < xmin ? xmin : (x > xmax ? xmax : x);
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto clamp(const Tp_ &x, const Up_ &v)
-    -> decltype(clamp(x, min(v), max(v))) {
+ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Up_ &v) {
   static_assert(details::is_iterable<Up_>::value,
                 "The data set must be iterable");
-  return clamp(x, min(v), max(v));
+  return Clamp(x, Min(v), Max(v));
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto covariance(const Tp_ &v1, const Up_ &v2) -> double {
+ATLAS_ALWAYS_INLINE double Covariance(const Tp_ &v1, const Up_ &v2) {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   static_assert(details::is_iterable<Up_>::value,
@@ -152,8 +150,8 @@ ATLAS_ALWAYS_INLINE auto covariance(const Tp_ &v1, const Up_ &v2) -> double {
     throw std::invalid_argument("The lengh of the data set is not the same");
   }
 
-  double m1 = mean(v1);
-  double m2 = mean(v2);
+  double m1 = Mean(v1);
+  double m2 = Mean(v2);
   double s =
       (static_cast<double>(v1[0]) - m1) * (static_cast<double>(v2[0]) - m2);
 
@@ -166,27 +164,27 @@ ATLAS_ALWAYS_INLINE auto covariance(const Tp_ &v1, const Up_ &v2) -> double {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE auto std_dev(const Tp_ &v) ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE double StdDeviation(const Tp_ &v) ATLAS_NOEXCEPT {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
-  return sqrt(covariance(v, v));
+  return sqrt(Covariance(v, v));
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE auto pearson(const Tp_ &v1, const Up_ &v2) -> double {
+ATLAS_ALWAYS_INLINE double Pearson(const Tp_ &v1, const Up_ &v2) {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   static_assert(details::is_iterable<Up_>::value,
                 "The data set must be iterable");
-  double std_dev1 = std_dev(v1);
-  double std_dev2 = std_dev(v2);
+  double std_dev1 = StdDeviation(v1);
+  double std_dev2 = StdDeviation(v2);
 
   if (std_dev1 * std_dev2 == 0) {
     throw std::invalid_argument("The standart deviation of these set is null.");
   }
-  return covariance(v1, v2) / (std_dev1 * std_dev2);
+  return Covariance(v1, v2) / (std_dev1 * std_dev2);
 }
 
 }  // namespace.h

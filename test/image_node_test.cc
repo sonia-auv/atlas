@@ -11,8 +11,7 @@
 #include <ros/ros.h>
 #include <lib_atlas/ros/image_subscriber.h>
 #include <lib_atlas/ros/image_publisher.h>
-
-
+#include <lib_atlas/io/image_sequence_capture.h>
 #include <lib_atlas/ros/service_server_manager.h>
 
 atlas::ServiceServerManager<std::string> test();

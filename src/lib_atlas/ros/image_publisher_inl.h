@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_IMAGE_PUBLISHER_H_
+#ifndef LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
 #error This file may only be included from image_publisher.h
 #endif
 
@@ -22,7 +22,8 @@ namespace atlas {
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE ImagePublisher::ImagePublisher(
-    NodeHandlePtr node_handle, const std::string &topic_name) ATLAS_NOEXCEPT
+    std::shared_ptr<ros::NodeHandle> node_handle,
+    const std::string &topic_name) ATLAS_NOEXCEPT
     : topic_name_(topic_name),
       img_transport_(*node_handle),
       publisher_() {
@@ -41,8 +42,8 @@ ATLAS_ALWAYS_INLINE ImagePublisher::~ImagePublisher() ATLAS_NOEXCEPT {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImagePublisher::WriteImage(const cv::Mat &image)
-    ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void ImagePublisher::WriteImage(const cv::Mat &image)
+    ATLAS_NOEXCEPT {
   if (!image.empty()) {
     sensor_msgs::ImagePtr msg =
         cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();

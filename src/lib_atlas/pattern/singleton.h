@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_SINGLETON_H_
-#define ATLAS_PATTERN_SINGLETON_H_
+#ifndef LIB_ATLAS_PATTERN_SINGLETON_H_
+#define LIB_ATLAS_PATTERN_SINGLETON_H_
 
 #include <lib_atlas/macros.h>
 
@@ -52,7 +52,7 @@ class Singleton {
   /**
    * Do not implement the assignement operator.
    */
-  auto operator=(const Singleton &) ATLAS_NOEXCEPT -> void = delete;
+  void operator=(const Singleton &) ATLAS_NOEXCEPT = delete;
 
   //============================================================================
   // P U B L I C  M E T H O D S
@@ -61,7 +61,7 @@ class Singleton {
    * This is the method to use when you want to get the instance of the
    * Singleton.
    */
-  static auto instance() ATLAS_NOEXCEPT_ -> Tp_ &;
+  static Tp_ &Instance() ATLAS_NOEXCEPT;
 
  protected:
   //============================================================================
@@ -74,11 +74,11 @@ class Singleton {
 // I N L I N E   M E T H O D S   S E C T I O N
 
 template <class Tp_>
-auto Singleton<Tp_>::instance() ATLAS_NOEXCEPT_ -> Tp_ & {
+Tp_ &Singleton<Tp_>::Instance() ATLAS_NOEXCEPT {
   static Tp_ instance;
   return instance;
 }
 
 }  // namespace atlas
 
-#endif  // ATLAS_PATTERN_SINGLETON_H_
+#endif  // LIB_ATLAS_PATTERN_SINGLETON_H_

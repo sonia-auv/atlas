@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_UTILS_POINTERS_H_
-#define ATLAS_UTILS_POINTERS_H_
+#ifndef LIB_ATLAS_UTILS_POINTERS_H_
+#define LIB_ATLAS_UTILS_POINTERS_H_
 
 #include <memory>
 #include <type_traits>
@@ -25,4 +25,4 @@ std::unique_ptr<T> make_unique(Args &&... args) {
 
 }  // namespace std
 
-#endif  // ATLAS_UTILS_POINTERS_H_
+#endif  // LIB_ATLAS_UTILS_POINTERS_H_

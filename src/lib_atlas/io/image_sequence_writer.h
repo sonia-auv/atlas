@@ -7,15 +7,13 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
-#define ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
+#ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
+#define LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
 
 #include <atomic>
 #include <mutex>
 #include <thread>
-
 #include <opencv2/core/core.hpp>
-
 #include <lib_atlas/macros.h>
 #include <lib_atlas/sys/timer.h>
 #include <lib_atlas/pattern/observer.h>
@@ -38,7 +36,7 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    * \return The total of frame count from the moment the ImageSequenceProvider
    *         have been created.
    */
-  virtual auto frame_count() const ATLAS_NOEXCEPT -> uint64_t;
+  virtual uint64_t FrameCount() const ATLAS_NOEXCEPT;
 
   /**
    * If the ImageSequenceProvider is not streaming, this will return the next
@@ -50,17 +48,17 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    *
    * \return The next image, if the ImageSequenceProvider is not streaming.
    */
-  auto write(const cv::Mat &) -> void;
+  void Write(const cv::Mat &);
 
   /**
    * Start the ImageSequenceProvider by Openning the media -- see Open().
    */
-  auto start() ATLAS_NOEXCEPT -> void;
+  void Start() ATLAS_NOEXCEPT;
 
   /**
    * Stop the ImageSequenceProvider by closing the media -- see Close().
    */
-  auto stop() ATLAS_NOEXCEPT -> void;
+  void Stop() ATLAS_NOEXCEPT;
 
   /**
    * Returns either if the ImageSequence is running or not.
@@ -70,7 +68,7 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    *
    * \return The running state of the ImageSequence
    */
-  auto running() const ATLAS_NOEXCEPT -> bool;
+  bool IsRunning() const ATLAS_NOEXCEPT;
 
   /**
    * Set the streaming mode to true or false.
@@ -79,20 +77,20 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    *
    * \param streaming The flag to enable or disable the streaming mode.
    */
-  auto set_streaming(bool streaming) ATLAS_NOEXCEPT -> void;
+  void SetStreamingMode(bool streaming) ATLAS_NOEXCEPT;
 
   /**
    * Return either if the ImageSequenceProvider is in streaming mode
    *
    * \return True if in streaming mode, False else.
    */
-  auto streaming() const ATLAS_NOEXCEPT -> bool;
+  bool IsStreaming() const ATLAS_NOEXCEPT;
 
  protected:
   //============================================================================
   // P R O T E C T E D   M E T H O D S
 
-  virtual auto WriteImage(const cv::Mat &image) -> void = 0;
+  virtual void WriteImage(const cv::Mat &image) = 0;
 
  private:
   //============================================================================
@@ -104,9 +102,8 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    *
    * This is going to wait for the running_ flag to be true, and the will start.
    */
-  virtual auto OnSubjectNotify(Subject<const cv::Mat &> &subject,
-                               const cv::Mat &image)
-      ATLAS_NOEXCEPT -> void override;
+  virtual void OnSubjectNotify(Subject<const cv::Mat &> &subject,
+                               const cv::Mat &image) ATLAS_NOEXCEPT override;
 
   //============================================================================
   // P R I V A T E   M E M B E R S
@@ -122,4 +119,4 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
 
 #include <lib_atlas/io/image_sequence_writer_inl.h>
 
-#endif  // ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
+#endif  // LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
