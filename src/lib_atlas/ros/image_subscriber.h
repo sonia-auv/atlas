@@ -40,13 +40,13 @@ class ImageSubscriber : public ImageSequenceCapture {
   //============================================================================
   // P U B L I C   M E T H O D S
 
-  ATLAS_ALWAYS_INLINE auto GetImage() const -> const cv::Mat & { return image_; }
+  ATLAS_ALWAYS_INLINE const cv::Mat &GetImage() const { return image_; }
 
  private:
   //============================================================================
   // P R I V A T E   M E T H O D S
 
-  auto ImageCallback(const sensor_msgs::ImageConstPtr &msg) -> void {
+  void ImageCallback(const sensor_msgs::ImageConstPtr &msg) {
     try {
       auto cv_image_ptr = cv_bridge::toCvCopy(msg, "bgr8");
       image_ = cv_image_ptr->image;

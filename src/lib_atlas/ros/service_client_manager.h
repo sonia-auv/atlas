@@ -45,7 +45,7 @@ class ServiceClientManager {
   /// \param manager Take a reference to the real object in order to call
   /// ROS advertiseService.
   template <typename M>
-  auto RegisterService(const std::string &service_name) -> void {
+  void RegisterService(const std::string &service_name) {
     auto result_advertise = node_handler_.serviceClient<M>(service_name);
     auto pair = std::pair<std::string, ros::ServiceClient>(service_name,
                                                            result_advertise);
@@ -55,7 +55,7 @@ class ServiceClientManager {
   /// Shutdown a service given its name.
   ///
   /// \return True if the service was shutdown correctly.
-  auto ShutdownService(const std::string &service_name) -> bool {
+  bool ShutdownService(const std::string &service_name) {
     for (auto &service : services_) {
       if (service.first == service_name) {
         service.second.shutdown();
@@ -70,8 +70,7 @@ class ServiceClientManager {
   ///
   /// \return A pointer to the service. This will return nullptr if there is no
   /// pointer with this name.
-  auto GetService(const std::string &service_name)
-      -> ros::ServiceClient *const {
+  ros::ServiceClient *const GetService(const std::string &service_name) {
     for (auto &service : services_) {
       if (service.first == service_name) {
         return &(service.second);
@@ -81,7 +80,7 @@ class ServiceClientManager {
   }
 
   template <typename T>
-  auto SecureCall(const T &service, std::string &node) -> bool {
+  bool SecureCall(const T &service, std::string &node) {
     for (int i = 0; i < kConnectionAttempts; ++i) {
       if (services_.at(node).call(service)) {
         return true;

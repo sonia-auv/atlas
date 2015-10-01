@@ -31,7 +31,7 @@ ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT { Stop(); }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::Start() -> void {
+ATLAS_ALWAYS_INLINE void Runnable::Start() {
   if (thread_ == nullptr) {
     thread_ = std::make_unique<std::thread>(&Runnable::Run, this);
   } else {
@@ -41,7 +41,7 @@ ATLAS_ALWAYS_INLINE auto Runnable::Start() -> void {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::Stop() ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void Runnable::Stop() ATLAS_NOEXCEPT {
   if (IsRunning()) {
     stop_ = true;
     thread_->join();
@@ -53,13 +53,13 @@ ATLAS_ALWAYS_INLINE auto Runnable::Stop() ATLAS_NOEXCEPT -> void {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::IsRunning() const ATLAS_NOEXCEPT -> bool {
+ATLAS_ALWAYS_INLINE bool Runnable::IsRunning() const ATLAS_NOEXCEPT {
   return thread_ != nullptr && thread_->joinable() && !MustStop();
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::MustStop() const ATLAS_NOEXCEPT -> bool {
+ATLAS_ALWAYS_INLINE bool Runnable::MustStop() const ATLAS_NOEXCEPT {
   return stop_;
 }
 

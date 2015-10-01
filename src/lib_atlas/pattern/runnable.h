@@ -56,7 +56,7 @@ class Runnable {
    *
    * This will create a new thread with the Runnable.run() method.
    */
-  auto Start() -> void;
+  void Start();
 
   /**
    * Stop the parallel task.
@@ -66,7 +66,7 @@ class Runnable {
    * a looping parallel task must check for the stop_ member state, otherwise,
    * the stop() call will be blocking forever.
    */
-  auto Stop() ATLAS_NOEXCEPT -> void;
+  void Stop() ATLAS_NOEXCEPT;
 
   /**
    * Return either if the derived Runnable is currently running or not.
@@ -75,7 +75,7 @@ class Runnable {
    *
    * \return The running state of the thread member.
    */
-  auto IsRunning() const ATLAS_NOEXCEPT -> bool;
+  bool IsRunning() const ATLAS_NOEXCEPT;
 
  protected:
   //============================================================================
@@ -91,7 +91,7 @@ class Runnable {
    * calling running()). This way, no unexpected behavior will appear when
    * the thread is interrupted.
    */
-  virtual auto Run() -> void = 0;
+  virtual void Run() = 0;
 
   /**
    * Indicates either if this Runnable instance must stop its processing or not.
@@ -102,7 +102,7 @@ class Runnable {
    *
    * \return Either if the parallel task must stop or not.
    */
-  auto MustStop() const ATLAS_NOEXCEPT -> bool;
+  bool MustStop() const ATLAS_NOEXCEPT;
 
  private:
   //============================================================================

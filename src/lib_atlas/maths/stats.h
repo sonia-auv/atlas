@@ -24,7 +24,7 @@ namespace atlas {
  * \return The euclidean distance of v1 and v2.
  */
 template <typename Tp_, typename Up_>
-auto Euclidean(const Tp_ &v1, const Up_ &v2) -> double;
+double Euclidean(const Tp_ &v1, const Up_ &v2);
 
 /**
  * Returns the Jaccard index of the two data set provided.
@@ -35,7 +35,7 @@ auto Euclidean(const Tp_ &v1, const Up_ &v2) -> double;
  * \return The Jaccard index of v1 and v2.
  */
 template <typename Tp_, typename Up_>
-auto Jaccard(const Tp_ &v1, const Up_ &v2) -> double;
+double Jaccard(const Tp_ &v1, const Up_ &v2);
 
 /**
  * Returns the mean of the data set provided.
@@ -46,26 +46,25 @@ auto Jaccard(const Tp_ &v1, const Up_ &v2) -> double;
  * \returns The means of the elements of v.
  */
 template <typename Tp_>
-auto Mean(const Tp_ &v) ATLAS_NOEXCEPT -> double;
+double Mean(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  *
  */
 template <typename Tp_>
-auto Min(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
+typename Tp_::value_type Min(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  *
  */
 template <typename Tp_>
-auto Max(const Tp_ &v) ATLAS_NOEXCEPT -> typename Tp_::value_type;
+typename Tp_::value_type Max(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  *
  */
 template <typename Tp_>
-auto Clamp(const Tp_ &x, const Tp_ &xmin,
-           const Tp_ &xmax) ATLAS_NOEXCEPT -> Tp_;
+Tp_ Clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT;
 
 /**
  * Clamp x into the data set v.
@@ -76,19 +75,19 @@ auto Clamp(const Tp_ &x, const Tp_ &xmin,
  * \return The element x, clamped into the data set v.
  */
 template <typename Tp_, typename Up_>
-auto Clamp(const Tp_ &x, const Up_ &v) -> decltype(Clamp(x, Min(v), Max(v)));
+Tp_ Clamp(const Tp_ &x, const Up_ &v);
 
 /**
  *
  */
 template <typename Tp_>
-auto LeastSquare(const Tp_ &v) -> std::array<double, 3>;
+std::array<double, 3> LeastSquare(const Tp_ &v);
 
 /**
  *
  */
 template <typename Tp_>
-auto Predict(int i) -> typename Tp_::value_type;
+typename Tp_::value_type Predict(int i);
 
 /**
  * Returns the covariance of the two data set provided.
@@ -99,7 +98,7 @@ auto Predict(int i) -> typename Tp_::value_type;
  * \return The covariance of v1 and v2
  */
 template <typename Tp_, typename Up_>
-auto Covariance(const Tp_ &v1, const Tp_ &v2) -> double;
+double Covariance(const Tp_ &v1, const Tp_ &v2);
 
 /**
  * Returns the standard deviation of the provided set.
@@ -111,7 +110,7 @@ auto Covariance(const Tp_ &v1, const Tp_ &v2) -> double;
  * https://en.wikipedia.org/wiki/Standard_deviation
  */
 template <typename Tp_>
-auto StdDeviation(const Tp_ &v) ATLAS_NOEXCEPT -> double;
+double StdDeviation(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
  * Returns the Pearson correlation coefficient.
@@ -126,7 +125,7 @@ auto StdDeviation(const Tp_ &v) ATLAS_NOEXCEPT -> double;
  * sets.
  */
 template <typename Tp_, typename Up_>
-auto Pearson(const Tp_ &v1, const Up_ &v2) -> double;
+double Pearson(const Tp_ &v1, const Up_ &v2);
 
 }  // namespace atlas
 

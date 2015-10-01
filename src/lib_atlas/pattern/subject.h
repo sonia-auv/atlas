@@ -74,7 +74,7 @@ class Subject {
   //============================================================================
   // P U B L I C   O P E R A T O R S
 
-  auto operator=(const Subject<Args_...> &) ATLAS_NOEXCEPT -> void;
+  void operator=(const Subject<Args_...> &) ATLAS_NOEXCEPT;
 
   //============================================================================
   // P U B L I C  M E T H O D S
@@ -85,27 +85,27 @@ class Subject {
    *
    * \param args The arguments that
    */
-  auto Notify(Args_... args) ATLAS_NOEXCEPT -> void;
+  void Notify(Args_... args) ATLAS_NOEXCEPT;
 
   /**
    * Return the number of observers attached to this subject.
    */
-  auto ObserverCount() const ATLAS_NOEXCEPT -> size_t;
+  size_t ObserverCount() const ATLAS_NOEXCEPT;
 
   /**
    * Add a new observer to the list. Return false if already in the attached.
    */
-  auto Attach(Observer<Args_...> &observer) -> void;
+  void Attach(Observer<Args_...> &observer);
 
   /**
    * Remove an observer from the list. Return false if it was not attached.
    */
-  auto Detach(Observer<Args_...> &observer) -> void;
+  void Detach(Observer<Args_...> &observer);
 
   /**
    * Remove an observer from the list. Return false if it was not attached.
    */
-  auto DetachAll() ATLAS_NOEXCEPT -> void;
+  void DetachAll() ATLAS_NOEXCEPT;
 
  private:
   //============================================================================
@@ -123,7 +123,7 @@ class Subject {
    *
    * \param observer The observer we want to detach from this subject.
    */
-  auto DetachNoCallback(Observer<Args_...> &observer) -> void;
+  void DetachNoCallback(Observer<Args_...> &observer);
 
   //============================================================================
   // P R I V A T E   M E M B E R S

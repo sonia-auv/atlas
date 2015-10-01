@@ -53,8 +53,8 @@ class ThreadPool {
   // P U B L I C  M E T H O D S
 
   template <class Tp_, class... Args_>
-  auto Enqueue(Tp_ &&f, Args_ &&... args)
-      -> std::future<typename std::result_of<Tp_(Args_...)>::type>;
+  std::future<typename std::result_of<Tp_(Args_...)>::type> Enqueue(
+      Tp_ &&f, Args_ &&... args);
 
  private:
   //============================================================================

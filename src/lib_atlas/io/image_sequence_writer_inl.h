@@ -37,9 +37,8 @@ ATLAS_ALWAYS_INLINE ImageSequenceWriter::~ImageSequenceWriter() ATLAS_NOEXCEPT {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::OnSubjectNotify(
-    Subject<const cv::Mat &> &subject,
-    const cv::Mat &image) ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void ImageSequenceWriter::OnSubjectNotify(
+    Subject<const cv::Mat &> &subject, const cv::Mat &image) ATLAS_NOEXCEPT {
   if (IsStreaming()) {
     WriteImage(image);
     ++frame_count_;
@@ -49,8 +48,7 @@ ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::OnSubjectNotify(
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::Write(const cv::Mat &image)
-    -> void {
+ATLAS_ALWAYS_INLINE void ImageSequenceWriter::Write(const cv::Mat &image) {
   if (running_) {
     if (!IsStreaming()) {
       ++frame_count_;
@@ -66,41 +64,40 @@ ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::Write(const cv::Mat &image)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::Start() ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void ImageSequenceWriter::Start() ATLAS_NOEXCEPT {
   running_ = true;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::Stop() ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void ImageSequenceWriter::Stop() ATLAS_NOEXCEPT {
   running_ = false;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::FrameCount() const ATLAS_NOEXCEPT
-    -> uint64_t {
+ATLAS_ALWAYS_INLINE uint64_t
+ImageSequenceWriter::FrameCount() const ATLAS_NOEXCEPT {
   return frame_count_;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::SetStreamingMode(bool streaming)
-    ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void ImageSequenceWriter::SetStreamingMode(bool streaming)
+    ATLAS_NOEXCEPT {
   streaming_ = streaming;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::IsStreaming() const ATLAS_NOEXCEPT
-    -> bool {
+ATLAS_ALWAYS_INLINE bool ImageSequenceWriter::IsStreaming() const
+    ATLAS_NOEXCEPT {
   return streaming_;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto ImageSequenceWriter::IsRunning() const ATLAS_NOEXCEPT
-    -> bool {
+ATLAS_ALWAYS_INLINE bool ImageSequenceWriter::IsRunning() const ATLAS_NOEXCEPT {
   return running_;
 }
 

@@ -31,8 +31,8 @@ enum class BitUnit { BLOCK = 0, B, KB, MB, GB, TB };
  * \param path A directory being contained by the mounted point to analyze.
  * \return The size of the mounted point where path is located in unit
  */
-auto TotalPhysicalMemory(BitUnit unit = BitUnit::KB,
-                         const char *path = ".") ATLAS_NOEXCEPT -> double;
+double TotalPhysicalMemory(BitUnit unit = BitUnit::KB,
+                           const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * For a given directory and a bit unit, this method will return the
@@ -45,8 +45,8 @@ auto TotalPhysicalMemory(BitUnit unit = BitUnit::KB,
  * \param path A directory being contained by the mounted point to analyze.
  * \return The free space on the mounted point where path is located in unit
  */
-auto FreePhysicalMemory(BitUnit unit = BitUnit::KB,
-                        const char *path = ".") ATLAS_NOEXCEPT -> double;
+double FreePhysicalMemory(BitUnit unit = BitUnit::KB,
+                          const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * For a given directory and a bit unit, this method will return the
@@ -60,8 +60,8 @@ auto FreePhysicalMemory(BitUnit unit = BitUnit::KB,
  * \return The available space on the mounted point where path is located in
  *unit
  */
-auto AvailablePhysicalMemory(BitUnit unit = BitUnit::KB,
-                             const char *path = ".") ATLAS_NOEXCEPT -> double;
+double AvailablePhysicalMemory(BitUnit unit = BitUnit::KB,
+                               const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * For a given directory and a bit unit, this method will return the
@@ -74,8 +74,8 @@ auto AvailablePhysicalMemory(BitUnit unit = BitUnit::KB,
  * \param path A directory being contained by the mounted point to analyze.
  * \return The size of the mounted point where path is located in unit
  */
-auto UsedPhysicalMemory(BitUnit unit = BitUnit::KB,
-                        const char *path = ".") ATLAS_NOEXCEPT -> double;
+double UsedPhysicalMemory(BitUnit unit = BitUnit::KB,
+                          const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * Compare the total space of the mounted point with the used physical memory
@@ -84,8 +84,7 @@ auto UsedPhysicalMemory(BitUnit unit = BitUnit::KB,
  * \param path A directory being contained by the mounted point to analyze.
  * \return The used space of the mounted point in percentage
  */
-auto PercentageUsedPhysicalMemory(const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+double PercentageUsedPhysicalMemory(const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * Compare the total space of the mounted point with the used physical memory
@@ -94,8 +93,7 @@ auto PercentageUsedPhysicalMemory(const char *path = ".")
  * \param path A directory being contained by the mounted point to analyze.
  * \return The available space of the mounted point in percentage
  */
-auto PercentageAvailablePhysicalMemory(const char *path = ".")
-    ATLAS_NOEXCEPT -> double;
+double PercentageAvailablePhysicalMemory(const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * For the mounted point containing the given path, this will return the size
@@ -108,7 +106,7 @@ auto PercentageAvailablePhysicalMemory(const char *path = ".")
  * \param path A directory being contained by the mounted point to analyze.
  * \return The size of the block for the file system used.
  */
-auto BlockSize(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
+uint64_t BlockSize(const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * For the mounted point containing the given path, this will return maximum
@@ -118,7 +116,7 @@ auto BlockSize(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
  * \return The maximum length of the filenames of the mounted point where path
  * is located in unit
  */
-auto MaxFileName(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
+uint64_t MaxFileName(const char *path = ".") ATLAS_NOEXCEPT;
 
 /**
  * Check if the file exist by check it's accessibility
@@ -126,8 +124,7 @@ auto MaxFileName(const char *path = ".") ATLAS_NOEXCEPT -> uint64_t;
  * \param path of the file we want to check the existance of
  * \return True when the file is accessible (exist)
  */
-auto FileExists(const std::string &file_path) ATLAS_NOEXCEPT -> bool;
-
+bool FileExists(const std::string &file_path) ATLAS_NOEXCEPT;
 
 }  // namespace atlas
 

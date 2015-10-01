@@ -54,29 +54,29 @@ class Timer {
    *
    * If the timer was running, this will reset the timer before restarting it.
    */
-  auto Start() ATLAS_NOEXCEPT -> void;
+  void Start() ATLAS_NOEXCEPT;
 
   /**
    * Pause the timer if it is not running.
    * This will throw a std::logic_error exception if the timer is not running.
    */
-  auto Pause() -> void;
+  void Pause();
 
   /**
    * Unpause a paused timer.
    * This will throw a std::logic_error exception if the timer is running.
    */
-  auto Unpause() -> void;
+  void Unpause();
 
   /**
    * Reset the timer by setting both the start and the pause time to now.
    */
-  auto Reset() ATLAS_NOEXCEPT -> void;
+  void Reset() ATLAS_NOEXCEPT;
 
   /**
    * \return Either if the timer is running or being paused.
    */
-  auto IsRunning() ATLAS_NOEXCEPT -> bool;
+  bool IsRunning() ATLAS_NOEXCEPT;
 
   /**
    * Get the difference between now and the starting time with the give unit.
@@ -87,7 +87,7 @@ class Timer {
    * \return the elapsed time from the starting point to now.
    */
   template <class Yp_ = Ut_>
-  auto Time() const ATLAS_NOEXCEPT -> double;
+  double Time() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -95,7 +95,7 @@ class Timer {
    *
    * \return The elapsed time in nanoseconds.
    */
-  auto NanoSeconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t NanoSeconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -103,7 +103,7 @@ class Timer {
    *
    * \return The elapsed time in microseconds.
    */
-  auto MicroSeconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t MicroSeconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -111,7 +111,7 @@ class Timer {
    *
    * \return The elapsed time in milliseconds.
    */
-  auto MilliSeconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t MilliSeconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -119,7 +119,7 @@ class Timer {
    *
    * \return The elapsed time in seconds.
    */
-  auto Seconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t Seconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -127,7 +127,7 @@ class Timer {
    *
    * \return The elapsed time in minutes.
    */
-  auto Minutes() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t Minutes() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -135,7 +135,7 @@ class Timer {
    *
    * \return The elapsed time in hours.
    */
-  auto Hours() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t Hours() const ATLAS_NOEXCEPT;
 
  private:
   //============================================================================

@@ -25,7 +25,7 @@ namespace details {
 ATLAS_ALWAYS_INLINE auto GenerateVFS(const char *path) -> struct statvfs {
   struct statvfs vfs;
 
-  if ( statvfs(path, &vfs) < 0 ) {
+  if (statvfs(path, &vfs) < 0) {
     throw std::runtime_error("Could not read system information");
   }
   return vfs;
@@ -56,32 +56,35 @@ ATLAS_ALWAYS_INLINE auto ConvertToBit(fsblkcnt_t block_ctn, uint64_t block_size,
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto TotalPhysicalMemory(BitUnit unit, const char *path)
-    ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE auto TotalPhysicalMemory(BitUnit unit,
+                                             const char *path) ATLAS_NOEXCEPT
+    -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_blocks, vfs.f_frsize, unit);
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto FreePhysicalMemory(BitUnit unit, const char *path)
-    ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE auto FreePhysicalMemory(BitUnit unit,
+                                            const char *path) ATLAS_NOEXCEPT
+    -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_bfree, vfs.f_frsize, unit);
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto AvailablePhysicalMemory(
-    BitUnit unit, const char *path) ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE auto AvailablePhysicalMemory(BitUnit unit, const char *path)
+    ATLAS_NOEXCEPT -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_bavail, vfs.f_frsize, unit);
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto UsedPhysicalMemory(BitUnit unit, const char *path)
-    ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE auto UsedPhysicalMemory(BitUnit unit,
+                                            const char *path) ATLAS_NOEXCEPT
+    -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_blocks - vfs.f_bavail, vfs.f_frsize, unit);
 }
@@ -104,27 +107,26 @@ ATLAS_ALWAYS_INLINE auto PercentageAvailablePhysicalMemory(const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto BlockSize(const char *path)
-    ATLAS_NOEXCEPT -> uint64_t {
+ATLAS_ALWAYS_INLINE auto BlockSize(const char *path) ATLAS_NOEXCEPT
+    -> uint64_t {
   auto vfs = details::GenerateVFS(path);
   return vfs.f_frsize;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto MaxFileName(const char *path)
-    ATLAS_NOEXCEPT -> uint64_t {
+ATLAS_ALWAYS_INLINE auto MaxFileName(const char *path) ATLAS_NOEXCEPT
+    -> uint64_t {
   auto vfs = details::GenerateVFS(path);
   return vfs.f_namemax;
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto FileExists(const std::string &file_path)
-    ATLAS_NOEXCEPT -> bool {
+ATLAS_ALWAYS_INLINE auto FileExists(const std::string &file_path) ATLAS_NOEXCEPT
+    -> bool {
   std::ifstream f(file_path);
   return f.good();
 }
-
 
 }  // namespace atlas

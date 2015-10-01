@@ -11,6 +11,7 @@
 #define LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
 
 #include <mutex>
+#include <string>
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -48,7 +49,7 @@ class ImagePublisher : public ImageSequenceWriter {
    * stream the content of a video file in order to publish it to a topic:
    * Everything is going to be handled by the system.
    */
-  virtual auto WriteImage(const cv::Mat &image) ATLAS_NOEXCEPT -> void override;
+  void WriteImage(const cv::Mat &image) ATLAS_NOEXCEPT override;
 
   //============================================================================
   // P R I V A T E   M E M B E R S
