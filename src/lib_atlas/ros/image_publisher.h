@@ -15,8 +15,6 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
-
-#include <lib_atlas/typedef.h>
 #include <lib_atlas/macros.h>
 #include <lib_atlas/io/image_sequence_writer.h>
 
@@ -27,7 +25,7 @@ class ImagePublisher : public ImageSequenceWriter {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ImagePublisher(NodeHandlePtr node_handle,
+  explicit ImagePublisher(std::shared_ptr<ros::NodeHandle> node_handle,
                           const std::string &topic_name) ATLAS_NOEXCEPT;
 
   ~ImagePublisher() ATLAS_NOEXCEPT;

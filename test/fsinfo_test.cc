@@ -12,7 +12,7 @@
 #include <lib_atlas/sys/fsinfo.h>
 
 TEST(FSInfo, blockSize) {
-  auto block_size = atlas::block_size();
+  auto block_size = atlas::BlockSize();
 
   ASSERT_GE(block_size, 512);        // A block can not be less that 512B
   ASSERT_LE(block_size, 64 * 1024);  // A block can not be less that 64kB
@@ -20,7 +20,7 @@ TEST(FSInfo, blockSize) {
 
 TEST(FSInfo, freeSpace) {
   auto free_space = static_cast<int>(
-      round(atlas::free_physical_memory(atlas::BitUnit::MB)));
+      round(atlas::FreePhysicalMemory(atlas::BitUnit::MB)));
 
   ASSERT_GT(free_space, 0);
 
@@ -32,7 +32,7 @@ TEST(FSInfo, freeSpace) {
 
   // Asserting that new the available space has changed
   auto new_free_space = static_cast<int>(
-      round(atlas::free_physical_memory(atlas::BitUnit::MB)));
+      round(atlas::FreePhysicalMemory(atlas::BitUnit::MB)));
 
   // Removing the created file
   remove("/tmp/atlas_fsinfo_test");
@@ -42,7 +42,7 @@ TEST(FSInfo, freeSpace) {
 
 TEST(FSInfo, availableSpace) {
   auto avail_space = static_cast<int>(
-      round(atlas::available_physical_memory(atlas::BitUnit::MB)));
+      round(atlas::AvailablePhysicalMemory(atlas::BitUnit::MB)));
 
   ASSERT_GT(avail_space, 0);
 
@@ -54,7 +54,7 @@ TEST(FSInfo, availableSpace) {
 
   // Asserting that new the available space has changed
   auto new_avail_space = static_cast<int>(
-      round(atlas::available_physical_memory(atlas::BitUnit::MB)));
+      round(atlas::AvailablePhysicalMemory(atlas::BitUnit::MB)));
 
   // Removing the created file
   remove("/tmp/atlas_fsinfo_test");
@@ -63,20 +63,20 @@ TEST(FSInfo, availableSpace) {
 }
 
 TEST(FSInfo, totalSpace) {
-  auto total_space = atlas::total_physical_memory();
+  auto total_space = atlas::TotalPhysicalMemory();
 
   ASSERT_GT(total_space, 0);
 }
 
 TEST(FSInfo, percentageUsedSpace) {
-  auto value = atlas::percentage_used_physical_memory();
+  auto value = atlas::PercentageUsedPhysicalMemory();
 
   ASSERT_GT(value, 0);
   ASSERT_LT(value, 1);
 }
 
 TEST(FSInfo, percentageAvailableSpace) {
-  auto value = atlas::percentage_available_physical_memory();
+  auto value = atlas::PercentageAvailablePhysicalMemory();
 
   ASSERT_GT(value, 0);
   ASSERT_LT(value, 1);
@@ -87,9 +87,9 @@ TEST(FSInfo, dataAccuracy) {
   // We are going to comparate the data against each other to assert there is
   // no obvious error.
 
-  auto total = atlas::total_physical_memory();
-  auto avail = atlas::available_physical_memory();
-  auto free = atlas::free_physical_memory();
+  auto total = atlas::TotalPhysicalMemory();
+  auto avail = atlas::AvailablePhysicalMemory();
+  auto free = atlas::FreePhysicalMemory();
 
   ASSERT_GT(total, avail);
   ASSERT_GT(total, free);

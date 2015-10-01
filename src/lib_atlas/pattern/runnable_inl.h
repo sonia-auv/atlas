@@ -24,16 +24,16 @@ ATLAS_ALWAYS_INLINE Runnable::Runnable() ATLAS_NOEXCEPT : stop_(), thread_() {}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT { stop(); }
+ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT { Stop(); }
 
 //==============================================================================
 // M E T H O D S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::start() -> void {
+ATLAS_ALWAYS_INLINE auto Runnable::Start() -> void {
   if (thread_ == nullptr) {
-    thread_ = std::make_unique<std::thread>(&Runnable::run, this);
+    thread_ = std::make_unique<std::thread>(&Runnable::Run, this);
   } else {
     throw std::logic_error("The thread must be stoped before it is started.");
   }
@@ -41,8 +41,8 @@ ATLAS_ALWAYS_INLINE auto Runnable::start() -> void {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::stop() ATLAS_NOEXCEPT -> void {
-  if (running()) {
+ATLAS_ALWAYS_INLINE auto Runnable::Stop() ATLAS_NOEXCEPT -> void {
+  if (IsRunning()) {
     stop_ = true;
     thread_->join();
     thread_ = nullptr;
@@ -53,13 +53,13 @@ ATLAS_ALWAYS_INLINE auto Runnable::stop() ATLAS_NOEXCEPT -> void {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::running() const ATLAS_NOEXCEPT -> bool {
-  return thread_ != nullptr && thread_->joinable() && !must_stop();
+ATLAS_ALWAYS_INLINE auto Runnable::IsRunning() const ATLAS_NOEXCEPT -> bool {
+  return thread_ != nullptr && thread_->joinable() && !MustStop();
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto Runnable::must_stop() const ATLAS_NOEXCEPT -> bool {
+ATLAS_ALWAYS_INLINE auto Runnable::MustStop() const ATLAS_NOEXCEPT -> bool {
   return stop_;
 }
 

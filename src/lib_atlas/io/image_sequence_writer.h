@@ -36,7 +36,7 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    * \return The total of frame count from the moment the ImageSequenceProvider
    *         have been created.
    */
-  virtual auto frame_count() const ATLAS_NOEXCEPT -> uint64_t;
+  virtual auto FrameCount() const ATLAS_NOEXCEPT -> uint64_t;
 
   /**
    * If the ImageSequenceProvider is not streaming, this will return the next
@@ -48,17 +48,17 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    *
    * \return The next image, if the ImageSequenceProvider is not streaming.
    */
-  auto write(const cv::Mat &) -> void;
+  auto Write(const cv::Mat &) -> void;
 
   /**
    * Start the ImageSequenceProvider by Openning the media -- see Open().
    */
-  auto start() ATLAS_NOEXCEPT -> void;
+  auto Start() ATLAS_NOEXCEPT -> void;
 
   /**
    * Stop the ImageSequenceProvider by closing the media -- see Close().
    */
-  auto stop() ATLAS_NOEXCEPT -> void;
+  auto Stop() ATLAS_NOEXCEPT -> void;
 
   /**
    * Returns either if the ImageSequence is running or not.
@@ -68,7 +68,7 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    *
    * \return The running state of the ImageSequence
    */
-  auto running() const ATLAS_NOEXCEPT -> bool;
+  auto IsRunning() const ATLAS_NOEXCEPT -> bool;
 
   /**
    * Set the streaming mode to true or false.
@@ -77,14 +77,14 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
    *
    * \param streaming The flag to enable or disable the streaming mode.
    */
-  auto set_streaming(bool streaming) ATLAS_NOEXCEPT -> void;
+  auto SetStreamingMode(bool streaming) ATLAS_NOEXCEPT -> void;
 
   /**
    * Return either if the ImageSequenceProvider is in streaming mode
    *
    * \return True if in streaming mode, False else.
    */
-  auto streaming() const ATLAS_NOEXCEPT -> bool;
+  auto IsStreaming() const ATLAS_NOEXCEPT -> bool;
 
  protected:
   //============================================================================

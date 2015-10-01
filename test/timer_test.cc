@@ -13,14 +13,14 @@
 TEST(TimerTest, startTimer) {
   atlas::NanoTimer timer;
 
-  timer.start();
-  timer.sleep(10);
-  atlas::Timer<>::sleep(10);
-  auto value1 = timer.time();
-  timer.sleep(10);
-  auto value2 = timer.time();
+  timer.Start();
+  timer.Sleep(10);
+  atlas::Timer<>::Sleep(10);
+  auto value1 = timer.Time();
+  timer.Sleep(10);
+  auto value2 = timer.Time();
 
-  ASSERT_TRUE(timer.is_running());
+  ASSERT_TRUE(timer.IsRunning());
   ASSERT_GT(value1, 0);
   ASSERT_GT(value2, value1);
 }
@@ -28,12 +28,12 @@ TEST(TimerTest, startTimer) {
 TEST(TimerTest, pauseTimer) {
   atlas::NanoTimer timer;
 
-  timer.start();
-  timer.pause();
-  auto value1 = timer.time();
-  auto value2 = timer.time();
+  timer.Start();
+  timer.Pause();
+  auto value1 = timer.Time();
+  auto value2 = timer.Time();
 
-  ASSERT_FALSE(timer.is_running());
+  ASSERT_FALSE(timer.IsRunning());
   ASSERT_GT(value1, 0);
   ASSERT_EQ(value1, value2);
 }
@@ -41,13 +41,13 @@ TEST(TimerTest, pauseTimer) {
 TEST(TimerTest, unpauseTimer) {
   atlas::NanoTimer timer;
 
-  timer.start();
-  timer.pause();
-  auto value1 = timer.time();
-  timer.unpause();
-  auto value2 = timer.time();
+  timer.Start();
+  timer.Pause();
+  auto value1 = timer.Time();
+  timer.Unpause();
+  auto value2 = timer.Time();
 
-  ASSERT_TRUE(timer.is_running());
+  ASSERT_TRUE(timer.IsRunning());
   ASSERT_GT(value1, 0);
   ASSERT_GT(value2, value1);
 }

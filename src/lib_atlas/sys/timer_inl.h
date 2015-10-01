@@ -35,8 +35,8 @@ ATLAS_ALWAYS_INLINE Timer<Up_, Tp_>::~Timer() ATLAS_NOEXCEPT {}
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::start() ATLAS_NOEXCEPT -> void {
-  reset();
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Start() ATLAS_NOEXCEPT -> void {
+  Reset();
   std::lock_guard<std::mutex> guard(member_guard_);
   is_running_ = true;
 }
@@ -44,7 +44,7 @@ ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::start() ATLAS_NOEXCEPT -> void {
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::reset() ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Reset() ATLAS_NOEXCEPT -> void {
   std::lock_guard<std::mutex> guard(member_guard_);
   start_time_ = Tp_::now();
   pause_time_ = start_time_;
@@ -53,7 +53,7 @@ ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::reset() ATLAS_NOEXCEPT -> void {
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::pause() -> void {
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Pause() -> void {
   std::lock_guard<std::mutex> guard(member_guard_);
   if (!is_running_) {
     guard.~lock_guard();
@@ -66,7 +66,7 @@ ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::pause() -> void {
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::unpause() -> void {
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Unpause() -> void {
   std::lock_guard<std::mutex> guard(member_guard_);
   if (is_running_) {
     guard.~lock_guard();
@@ -79,7 +79,7 @@ ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::unpause() -> void {
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::is_running() ATLAS_NOEXCEPT -> bool {
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::IsRunning() ATLAS_NOEXCEPT -> bool {
   std::lock_guard<std::mutex> guard(member_guard_);
   return is_running_;
 }
@@ -88,7 +88,7 @@ ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::is_running() ATLAS_NOEXCEPT -> bool {
 //
 template <class Up_, class Tp_>
 template <typename Yp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::time() const ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Time() const ATLAS_NOEXCEPT
     -> double {
   std::lock_guard<std::mutex> guard(member_guard_);
   auto time = Tp_::now() - start_time_;
@@ -104,14 +104,14 @@ ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::time() const ATLAS_NOEXCEPT
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::now() ATLAS_NOEXCEPT -> int64_t {
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Now() ATLAS_NOEXCEPT -> int64_t {
   return std::chrono::duration_cast<Up_>(Tp_::now().time_since_epoch()).count();
 }
 
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::sleep(int64_t sleeping_time)
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Sleep(int64_t sleeping_time)
     ATLAS_NOEXCEPT -> void {
   std::this_thread::sleep_for(Up_(sleeping_time));
 }
@@ -119,49 +119,49 @@ ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::sleep(int64_t sleeping_time)
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::nanoseconds() const ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::NanoSeconds() const ATLAS_NOEXCEPT
     -> int64_t {
-  return static_cast<int64_t>(time<std::chrono::nanoseconds>() * 1000000000);
+  return static_cast<int64_t>(Time <std::chrono::nanoseconds>() * 1000000000);
 }
 
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::microseconds() const ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::MicroSeconds() const ATLAS_NOEXCEPT
     -> int64_t {
-  return static_cast<int64_t>(time<std::chrono::microseconds>() * 1000000);
+  return static_cast<int64_t>(Time <std::chrono::microseconds>() * 1000000);
 }
 
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::milliseconds() const ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::MilliSeconds() const ATLAS_NOEXCEPT
     -> int64_t {
-  return static_cast<int64_t>(time<std::chrono::milliseconds>() * 1000);
+  return static_cast<int64_t>(Time <std::chrono::milliseconds>() * 1000);
 }
 
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::seconds() const ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Seconds() const ATLAS_NOEXCEPT
     -> int64_t {
-  return static_cast<int64_t>(time<std::chrono::seconds>());
+  return static_cast<int64_t>(Time <std::chrono::seconds>());
 }
 
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::minutes() const ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Minutes() const ATLAS_NOEXCEPT
     -> int64_t {
-  return static_cast<int64_t>(time<std::chrono::minutes>() / 60);
+  return static_cast<int64_t>(Time <std::chrono::minutes>() / 60);
 }
 
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::hours() const ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE auto Timer<Up_, Tp_>::Hours() const ATLAS_NOEXCEPT
     -> int64_t {
-  return static_cast<int64_t>(time<std::chrono::hours>() / 3600);
+  return static_cast<int64_t>(Time <std::chrono::hours>() / 3600);
 }
 
 }  // namespace atlas

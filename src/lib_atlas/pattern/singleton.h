@@ -61,7 +61,7 @@ class Singleton {
    * This is the method to use when you want to get the instance of the
    * Singleton.
    */
-  static auto instance() ATLAS_NOEXCEPT_ -> Tp_ &;
+  static auto Instance() ATLAS_NOEXCEPT_ -> Tp_ &;
 
  protected:
   //============================================================================
@@ -74,7 +74,7 @@ class Singleton {
 // I N L I N E   M E T H O D S   S E C T I O N
 
 template <class Tp_>
-auto Singleton<Tp_>::instance() ATLAS_NOEXCEPT_ -> Tp_ & {
+auto Singleton<Tp_>::Instance() ATLAS_NOEXCEPT_ -> Tp_ & {
   static Tp_ instance;
   return instance;
 }

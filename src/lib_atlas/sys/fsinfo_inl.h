@@ -56,7 +56,7 @@ ATLAS_ALWAYS_INLINE auto ConvertToBit(fsblkcnt_t block_ctn, uint64_t block_size,
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto total_physical_memory(BitUnit unit, const char *path)
+ATLAS_ALWAYS_INLINE auto TotalPhysicalMemory(BitUnit unit, const char *path)
     ATLAS_NOEXCEPT -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_blocks, vfs.f_frsize, unit);
@@ -64,7 +64,7 @@ ATLAS_ALWAYS_INLINE auto total_physical_memory(BitUnit unit, const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto free_physical_memory(BitUnit unit, const char *path)
+ATLAS_ALWAYS_INLINE auto FreePhysicalMemory(BitUnit unit, const char *path)
     ATLAS_NOEXCEPT -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_bfree, vfs.f_frsize, unit);
@@ -72,7 +72,7 @@ ATLAS_ALWAYS_INLINE auto free_physical_memory(BitUnit unit, const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto available_physical_memory(
+ATLAS_ALWAYS_INLINE auto AvailablePhysicalMemory(
     BitUnit unit, const char *path) ATLAS_NOEXCEPT -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_bavail, vfs.f_frsize, unit);
@@ -80,7 +80,7 @@ ATLAS_ALWAYS_INLINE auto available_physical_memory(
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto used_physical_memory(BitUnit unit, const char *path)
+ATLAS_ALWAYS_INLINE auto UsedPhysicalMemory(BitUnit unit, const char *path)
     ATLAS_NOEXCEPT -> double {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_blocks - vfs.f_bavail, vfs.f_frsize, unit);
@@ -88,7 +88,7 @@ ATLAS_ALWAYS_INLINE auto used_physical_memory(BitUnit unit, const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto percentage_used_physical_memory(const char *path)
+ATLAS_ALWAYS_INLINE auto PercentageUsedPhysicalMemory(const char *path)
     ATLAS_NOEXCEPT -> double {
   auto vfs = details::GenerateVFS(path);
   return static_cast<double>(vfs.f_blocks - vfs.f_bfree) /
@@ -97,14 +97,14 @@ ATLAS_ALWAYS_INLINE auto percentage_used_physical_memory(const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto percentage_available_physical_memory(const char *path)
+ATLAS_ALWAYS_INLINE auto PercentageAvailablePhysicalMemory(const char *path)
     ATLAS_NOEXCEPT -> double {
-  return 1. - percentage_used_physical_memory(path);
+  return 1. - PercentageUsedPhysicalMemory(path);
 }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto block_size(const char *path)
+ATLAS_ALWAYS_INLINE auto BlockSize(const char *path)
     ATLAS_NOEXCEPT -> uint64_t {
   auto vfs = details::GenerateVFS(path);
   return vfs.f_frsize;
@@ -112,7 +112,7 @@ ATLAS_ALWAYS_INLINE auto block_size(const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto max_filename(const char *path)
+ATLAS_ALWAYS_INLINE auto MaxFileName(const char *path)
     ATLAS_NOEXCEPT -> uint64_t {
   auto vfs = details::GenerateVFS(path);
   return vfs.f_namemax;
@@ -120,7 +120,7 @@ ATLAS_ALWAYS_INLINE auto max_filename(const char *path)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto is_file_exist(const std::string &file_path)
+ATLAS_ALWAYS_INLINE auto FileExists(const std::string &file_path)
     ATLAS_NOEXCEPT -> bool {
   std::ifstream f(file_path);
   return f.good();

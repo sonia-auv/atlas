@@ -16,7 +16,6 @@
 #include <functional>
 #include <ros/ros.h>
 #include <lib_atlas/macros.h>
-#include <lib_atlas/typedef.h>
 
 namespace atlas {
 
@@ -46,7 +45,7 @@ class ServiceServerManager {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ServiceServerManager(NodeHandlePtr node_handle) ATLAS_NOEXCEPT
+  explicit ServiceServerManager(std::shared_ptr<ros::NodeHandle> node_handle) ATLAS_NOEXCEPT
       : node_handler_(node_handle),
         services_() {
     assert(node_handle.get() != nullptr);
@@ -134,7 +133,7 @@ class ServiceServerManager {
   /**
    * The Node Handler provided by ROS to manage nodes.
    */
-  NodeHandlePtr node_handler_;
+  std::shared_ptr<ros::NodeHandle> node_handler_;
 
   /**
    * List of ROS services offered by this class.
