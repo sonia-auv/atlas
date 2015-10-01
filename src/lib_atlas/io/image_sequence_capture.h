@@ -7,17 +7,16 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
-#define ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#define LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
 
 #include <condition_variable>
 #include <atomic>
 #include <mutex>
 #include <thread>
-
+#include <opencv2/core/core.hpp>
 #include <lib_atlas/pattern/subject.h>
 #include <lib_atlas/sys/timer.h>
-#include <opencv2/core/core.hpp>
 
 namespace atlas {
 
@@ -146,4 +145,4 @@ class ImageSequenceCapture : public Subject<cv::Mat> {
 
 #include <lib_atlas/io/image_sequence_capture_inl.h>
 
-#endif  // ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
+#endif  // LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_

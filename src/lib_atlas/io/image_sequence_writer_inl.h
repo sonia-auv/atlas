@@ -7,13 +7,13 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
+#ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
 #error This file may only be included from image_sequence_writer.h
 #endif
 
+#include <functional>
 #include <lib_atlas/sys/timer.h>
 #include <lib_atlas/details/pointers.h>
-#include <functional>
 
 namespace atlas {
 

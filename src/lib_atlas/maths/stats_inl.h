@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_MATHS_STATS_H_
+#ifndef LIB_ATLAS_MATHS_STATS_H_
 #error This file may only be included from stats.h
 #endif
 

@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_MATHS_STATS_H_
-#define ATLAS_MATHS_STATS_H_
+#ifndef LIB_ATLAS_MATHS_STATS_H_
+#define LIB_ATLAS_MATHS_STATS_H_
 
 #include <array>
 #include <lib_atlas/macros.h>
@@ -132,4 +132,4 @@ auto pearson(const Tp_ &v1, const Up_ &v2) -> double;
 
 #include <lib_atlas/maths/stats_inl.h>
 
-#endif  // ATLAS_MATHS_STATS_H_
+#endif  // LIB_ATLAS_MATHS_STATS_H_

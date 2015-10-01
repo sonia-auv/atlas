@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_THREAD_POOL_H_
-#define ATLAS_PATTERN_THREAD_POOL_H_
+#ifndef LIB_ATLAS_PATTERN_THREAD_POOL_H_
+#define LIB_ATLAS_PATTERN_THREAD_POOL_H_
 
 #include <vector>
 #include <queue>
@@ -147,4 +147,4 @@ auto ThreadPool::Enqueue(Tp_ &&f, Args_ &&... args)
 
 }  // namespace atlas
 
-#endif  // ATLAS_PATTERN_THREAD_POOL_H_
+#endif  // LIB_ATLAS_PATTERN_THREAD_POOL_H_

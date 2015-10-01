@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_RUNNABLE_H_
+#ifndef LIB_ATLAS_PATTERN_RUNNABLE_H_
 #error This file may only be included from runnable.h
 #endif
 

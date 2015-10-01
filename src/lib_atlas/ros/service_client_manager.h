@@ -5,8 +5,8 @@
 /// Use of this source code is governed by the MIT license that can be
 /// found in the LICENSE file.
 
-#ifndef ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_
-#define ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_
+#ifndef LIB_ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_
+#define LIB_ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_
 
 // ROS Libraries
 #include <ros/ros.h>
@@ -103,4 +103,4 @@ class ServiceClientManager {
 
 }  // namespace atlas
 
-#endif  // ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_
+#endif  // LIB_ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_

@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_SINGLETON_H_
-#define ATLAS_PATTERN_SINGLETON_H_
+#ifndef LIB_ATLAS_PATTERN_SINGLETON_H_
+#define LIB_ATLAS_PATTERN_SINGLETON_H_
 
 #include <lib_atlas/macros.h>
 
@@ -81,4 +81,4 @@ auto Singleton<Tp_>::instance() ATLAS_NOEXCEPT_ -> Tp_ & {
 
 }  // namespace atlas
 
-#endif  // ATLAS_PATTERN_SINGLETON_H_
+#endif  // LIB_ATLAS_PATTERN_SINGLETON_H_

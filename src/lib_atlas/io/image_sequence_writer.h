@@ -7,15 +7,13 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
-#define ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
+#ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
+#define LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
 
 #include <atomic>
 #include <mutex>
 #include <thread>
-
 #include <opencv2/core/core.hpp>
-
 #include <lib_atlas/macros.h>
 #include <lib_atlas/sys/timer.h>
 #include <lib_atlas/pattern/observer.h>
@@ -122,4 +120,4 @@ class ImageSequenceWriter : public Observer<const cv::Mat &> {
 
 #include <lib_atlas/io/image_sequence_writer_inl.h>
 
-#endif  // ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
+#endif  // LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_

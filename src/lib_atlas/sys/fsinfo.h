@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_SYSTEM_SYSTEM_INFO_H_
-#define ATLAS_SYSTEM_SYSTEM_INFO_H_
+#ifndef LIB_ATLAS_SYSTEM_SYSTEM_INFO_H_
+#define LIB_ATLAS_SYSTEM_SYSTEM_INFO_H_
 
 #include <string>
 
@@ -133,4 +133,4 @@ auto is_file_exist(const std::string &file_path) ATLAS_NOEXCEPT -> bool;
 
 #include <lib_atlas/sys/fsinfo_inl.h>
 
-#endif  // ATLAS_SYSTEM_SYSTEM_INFO_H_
+#endif  // LIB_ATLAS_SYSTEM_SYSTEM_INFO_H_

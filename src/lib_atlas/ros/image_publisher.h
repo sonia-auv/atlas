@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_IMAGE_PUBLISHER_H_
-#define ATLAS_ROS_IMAGE_PUBLISHER_H_
+#ifndef LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
+#define LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
 
 #include <mutex>
 #include <ros/ros.h>
@@ -66,4 +66,4 @@ class ImagePublisher : public ImageSequenceWriter {
 
 #include <lib_atlas/ros/image_publisher_inl.h>
 
-#endif  // ATLAS_ROS_IMAGE_PUBLISHER_H_
+#endif  // LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_

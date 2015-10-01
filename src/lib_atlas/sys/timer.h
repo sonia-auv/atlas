@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_SYSTEM_TIMER_H_
-#define ATLAS_SYSTEM_TIMER_H_
+#ifndef LIB_ATLAS_SYSTEM_TIMER_H_
+#define LIB_ATLAS_SYSTEM_TIMER_H_
 
 #include <iostream>
 #include <chrono>
@@ -162,4 +162,4 @@ using NanoTimer =
 
 #include <lib_atlas/sys/timer_inl.h>
 
-#endif  // ATLAS_SYSTEM_TIMER_H_
+#endif  // LIB_ATLAS_SYSTEM_TIMER_H_

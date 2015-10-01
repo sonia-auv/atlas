@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_RUNNABLE_H_
-#define ATLAS_PATTERN_RUNNABLE_H_
+#ifndef LIB_ATLAS_PATTERN_RUNNABLE_H_
+#define LIB_ATLAS_PATTERN_RUNNABLE_H_
 
 #include <atomic>
 #include <thread>
@@ -117,4 +117,4 @@ class Runnable {
 
 #include <lib_atlas/pattern/runnable_inl.h>
 
-#endif  // ATLAS_PATTERN_RUNNABLE_H_
+#endif  // LIB_ATLAS_PATTERN_RUNNABLE_H_

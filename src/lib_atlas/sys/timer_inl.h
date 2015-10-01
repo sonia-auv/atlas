@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_SYSTEM_TIMER_H_
+#ifndef LIB_ATLAS_SYSTEM_TIMER_H_
 #error This file may only be included from timer.h
 #endif
 

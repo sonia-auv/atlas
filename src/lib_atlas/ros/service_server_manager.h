@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
-#define ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
+#ifndef LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
+#define LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
 
 #include <assert.h>
 #include <exception>
@@ -144,4 +144,4 @@ class ServiceServerManager {
 
 }  // namespace atlas
 
-#endif  // ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
+#endif  // LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_

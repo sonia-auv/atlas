@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_OBSERVER_H_
-#define ATLAS_PATTERN_OBSERVER_H_
+#ifndef LIB_ATLAS_PATTERN_OBSERVER_H_
+#define LIB_ATLAS_PATTERN_OBSERVER_H_
 
 #include <type_traits>
 #include <vector>
@@ -99,4 +99,4 @@ class Observer {
 
 #include <lib_atlas/pattern/observer_inl.h>
 
-#endif  // ATLAS_PATTERN_OBSERVER_H_
+#endif  // LIB_ATLAS_PATTERN_OBSERVER_H_

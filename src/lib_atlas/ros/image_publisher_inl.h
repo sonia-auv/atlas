@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_IMAGE_PUBLISHER_H_
+#ifndef LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
 #error This file may only be included from image_publisher.h
 #endif
 

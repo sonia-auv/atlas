@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_SUBJECT_H_
-#define ATLAS_PATTERN_SUBJECT_H_
+#ifndef LIB_ATLAS_PATTERN_SUBJECT_H_
+#define LIB_ATLAS_PATTERN_SUBJECT_H_
 
 #include <vector>
 #include <mutex>
@@ -145,4 +145,4 @@ class Subject {
 
 #include <lib_atlas/pattern/subject_inl.h>
 
-#endif  // ATLAS_PATTERN_SUBJECT_H_
+#endif  // LIB_ATLAS_PATTERN_SUBJECT_H_

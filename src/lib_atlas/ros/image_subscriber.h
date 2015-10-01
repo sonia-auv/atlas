@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_IMAGE_SUBSCRIBER_H_
-#define ATLAS_ROS_IMAGE_SUBSCRIBER_H_
+#ifndef LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_
+#define LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_
 
 #include <mutex>
 #include <ros/ros.h>
@@ -71,4 +71,4 @@ class ImageSubscriber : public ImageSequenceCapture {
 
 }  // namespace atlas
 
-#endif  // ATLAS_ROS_IMAGE_SUBSCRIBER_H_
+#endif  // LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_

@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_MACROS_H_
-#define ATLAS_MACROS_H_
+#ifndef LIB_ATLAS_MACROS_H_
+#define LIB_ATLAS_MACROS_H_
 
 // Defining exception macros
 #if (__cplusplus >= 201103L)
@@ -21,11 +21,14 @@
 #define ATLAS_NOEXCEPT_OR_FALSE(x) false
 #endif
 
-
 // Defining inline macros
 #ifndef ATLAS_ALWAYS_INLINE
 #define ATLAS_ALWAYS_INLINE \
   __attribute__((__visibility__("default"), __always_inline__)) inline
+#endif
+
+#ifndef ATLAS_INLINE
+#define ATLAS_INLINE inline
 #endif
 
 // Defining OS variables
@@ -37,4 +40,4 @@
 #  define OS_LINUX 1
 #endif
 
-#endif  // ATLAS_MACROS_H_
+#endif  // LIB_ATLAS_MACROS_H_
