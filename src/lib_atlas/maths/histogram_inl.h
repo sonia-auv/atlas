@@ -7,9 +7,9 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_MATHS_HISTOGRAM_H_
+#ifndef LIB_ATLAS_MATHS_HISTOGRAM_H_
 #error This file may only be included histogram.h
-#endif  // LIB_ATLAS_HISTOGRAM_INL_H
+#endif  // LIB_ATLAS_HISTOGRAM_H_
 
 #include <algorithm>
 #include <lib_atlas/maths/stats.h>
@@ -67,7 +67,7 @@ inline void Histogram<Data>::CreateHistogram() {
 
   int i = 0;
   for (typename std::vector<Data>::iterator it = std::next(data_.begin());
-       it != (data_.end()+1); it++) {
+       it != (data_.end() + 1); it++) {
     if (*it == std::get<1>(histo_init_[i])) {
       std::get<0>(histo_init_[i]) += 1;
     } else if (*it - std::get<1>(histo_init_[i]) == 1) {
@@ -75,7 +75,7 @@ inline void Histogram<Data>::CreateHistogram() {
       i++;
     } else {
       for (int j = std::get<1>(histo_init_[i]); j < *it; j++) {
-        histo_init_.push_back(std::make_tuple(0, j+1));
+        histo_init_.push_back(std::make_tuple(0, j + 1));
       }
       i += (*it - std::get<1>(histo_init_[i]));
       std::get<0>(histo_init_[i]) += 1;
@@ -150,4 +150,4 @@ inline void Histogram<Data>::SetInterFunction(unsigned int function) {
   inter_func_ = true;
 }
 
-}  // namespace
+}  // namespace atlas

@@ -7,16 +7,16 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
-#define ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
+#ifndef LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
+#define LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
 
 #include <assert.h>
 #include <exception>
 #include <algorithm>
 #include <functional>
+#include <map>
 #include <ros/ros.h>
 #include <lib_atlas/macros.h>
-#include <lib_atlas/typedef.h>
 
 namespace atlas {
 
@@ -46,9 +46,9 @@ class ServiceServerManager {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ServiceServerManager(NodeHandlePtr node_handle) ATLAS_NOEXCEPT
-      : node_handler_(node_handle),
-        services_() {
+  explicit ServiceServerManager(std::shared_ptr<ros::NodeHandle> node_handle)
+      ATLAS_NOEXCEPT : node_handler_(node_handle),
+                       services_() {
     assert(node_handle.get() != nullptr);
   }
 
@@ -71,8 +71,8 @@ class ServiceServerManager {
    * ROS advertiseService.
    */
   template <typename M>
-  auto RegisterService(const std::string &name, CallBackPtr<M> function,
-                       T &manager) -> void {
+  void RegisterService(const std::string &name, CallBackPtr<M> function,
+                       T &manager) {
     if (function != nullptr) {
       auto it = std::find_if(
           services_.begin(), services_.end(),
@@ -97,7 +97,7 @@ class ServiceServerManager {
    *
    * \return True if the service was shutdown correctly.
    */
-  auto ShutdownService(const std::string &service_name) -> void {
+  void ShutdownService(const std::string &service_name) {
     auto it = std::find_if(
         services_.begin(), services_.end(),
         [service_name](const std::pair<std::string, ros::ServiceServer> &srv)
@@ -115,8 +115,7 @@ class ServiceServerManager {
    * \return A pointer to the service. This will return nullptr if there is no
    * pointer with this name.
    */
-  auto GetService(const std::string &service_name) -> const ros::ServiceServer
-      & {
+  const ros::ServiceServer &GetService(const std::string &service_name) {
     auto it = std::find_if(
         services_.begin(), services_.end(),
         [service_name](const std::pair<std::string, ros::ServiceServer> &srv)
@@ -134,7 +133,7 @@ class ServiceServerManager {
   /**
    * The Node Handler provided by ROS to manage nodes.
    */
-  NodeHandlePtr node_handler_;
+  std::shared_ptr<ros::NodeHandle> node_handler_;
 
   /**
    * List of ROS services offered by this class.
@@ -144,4 +143,4 @@ class ServiceServerManager {
 
 }  // namespace atlas
 
-#endif  // ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
+#endif  // LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_

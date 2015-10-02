@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_ROS_IMAGE_SUBSCRIBER_H_
-#define ATLAS_ROS_IMAGE_SUBSCRIBER_H_
+#ifndef LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_
+#define LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_
 
 #include <mutex>
 #include <ros/ros.h>
@@ -40,13 +40,13 @@ class ImageSubscriber : public ImageSequenceCapture {
   //============================================================================
   // P U B L I C   M E T H O D S
 
-  ATLAS_ALWAYS_INLINE auto image() const -> const cv::Mat & { return image_; }
+  ATLAS_ALWAYS_INLINE const cv::Mat &GetImage() const { return image_; }
 
  private:
   //============================================================================
   // P R I V A T E   M E T H O D S
 
-  auto ImageCallback(const sensor_msgs::ImageConstPtr &msg) -> void {
+  void ImageCallback(const sensor_msgs::ImageConstPtr &msg) {
     try {
       auto cv_image_ptr = cv_bridge::toCvCopy(msg, "bgr8");
       image_ = cv_image_ptr->image;
@@ -71,4 +71,4 @@ class ImageSubscriber : public ImageSequenceCapture {
 
 }  // namespace atlas
 
-#endif  // ATLAS_ROS_IMAGE_SUBSCRIBER_H_
+#endif  // LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_

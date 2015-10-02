@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_MATHS_HISTOGRAM_H_
-#define ATLAS_MATHS_HISTOGRAM_H_
+#ifndef LIB_ATLAS_MATHS_HISTOGRAM_H_
+#define LIB_ATLAS_MATHS_HISTOGRAM_H_
 
 #include <vector>
 #include <tuple>
@@ -114,4 +114,4 @@ class Histogram {
 
 #include <lib_atlas/maths/histogram_inl.h>
 
-#endif  // LIB_ATLAS_HISTOGRAM_H
+#endif  // LIB_ATLAS_MATH_HISTOGRAM_H_

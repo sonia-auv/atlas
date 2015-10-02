@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_SUBJECT_H_
+#ifndef LIB_ATLAS_PATTERN_SUBJECT_H_
 #error This file may only be included from subject.h
 #endif
 
@@ -52,8 +52,8 @@ ATLAS_ALWAYS_INLINE Subject<Args_...>::~Subject() ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::operator=(
-    const Subject<Args_...> &rhs) ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void Subject<Args_...>::operator=(
+    const Subject<Args_...> &rhs) ATLAS_NOEXCEPT {
   DetachAll();
   for (auto &observer : rhs.observers_) {
     Attach(*observer);
@@ -66,8 +66,8 @@ ATLAS_ALWAYS_INLINE auto Subject<Args_...>::operator=(
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Attach(Observer<Args_...> &observer)
-    -> void {
+ATLAS_ALWAYS_INLINE void Subject<Args_...>::Attach(
+    Observer<Args_...> &observer) {
   std::unique_lock<std::mutex> locker(observers_mutex_);
 
   auto it = std::find(observers_.begin(), observers_.end(), &observer);
@@ -82,8 +82,8 @@ ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Attach(Observer<Args_...> &observer)
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Detach(Observer<Args_...> &observer)
-    -> void {
+ATLAS_ALWAYS_INLINE void Subject<Args_...>::Detach(
+    Observer<Args_...> &observer) {
   std::unique_lock<std::mutex> locker(observers_mutex_);
   auto it = std::find(observers_.begin(), observers_.end(), &observer);
   if (it == observers_.end()) {
@@ -97,8 +97,8 @@ ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Detach(Observer<Args_...> &observer)
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::DetachNoCallback(
-    Observer<Args_...> &observer) -> void {
+ATLAS_ALWAYS_INLINE void Subject<Args_...>::DetachNoCallback(
+    Observer<Args_...> &observer) {
   std::unique_lock<std::mutex> locker(observers_mutex_);
   auto it = std::find(observers_.begin(), observers_.end(), &observer);
   if (it == observers_.end()) {
@@ -111,7 +111,7 @@ ATLAS_ALWAYS_INLINE auto Subject<Args_...>::DetachNoCallback(
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::DetachAll() ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void Subject<Args_...>::DetachAll() ATLAS_NOEXCEPT {
   for (const auto &observer : observers_) {
     Detach(*observer);
   }
@@ -120,8 +120,8 @@ ATLAS_ALWAYS_INLINE auto Subject<Args_...>::DetachAll() ATLAS_NOEXCEPT -> void {
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Notify(Args_... args) ATLAS_NOEXCEPT
-    -> void {
+ATLAS_ALWAYS_INLINE void Subject<Args_...>::Notify(Args_... args)
+    ATLAS_NOEXCEPT {
   std::unique_lock<std::mutex> locker(observers_mutex_);
   for (const auto &observer : observers_) {
     observer->OnSubjectNotify(*this, args...);
@@ -131,8 +131,8 @@ ATLAS_ALWAYS_INLINE auto Subject<Args_...>::Notify(Args_... args) ATLAS_NOEXCEPT
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Subject<Args_...>::ObserverCount() const ATLAS_NOEXCEPT
-    -> size_t {
+ATLAS_ALWAYS_INLINE size_t
+Subject<Args_...>::ObserverCount() const ATLAS_NOEXCEPT {
   std::unique_lock<std::mutex> locker(observers_mutex_);
   return observers_.size();
 }

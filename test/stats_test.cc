@@ -59,8 +59,8 @@ static std::vector<int> v2 = {{
 
 
 TEST(StatsTest, mean) {
-  ASSERT_EQ(atlas::mean(v1), 500.1);
-  ASSERT_EQ(atlas::mean(v2), 510.55);
+  ASSERT_EQ(atlas::Mean(v1), 500.1);
+  ASSERT_EQ(atlas::Mean(v2), 510.55);
 }
 
 TEST(StatsTest, median) {
@@ -81,57 +81,57 @@ TEST(StatsTest, harmonic_mean) {
 }
 
 TEST(StatsTest, min) {
-  ASSERT_EQ(atlas::min(v1), 71);
-  ASSERT_EQ(atlas::min(v2), 62);
+  ASSERT_EQ(atlas::Min(v1), 71);
+  ASSERT_EQ(atlas::Min(v2), 62);
 }
 
 TEST(StatsTest, max) {
-  ASSERT_EQ(atlas::max(v1), 977);
-  ASSERT_EQ(atlas::max(v2), 983);
+  ASSERT_EQ(atlas::Max(v1), 977);
+  ASSERT_EQ(atlas::Max(v2), 983);
 }
 
 TEST(StatsTest, euclidean) {
   // Expecting 2165.58
-  ASSERT_EQ(floor(atlas::euclidean(v1, v2)*100), 216558);
+  ASSERT_EQ(floor(atlas::Euclidean(v1, v2)*100), 216558);
 }
 
 TEST(StatsTest, covariance) {
   // Expecting -18828.6
-  ASSERT_EQ(floor(atlas::covariance(v1, v2)*10), -188286);
+  ASSERT_EQ(floor(atlas::Covariance(v1, v2)*10), -188286);
 }
 
 TEST(StatsTest, std_dev) {
   // Expecting 330.425
-  ASSERT_EQ(floor(atlas::std_dev(v1)*1000), 330425);
+  ASSERT_EQ(floor(atlas::StdDeviation(v1)*1000), 330425);
   // Expecting 316.030
-  ASSERT_EQ(floor(atlas::std_dev(v2)*1000), 316030);
+  ASSERT_EQ(floor(atlas::StdDeviation(v2)*1000), 316030);
 }
 
 TEST(StatsTest, pearson) {
   // Expecting -0.180308
-  ASSERT_EQ(floor(atlas::pearson(v1, v2)*1000000), -180309);
+  ASSERT_EQ(floor(atlas::Pearson(v1, v2)*1000000), -180309);
 
   std::vector<double> v11 = {.0, .1, .2, .3};
   std::vector<int> v12 = {0, 1, 2, 3};
   std::vector<double> v13 = {0, -1, -2, -3};
 
-  ASSERT_EQ(floor(atlas::pearson(v11, v11)), 1);
-  ASSERT_EQ(floor(atlas::pearson(v11, v12)), 1);
-  ASSERT_EQ(floor(atlas::pearson(v11, v13)), -1);
+  ASSERT_EQ(floor(atlas::Pearson(v11, v11)), 1);
+  ASSERT_EQ(floor(atlas::Pearson(v11, v12)), 1);
+  ASSERT_EQ(floor(atlas::Pearson(v11, v13)), -1);
 }
 
 TEST(StatsTest, clamp) {
-  ASSERT_EQ(atlas::clamp(1, 0, 5), 1);
-  ASSERT_EQ(atlas::clamp(-1, 0, 3), 0);
-  ASSERT_EQ(atlas::clamp(15, 0, 3), 3);
+  ASSERT_EQ(atlas::Clamp(1, 0, 5), 1);
+  ASSERT_EQ(atlas::Clamp(-1, 0, 3), 0);
+  ASSERT_EQ(atlas::Clamp(15, 0, 3), 3);
 
-  ASSERT_EQ(atlas::clamp(1.f, 0.f, 3.f), 1);
-  ASSERT_EQ(atlas::clamp(-1.f, 0.f, 3.f), 0);
-  ASSERT_EQ(atlas::clamp(15, 0, 3), 3);
+  ASSERT_EQ(atlas::Clamp(1.f, 0.f, 3.f), 1);
+  ASSERT_EQ(atlas::Clamp(-1.f, 0.f, 3.f), 0);
+  ASSERT_EQ(atlas::Clamp(15, 0, 3), 3);
 
-  ASSERT_EQ(atlas::clamp(543, v1), 543);
-  ASSERT_EQ(atlas::clamp(-143, v1), 71);
-  ASSERT_EQ(atlas::clamp(14143, v1), 977);
+  ASSERT_EQ(atlas::Clamp(543, v1), 543);
+  ASSERT_EQ(atlas::Clamp(-143, v1), 71);
+  ASSERT_EQ(atlas::Clamp(14143, v1), 977);
 }
 
 int main(int argc, char **argv) {

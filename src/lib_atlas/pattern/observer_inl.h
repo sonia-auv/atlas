@@ -7,7 +7,7 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_PATTERN_OBSERVER_H_
+#ifndef LIB_ATLAS_PATTERN_OBSERVER_H_
 #error This file may only be included from observer.h
 #endif
 
@@ -61,8 +61,8 @@ ATLAS_ALWAYS_INLINE Observer<Args_...>::~Observer() ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Observer<Args_...>::operator=(
-    const Observer<Args_...> &rhs) ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void Observer<Args_...>::operator=(
+    const Observer<Args_...> &rhs) ATLAS_NOEXCEPT {
   DetachFromAllSubject();
   for (auto &subject : rhs.subjects_) {
     subject->Attach(*this);
@@ -75,8 +75,8 @@ ATLAS_ALWAYS_INLINE auto Observer<Args_...>::operator=(
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Observer<Args_...>::DetachFromAllSubject()
-    ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void Observer<Args_...>::DetachFromAllSubject()
+    ATLAS_NOEXCEPT {
   // Do not lock the mutex here because it will be in OnSubjectDisconnected().
   for (const auto &subject : subjects_) {
     subject->Detach(*this);
@@ -87,8 +87,8 @@ ATLAS_ALWAYS_INLINE auto Observer<Args_...>::DetachFromAllSubject()
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Observer<Args_...>::OnSubjectConnected(
-    Subject<Args_...> &subject) ATLAS_NOEXCEPT -> void {
+ATLAS_ALWAYS_INLINE void Observer<Args_...>::OnSubjectConnected(
+    Subject<Args_...> &subject) ATLAS_NOEXCEPT {
   std::unique_lock<std::mutex> locker(subjects_mutex_);
   auto it = std::find(subjects_.begin(), subjects_.end(), &subject);
   if (it != subjects_.end()) {
@@ -101,8 +101,8 @@ ATLAS_ALWAYS_INLINE auto Observer<Args_...>::OnSubjectConnected(
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Observer<Args_...>::OnSubjectDisconnected(
-    Subject<Args_...> &subject) -> void {
+ATLAS_ALWAYS_INLINE void Observer<Args_...>::OnSubjectDisconnected(
+    Subject<Args_...> &subject) {
   std::unique_lock<std::mutex> locker(subjects_mutex_);
   auto it = std::find(subjects_.begin(), subjects_.end(), &subject);
   if (it == subjects_.end()) {
@@ -115,8 +115,8 @@ ATLAS_ALWAYS_INLINE auto Observer<Args_...>::OnSubjectDisconnected(
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Observer<Args_...>::IsAttached(
-    const Subject<Args_...> &subject) const ATLAS_NOEXCEPT -> bool {
+ATLAS_ALWAYS_INLINE bool Observer<Args_...>::IsAttached(
+    const Subject<Args_...> &subject) const ATLAS_NOEXCEPT {
   std::unique_lock<std::mutex> locker(subjects_mutex_);
   return std::find(subjects_.begin(), subjects_.end(), &subject) !=
          subjects_.end();
@@ -125,8 +125,8 @@ ATLAS_ALWAYS_INLINE auto Observer<Args_...>::IsAttached(
 //------------------------------------------------------------------------------
 //
 template <typename... Args_>
-ATLAS_ALWAYS_INLINE auto Observer<Args_...>::Observe(Subject<Args_...> &subject)
-    -> void {
+ATLAS_ALWAYS_INLINE void Observer<Args_...>::Observe(
+    Subject<Args_...> &subject) {
   subject.Attach(*this);
 }
 

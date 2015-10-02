@@ -7,8 +7,8 @@
  * found in the LICENSE file.
  */
 
-#ifndef ATLAS_SYSTEM_TIMER_H_
-#define ATLAS_SYSTEM_TIMER_H_
+#ifndef LIB_ATLAS_SYSTEM_TIMER_H_
+#define LIB_ATLAS_SYSTEM_TIMER_H_
 
 #include <iostream>
 #include <chrono>
@@ -37,14 +37,14 @@ class Timer {
    *
    * \return the current number of count from the CPU.
    */
-  static auto now() ATLAS_NOEXCEPT -> int64_t;
+  static auto Now() ATLAS_NOEXCEPT -> int64_t;
 
   /**
    * Make a pause on the current calling thread.
    *
    * \param sleeping_time The time to sleep the current thread with the unit Ut_
    */
-  static auto sleep(int64_t sleeping_time) ATLAS_NOEXCEPT -> void;
+  static auto Sleep(int64_t sleeping_time) ATLAS_NOEXCEPT -> void;
 
   //============================================================================
   // P U B L I C   M E T H O D S
@@ -54,29 +54,29 @@ class Timer {
    *
    * If the timer was running, this will reset the timer before restarting it.
    */
-  auto start() ATLAS_NOEXCEPT -> void;
+  void Start() ATLAS_NOEXCEPT;
 
   /**
    * Pause the timer if it is not running.
    * This will throw a std::logic_error exception if the timer is not running.
    */
-  auto pause() -> void;
+  void Pause();
 
   /**
    * Unpause a paused timer.
    * This will throw a std::logic_error exception if the timer is running.
    */
-  auto unpause() -> void;
+  void Unpause();
 
   /**
    * Reset the timer by setting both the start and the pause time to now.
    */
-  auto reset() ATLAS_NOEXCEPT -> void;
+  void Reset() ATLAS_NOEXCEPT;
 
   /**
    * \return Either if the timer is running or being paused.
    */
-  auto is_running() ATLAS_NOEXCEPT -> bool;
+  bool IsRunning() ATLAS_NOEXCEPT;
 
   /**
    * Get the difference between now and the starting time with the give unit.
@@ -87,7 +87,7 @@ class Timer {
    * \return the elapsed time from the starting point to now.
    */
   template <class Yp_ = Ut_>
-  auto time() const ATLAS_NOEXCEPT -> double;
+  double Time() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -95,7 +95,7 @@ class Timer {
    *
    * \return The elapsed time in nanoseconds.
    */
-  auto nanoseconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t NanoSeconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -103,7 +103,7 @@ class Timer {
    *
    * \return The elapsed time in microseconds.
    */
-  auto microseconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t MicroSeconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -111,7 +111,7 @@ class Timer {
    *
    * \return The elapsed time in milliseconds.
    */
-  auto milliseconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t MilliSeconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -119,7 +119,7 @@ class Timer {
    *
    * \return The elapsed time in seconds.
    */
-  auto seconds() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t Seconds() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -127,7 +127,7 @@ class Timer {
    *
    * \return The elapsed time in minutes.
    */
-  auto minutes() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t Minutes() const ATLAS_NOEXCEPT;
 
   /**
    * Wrapper to the running_time function that return the elapsed time in
@@ -135,7 +135,7 @@ class Timer {
    *
    * \return The elapsed time in hours.
    */
-  auto hours() const ATLAS_NOEXCEPT -> int64_t;
+  int64_t Hours() const ATLAS_NOEXCEPT;
 
  private:
   //============================================================================
@@ -162,4 +162,4 @@ using NanoTimer =
 
 #include <lib_atlas/sys/timer_inl.h>
 
-#endif  // ATLAS_SYSTEM_TIMER_H_
+#endif  // LIB_ATLAS_SYSTEM_TIMER_H_
