@@ -141,6 +141,8 @@ class Subject {
   mutable std::mutex observers_mutex_;
 };
 
+using Subject = Subject<>;
+
 }  // namespace atlas
 
 #include <lib_atlas/pattern/subject_inl.h>

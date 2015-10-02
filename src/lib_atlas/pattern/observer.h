@@ -93,6 +93,8 @@ class Observer {
   mutable std::mutex subjects_mutex_;
 };
 
+using Observer = Observer<>;
+
 }  // namespace atlas
 
 #include <lib_atlas/pattern/observer_inl.h>
