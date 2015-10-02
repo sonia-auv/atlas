@@ -150,13 +150,13 @@ class Timer {
   mutable std::mutex member_guard_ = {};
 };
 
-using SecTimer = atlas::Timer<std::chrono::seconds, std::chrono::steady_clock>;
+using SecTimer = Timer<std::chrono::seconds, std::chrono::steady_clock>;
 using MilliTimer =
-    atlas::Timer<std::chrono::milliseconds, std::chrono::steady_clock>;
+    Timer<std::chrono::milliseconds, std::chrono::steady_clock>;
 using MicroTimer =
-    atlas::Timer<std::chrono::microseconds, std::chrono::steady_clock>;
+    Timer<std::chrono::microseconds, std::chrono::steady_clock>;
 using NanoTimer =
-    atlas::Timer<std::chrono::nanoseconds, std::chrono::steady_clock>;
+    Timer<std::chrono::nanoseconds, std::chrono::steady_clock>;
 
 }  // namespace atlas
 
