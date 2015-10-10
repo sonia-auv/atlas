@@ -25,14 +25,16 @@ namespace atlas {
 template <typename Data>
 ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
                                                double inter)
-    : min_data_(min(data)),
-      max_data_(max(data)),
+    : min_data_(Min(data)),
+      max_data_(Max(data)),
       inter_(inter),
       inter_func_(false),
-      pfunc_inter_(NULL),
+      pfunc_inter_(nullptr),
       data_(data),
-      histogram_(NULL),
-      size_(max_data_ - min_data_) {}
+      histogram_(),
+      size_(max_data_ - min_data_) {
+  CreateHistogram();
+}
 
 //------------------------------------------------------------------------------
 //
@@ -40,16 +42,18 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
 template <typename Data>
 ATLAS_ALWAYS_INLINE Histogram<Data>::Histogram(std::vector<Data> const &data,
                                                unsigned int function)
-    : min_data_(min),
-      max_data_(max),
+    : min_data_(Min(data)),
+      max_data_(Max(data)),
       min_histogram_(0),
       max_histogram_(0),
       pfunc_inter_((unsigned int (*)(unsigned int))function),
       inter_func_(true),
       inter_(0),
       data_(data),
-      histogram_(NULL),
-      size_(max_data_ - min_data_) {}
+      histogram_(),
+      size_(max_data_ - min_data_) {
+  CreateHistogram();
+}
 
 template <typename Data>
 ATLAS_ALWAYS_INLINE Histogram<Data>::~Histogram() {}
@@ -61,17 +65,33 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::~Histogram() {}
 
 template <typename Data>
 inline void Histogram<Data>::CreateHistogram() {
-  std::sort(data_.begin(), data_.end());
-  std::vector<std::tuple<int, Data>> histo_init_ = {
-      std::make_tuple(1, data_[0])};
+  // std::sort(data_.begin(), data_.end());
+  std::map<Data, int> histo_init_ = {{min_data_, 0}};
+  typename std::map<Data, int>::iterator it_histo;
 
+  for (int i = 1; i <= floor(max_data_ / inter_); i++) {
+    histo_init_.insert(std::make_pair<Data, int>(
+        static_cast<Data>(min_data_ + (i * inter_)), 0));
+  }
+  for (auto const &it : data_) {
+    it_histo = histo_init_.find(it);
+    it_histo->second += 1;
+  }
+
+  /*
   int i = 0;
+  int add = 0;
   for (typename std::vector<Data>::iterator it = std::next(data_.begin());
        it != (data_.end() + 1); it++) {
-    if (*it == std::get<1>(histo_init_[i])) {
-      std::get<0>(histo_init_[i]) += 1;
-    } else if (*it - std::get<1>(histo_init_[i]) == 1) {
-      histo_init_.push_back(std::make_tuple(1, *it));
+    std::map<Data, int>::iterator it_map = histo_init_.begin();
+    if (*it - it_map->first <= inter_) {
+      it_map->second+=1;
+    } else if (*it - it_map->first > inter_) {
+      add = floor((*it - it_map->first)/inter_);
+      for (int j = 0; j < add; j++) {
+        histo_init_.insert(std::make_pair<Data,int >(data_[0]+,0));
+      }
+
       i++;
     } else {
       for (int j = std::get<1>(histo_init_[i]); j < *it; j++) {
@@ -80,9 +100,9 @@ inline void Histogram<Data>::CreateHistogram() {
       i += (*it - std::get<1>(histo_init_[i]));
       std::get<0>(histo_init_[i]) += 1;
     }
+    */
 
-    histogram_ = histo_init_;
-  }
+  histogram_ = histo_init_;
 }
 
 //------------------------------------------------------------------------------
@@ -90,14 +110,14 @@ inline void Histogram<Data>::CreateHistogram() {
 
 template <typename Data>
 inline Data Histogram<Data>::GetMaxValue() {
-  Data max = std::get<1>(histogram_[0]);
-
-  for (typename std::vector<std::tuple<int, Data>>::iterator it =
+  Data max = histogram_.begin()->second;
+  for (typename std::map<Data, int>::iterator it =
            std::next(histogram_.begin());
        it != histogram_.end(); ++it) {
-    if (std::get<0>(*it) > max) max = std::get<0>(*it);
+    if (it->second > max) {
+      max = it->second;
+    }
   }
-
   return max;
 }
 
@@ -106,12 +126,14 @@ inline Data Histogram<Data>::GetMaxValue() {
 
 template <typename Data>
 inline Data Histogram<Data>::GetMinValue() {
-  Data min = histogram_[1][0];
-
-  for (int i = 1; i < size_; ++i) {
-    if (histogram_[1] < min) min = histogram_[1];
+  Data min = histogram_.begin()->second;
+  for (typename std::map<Data, int>::iterator it =
+           std::next(histogram_.begin());
+       it != histogram_.end(); ++it) {
+    if (it->second < min) {
+      min = it->second;
+    }
   }
-
   return min;
 }
 
@@ -120,9 +142,8 @@ inline Data Histogram<Data>::GetMinValue() {
 
 template <typename Data>
 auto Histogram<Data>::GetMinIndex() -> double {
-  for (int i = 0; i < size_; ++i) {
-    if (histogram_[1][i] == min_histogram_) return histogram_[0][i];
-  }
+  Data min = histogram_.begin()->first;
+  return min;
 }
 
 //------------------------------------------------------------------------------
@@ -130,9 +151,8 @@ auto Histogram<Data>::GetMinIndex() -> double {
 
 template <typename Data>
 inline auto Histogram<Data>::GetMaxIndex() -> double {
-  for (int i = 0; i < size_; ++i) {
-    if (histogram_[1][i] == max_histogram_) return histogram_[0][i];
-  }
+  Data max = histogram_.rbegin()->first;
+  return max;
 }
 
 //------------------------------------------------------------------------------
@@ -142,12 +162,14 @@ template <typename Data>
 inline void Histogram<Data>::SetInterNumber(double inter) {
   inter_ = inter;
   inter_func_ = false;
+  CreateHistogram();
 }
 
 template <typename Data>
 inline void Histogram<Data>::SetInterFunction(unsigned int function) {
   pfunc_inter_ = (unsigned int (*)(unsigned int))function;
   inter_func_ = true;
+  CreateHistogram();
 }
 
 }  // namespace atlas

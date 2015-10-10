@@ -30,8 +30,17 @@ static std::vector<double> v1 = {{
 
 TEST(HistogramTest, CreationHistogram) {
   atlas::Histogram<double> test(v1,1.0);
-  test.CreateHistogram();
   ASSERT_EQ(test.GetMaxValue(), 5);
+  ASSERT_EQ(test.GetMinValue(), 0);
+  ASSERT_EQ(test.GetMaxIndex(), 11);
+  ASSERT_EQ(test.GetMinIndex(), 0);
+/*
+  atlas::Histogram<double> test2(v1,3.0);
+  ASSERT_EQ(test.GetMaxValue(), 5);
+  ASSERT_EQ(test.GetMinValue(), 0);
+  ASSERT_EQ(test.GetMaxIndex(), 11);
+  ASSERT_EQ(test.GetMinIndex(), 0);
+  */
 }
 
 int main(int argc, char **argv) {

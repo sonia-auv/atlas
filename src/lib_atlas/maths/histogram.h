@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <tuple>
+#include <map>
 
 namespace atlas {
 
@@ -29,8 +30,6 @@ class Histogram {
 
   //============================================================================
   // P U B L I C  M E T H O D S
-
-  void CreateHistogram();
 
   /**
  * To get the index of the maximum value.
@@ -69,7 +68,8 @@ class Histogram {
   /**
 * To change the interval by passing a value.
 *
-* If you want to change the interval of the histogram
+* If you want to change the interval of the histogram.
+* It automatically recreate an histogram with the new interval.
 */
 
   void SetInterNumber(double inter);
@@ -77,7 +77,8 @@ class Histogram {
   /**
 * To change the interval by passing a function.
 *
-* If you want to change the interval of the histogram
+* If you want to change the interval of the histogram.
+* It automatically recreate an histogram with the new interval.
 */
 
   void SetInterFunction(unsigned int function);
@@ -92,7 +93,7 @@ class Histogram {
   Data min_data_;
   Data max_histogram_;
   Data min_histogram_;
-  std::vector<std::tuple<int, Data>> histogram_;
+  std::map<Data, int> histogram_;
   std::vector<Data> data_;
   bool inter_func_;
   double inter_;
@@ -100,15 +101,7 @@ class Histogram {
   //============================================================================
   // P R I V A T E  M E T H O D S
 
-  /**
-* Take a double an transform it in a function.
-*
-* Take the double value and transform it in a linear function
-*
-*\return the linear function
-*/
-
-  unsigned int FunctionCreator(double inter);
+  void CreateHistogram();
 };
 }
 
