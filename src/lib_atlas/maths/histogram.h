@@ -126,6 +126,13 @@ class Histogram {
   // P R I V A T E  M E T H O D S
 
   void CreateHistogram(std::vector<Data> const &data);
+
+  /**
+* Creat a new histogram based on the new interval.
+*
+*/
+
+  void RefactorHistogram();
 };
 }
 

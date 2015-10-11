@@ -238,4 +238,21 @@ Histogram<Data> Histogram<Data>::operator=(const Histogram<Data> &histo) {
   return copy_histo;
 }
 
+//------------------------------------------------------------------------------
+//
+
+template <typename Data>
+void Histogram<Data>::RefactorHistogram(){
+  std::map<Data, int> refactor_histo = {{histogram_.begin()->first, histogram_.begin()->second}};
+  typename std::map<Data, int>::iterator it_ref = refactor_histo.begin();
+  for(auto const &it : histogram_){
+    if(it.first+inter_ >= std::next(it).first){
+      it_ref->second+=it.second;
+    }
+    else{
+      refactor_histo.insert(static_cast<Data>(it_ref->first + inter_),it.second);
+    }
+  }
+}
+
 }  // namespace atlas

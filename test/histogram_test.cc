@@ -60,8 +60,8 @@ TEST(HistogramTest, CreationHistogram) {
   ASSERT_EQ(test2.GetMinValue(), 0);
   ASSERT_EQ(test2.GetMaxIndex(), 9);
   ASSERT_EQ(test2.GetMinIndex(), 4);
-  ASSERT_EQ(test2.FindValue(4), 0);
-  ASSERT_EQ(test2.FindValue(7), 1);
+  ASSERT_EQ(test2.FindOccurencie(4), 0);
+  ASSERT_EQ(test2.FindOccurencie(7), 1);
 
 /*
   atlas::Histogram<double> test3(v1,3.0);
