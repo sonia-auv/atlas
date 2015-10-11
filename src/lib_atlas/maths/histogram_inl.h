@@ -215,7 +215,7 @@ inline Histogram<Data> Histogram<Data>::ZoomHistogram(Data begin_zoom,
 //
 
 template <typename Data>
-inline int Histogram<Data>::FindValue(Data value) {
+inline int Histogram<Data>::FindOccurencie(Data value) {
   int index = ceil((value - min_data_) / inter_);
   typename std::map<Data, int>::iterator it = histogram_.begin();
   std::advance(it, index);

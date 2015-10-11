@@ -102,12 +102,12 @@ class Histogram {
   Histogram ZoomHistogram(Data begin_zoom, Data end_zoom);
 
   /**
-* To find the emplacement of a value or it value interval its in.
+* To find the occurencie of a value
 *
-* \return an iterator who refer to the key of the map.
+* \return the number of occurencie.
 */
 
-  int FindValue(Data value);
+  int FindOccurencie(Data value);
 
   Histogram<Data> operator=(const Histogram<Data> &histo);
 
