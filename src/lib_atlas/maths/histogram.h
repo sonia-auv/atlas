@@ -22,6 +22,8 @@ class Histogram {
   //============================================================================
   // P U B L I C   C / D T O R S
 
+  Histogram();
+
   Histogram(std::vector<Data> const &data, double inter);
 
   Histogram(std::vector<Data> const &data, unsigned int function);
@@ -83,25 +85,47 @@ class Histogram {
 
   void SetInterFunction(unsigned int function);
 
+  /**
+* To add data in the histogram.
+*
+* Will add the data to the existing histogram.
+*/
+
+  void AddData(std::vector<Data> const &data);
+
+  /**
+* To zoom on a certain region of the histogram.
+*
+* \return a new histogram
+*/
+
+  Histogram ZoomHistogram(Data begin_zoom, Data end_zoom);
+
+  /**
+* To find the emplacement of a value or it value interval its in.
+*
+* \return an iterator who refer to the key of the map.
+*/
+
+  int FindValue(Data value);
+
+  Histogram<Data> operator=(const Histogram<Data> &histo);
+
  private:
   //============================================================================
   // P R I V A T E   M E M B E R S
 
-  int size_;
   unsigned int (*pfunc_inter_)(unsigned int);  // Or auto pfunc_inter_;
   Data max_data_;
   Data min_data_;
-  Data max_histogram_;
-  Data min_histogram_;
   std::map<Data, int> histogram_;
-  std::vector<Data> data_;
   bool inter_func_;
   double inter_;
 
   //============================================================================
   // P R I V A T E  M E T H O D S
 
-  void CreateHistogram();
+  void CreateHistogram(std::vector<Data> const &data);
 };
 }
 
