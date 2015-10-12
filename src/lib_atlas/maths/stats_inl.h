@@ -167,8 +167,8 @@ ATLAS_ALWAYS_INLINE typename Tp_::value_type Max(const Tp_ &v) ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Tp_ &xmin,
-                              const Tp_ &xmax) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE Tp_
+Clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT {
   return x < xmin ? xmin : (x > xmax ? xmax : x);
 }
 
