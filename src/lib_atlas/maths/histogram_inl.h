@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <lib_atlas/maths/stats.h>
+#include <iterator>
 
 namespace atlas {
 
@@ -71,17 +72,17 @@ ATLAS_ALWAYS_INLINE Histogram<Data>::~Histogram() {}
 template <typename Data>
 inline void Histogram<Data>::CreateHistogram(std::vector<Data> const &data) {
   std::map<Data, int> histo_init_ = {{min_data_, 0}};
-  typename std::map<Data, int>::iterator it_histo;
-
-  for (int i = 1; i <= floor(max_data_ / inter_); i++) {
+  typename std::map<Data, int>::iterator it_histo = histo_init_.begin();
+  for (int i = 1; i <= floor(max_data_ / inter_); ++i) {
     histo_init_.insert(std::make_pair<Data, int>(
         static_cast<Data>(min_data_ + (i * inter_)), 0));
   }
   int index;
   for (auto const &it : data) {
-    index = ceil((it - min_data_) / inter_);
-    it_histo = histo_init_.find(index);
+    index = floor((it - min_data_) / inter_);
+    std::advance(it_histo,index);
     it_histo->second += 1;
+    it_histo = histo_init_.begin();
   }
 
   histogram_ = histo_init_;

@@ -47,13 +47,13 @@ TEST(HistogramTest, CreationHistogram) {
   ASSERT_EQ(test.GetMinValue(), 0);
   ASSERT_EQ(test.GetMaxIndex(), 11);
   ASSERT_EQ(test.GetMinIndex(), 0);
-
+/*
   test.AddData(v2);
   ASSERT_EQ(test.GetMaxValue(), 12);
   ASSERT_EQ(test.GetMinValue(), 0);
   ASSERT_EQ(test.GetMaxIndex(), 15);
   ASSERT_EQ(test.GetMinIndex(), -2);
-
+*/
   atlas::Histogram<double> test2;
   test2=test.ZoomHistogram(4,9);
   ASSERT_EQ(test2.GetMaxValue(), 5);
@@ -63,13 +63,13 @@ TEST(HistogramTest, CreationHistogram) {
   ASSERT_EQ(test2.FindOccurencie(4), 0);
   ASSERT_EQ(test2.FindOccurencie(7), 1);
 
-/*
+
   atlas::Histogram<double> test3(v1,3.0);
-  ASSERT_EQ(test.GetMaxValue(), 5);
-  ASSERT_EQ(test.GetMinValue(), 0);
-  ASSERT_EQ(test.GetMaxIndex(), 11);
-  ASSERT_EQ(test.GetMinIndex(), 0);
-  */
+  ASSERT_EQ(test3.GetMaxValue(), 9);
+  ASSERT_EQ(test3.GetMinValue(), 1);
+  ASSERT_EQ(test3.GetMaxIndex(), 9);
+  ASSERT_EQ(test3.GetMinIndex(), 0);
+
 }
 
 int main(int argc, char **argv) {
