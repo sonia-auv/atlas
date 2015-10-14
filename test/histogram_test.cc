@@ -42,33 +42,26 @@ static std::vector<double> v2 = {{
                                  }};
 
 TEST(HistogramTest, CreationHistogram) {
-  atlas::Histogram<double> test(v1,1.0);
-  ASSERT_EQ(test.GetMaxValue(), 5);
-  ASSERT_EQ(test.GetMinValue(), 0);
-  ASSERT_EQ(test.GetMaxIndex(), 11);
-  ASSERT_EQ(test.GetMinIndex(), 0);
-/*
-  test.AddData(v2);
-  ASSERT_EQ(test.GetMaxValue(), 12);
-  ASSERT_EQ(test.GetMinValue(), 0);
-  ASSERT_EQ(test.GetMaxIndex(), 15);
-  ASSERT_EQ(test.GetMinIndex(), -2);
-*/
-  atlas::Histogram<double> test2;
-  test2=test.ZoomHistogram(4,9);
-  ASSERT_EQ(test2.GetMaxValue(), 5);
-  ASSERT_EQ(test2.GetMinValue(), 0);
-  ASSERT_EQ(test2.GetMaxIndex(), 9);
-  ASSERT_EQ(test2.GetMinIndex(), 4);
-  ASSERT_EQ(test2.FindOccurencie(4), 0);
-  ASSERT_EQ(test2.FindOccurencie(7), 1);
+  atlas::Histogram<double> test(v1, 1.0);
+  ASSERT_EQ(test.Max(), 11);
+  ASSERT_EQ(test.Min(), 0);
+  ASSERT_EQ(test.Index(test.Max()), 7);
+  ASSERT_EQ(test.Index(test.Min()), 0);
+
+  auto test2(test.ZoomOnValues(4, 9));
+  ASSERT_EQ(test2->Max(), 9);
+  ASSERT_EQ(test2->Min(), 5);
+  ASSERT_EQ(test2->Index(test2->Max()), 2);
+  ASSERT_EQ(test2->Index(test2->Min()), 0);
+  ASSERT_EQ(test2->Count(4), 0);
+  ASSERT_EQ(test2->Count(9), 5);
 
 
-  atlas::Histogram<double> test3(v1,3.0);
-  ASSERT_EQ(test3.GetMaxValue(), 9);
-  ASSERT_EQ(test3.GetMinValue(), 1);
-  ASSERT_EQ(test3.GetMaxIndex(), 9);
-  ASSERT_EQ(test3.GetMinIndex(), 0);
+  atlas::Histogram<double> test3(v1, 3.0);
+  ASSERT_EQ(test3.Max(), 11);
+  ASSERT_EQ(test3.Min(), 0);
+  ASSERT_EQ(test3.Index(test3.Max()), 7);
+  ASSERT_EQ(test3.Index(test3.Min()), 0);
 
 }
 

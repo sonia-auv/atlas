@@ -13,6 +13,7 @@
 #include <vector>
 #include <tuple>
 #include <map>
+#include <memory>
 #include <lib_atlas/macros.h>
 
 namespace atlas {
@@ -25,34 +26,47 @@ class Histogram {
 
   Histogram();
 
-  Histogram(std::vector<Tp_> const &data, double inter);
+  explicit Histogram(const Histogram<Tp_> &rhs);
 
-  Histogram(std::vector<Tp_> const &data, unsigned int function);
+  explicit Histogram(Histogram<Tp_> &&rhs);
+
+  explicit Histogram(std::vector<Tp_> const &data, double inter);
+
+  explicit Histogram(std::vector<Tp_> const &data, unsigned int function);
 
   ~Histogram();
 
   //============================================================================
   // P U B L I C  O P E R A T O R S
 
-  Histogram<Tp_> operator=(const Histogram<Tp_> &histo);
+  Histogram<Tp_> &operator=(const Histogram<Tp_> &rhs);
+
+  Histogram<Tp_> &operator=(Histogram<Tp_> &&rhs);
 
   //============================================================================
   // P U B L I C  M E T H O D S
 
   /**
-   * To get the index of the maximum value.
+   * Return the index of the first occurence of the given value.
    *
-   * \return the index of the maximum value.
+   * If the value does not exists, this may throw a out of bound exception.
+   *
+   * \param value The value to look up in the histogram
+   * \return The index of the first value occurence.
    */
-  double GetMaxIndex() const ATLAS_NOEXCEPT;
+  uint64_t Index(const Tp_ &value);
 
   /**
-   * To get the index of the minimum value.
+   * Return the value found on the given index.
    *
-   * \return the index of the minimum value.
+   * If the index is out of the histogram bound, this will throw an out
+   * of bound exception.
+   * Note that index "0" is the first element of the histogram.
+   *
+   * \param index The index to look up in the histogram
+   * \return The value found at the index position.
    */
-
-  double GetMinIndex() const ATLAS_NOEXCEPT;
+  Tp_ At(const uint64_t &index) const;
 
   /**
    * To get the maximum value of the histogram.
@@ -60,16 +74,33 @@ class Histogram {
    * \return the maximum value of the histogram in the same format of
    *  the data vector.
    */
-  Tp_ GetMaxValue();
+  Tp_ Max() const ATLAS_NOEXCEPT;
 
   /**
- * To get the minimum value of the histogram.
- *
- * \return the minimum value of the histogram in the same format of
- *  the data vector.
- */
+   * To get the minimum value of the histogram.
+   *
+   * \return the minimum value of the histogram in the same format of
+   *  the data vector.
+   */
+  Tp_ Min() const ATLAS_NOEXCEPT;
 
-  Tp_ GetMinValue();
+  /**
+   * To add data in the histogram.
+   *
+   * Will add the data to the existing histogram.
+   */
+  void Add(const Tp_ &data) ATLAS_NOEXCEPT;
+
+  /**
+   * To zoom on a certain region of the histogram.
+   *
+   * \return a new histogram
+   */
+  std::shared_ptr<Histogram<Tp_>> ZoomOnValues(const Tp_ &begin,
+                                               const Tp_ &end) ATLAS_NOEXCEPT;
+
+  std::shared_ptr<Histogram<Tp_>> ZoomOnIndexes(
+      const uint64_t &begin, const uint64_t &end) ATLAS_NOEXCEPT;
 
   /**
    * To change the interval by passing a value.
@@ -88,54 +119,47 @@ class Histogram {
   void SetInterFunction(unsigned int function);
 
   /**
-   * To add data in the histogram.
-   *
-   * Will add the data to the existing histogram.
-   */
-  void AddData(std::vector<Tp_> const &data);
-
-  /**
-   * To zoom on a certain region of the histogram.
-   *
-   * \return a new histogram
-   */
-  Histogram ZoomHistogram(Tp_ begin_zoom, Tp_ end_zoom);
-
-  /**
    * To find the occurencie of a value
    *
    * \return the number of occurencie.
    */
-  int FindOccurencie(Tp_ value);
+  uint64_t Count(const Tp_ &value) const ATLAS_NOEXCEPT;
 
  private:
   //============================================================================
+  // P R I V A T E  M E T H O D S
+
+  /**
+   * To get the index of the maximum value.
+   *
+   * \return the index of the maximum value.
+   */
+  double GetMaxIndex() const ATLAS_NOEXCEPT;
+
+  /**
+   * To get the index of the minimum value.
+   *
+   * \return the index of the minimum value.
+   */
+  double GetMinIndex() const ATLAS_NOEXCEPT;
+
+  //============================================================================
   // P R I V A T E   M E M B E R S
 
+  /**
+   * TODO Antoine Dozois: Replace functions pointers by a delegated, for exemple
+   * std::function.
+   */
   unsigned int (*pfunc_inter_)(unsigned int);
 
-  Tp_ max_data_;
-
-  Tp_ min_data_;
-
-  std::map<Tp_, int> histogram_;
+  std::map<Tp_, uint64_t> histogram_;
 
   bool inter_func_;
 
   double inter_;
-
-  //============================================================================
-  // P R I V A T E  M E T H O D S
-
-  void CreateHistogram(std::vector<Tp_> const &data);
-
-  /**
-   * Creat a new histogram based on the new interval.
-   *
-   */
-  void RefactorHistogram();
 };
-}
+
+}  // namespace atlas
 
 #include <lib_atlas/maths/histogram_inl.h>
 

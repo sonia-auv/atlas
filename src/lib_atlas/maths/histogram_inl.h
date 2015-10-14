@@ -13,7 +13,6 @@
 
 #include <algorithm>
 #include <lib_atlas/maths/stats.h>
-#include <iterator>
 
 namespace atlas {
 
@@ -24,25 +23,37 @@ namespace atlas {
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram()
-    : min_data_(0),
-      max_data_(0),
-      inter_(0),
-      inter_func_(false),
-      pfunc_inter_(nullptr),
-      histogram_() {}
+    : inter_(0), inter_func_(false), pfunc_inter_(nullptr), histogram_() {}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(const Histogram<Tp_> &rhs) {
+  inter_ = rhs.inter_;
+  pfunc_inter_ = rhs.pfunc_inter_;
+  histogram_ = rhs.histogram_;
+  inter_func_ = rhs.inter_func_;
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(Histogram<Tp_> &&rhs) {
+  inter_ = std::move(rhs.inter_);
+  pfunc_inter_ = std::move(rhs.pfunc_inter_);
+  histogram_ = std::move(rhs.histogram_);
+  inter_func_ = std::move(rhs.inter_func_);
+}
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
                                               double inter)
-    : min_data_(Min(data)),
-      max_data_(Max(data)),
-      inter_(inter),
-      inter_func_(false),
-      pfunc_inter_(nullptr),
-      histogram_() {
-  CreateHistogram(data);
+    : inter_(inter), inter_func_(false), pfunc_inter_(nullptr), histogram_() {
+  for (const auto &e : data) {
+    Add(e);
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -50,15 +61,17 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
                                               unsigned int function)
-    : min_data_(Min(data)),
-      max_data_(Max(data)),
-      pfunc_inter_((unsigned int (*)(unsigned int))function),
+    : pfunc_inter_((unsigned int (*)(unsigned int))function),
       inter_func_(true),
       inter_(0),
       histogram_() {
-  CreateHistogram(data);
+  for (const auto &e : data) {
+    Add(e);
+  }
 }
 
+//------------------------------------------------------------------------------
+//
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE Histogram<Tp_>::~Histogram() {}
 
@@ -68,16 +81,23 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::~Histogram() {}
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-Histogram<Tp_> Histogram<Tp_>::operator=(const Histogram<Tp_> &histo) {
-  Histogram<Tp_> copy_histo;
-  this->inter_ = histo.inter_;
-  this->pfunc_inter_ = histo.pfunc_inter_;
-  this->histogram_ = histo.histogram_;
-  this->inter_func_ = histo.inter_func_;
-  this->max_data_ = histo.max_data_;
-  this->min_data_ = histo.min_data_;
+Histogram<Tp_> &Histogram<Tp_>::operator=(const Histogram<Tp_> &rhs) {
+  inter_ = rhs.inter_;
+  pfunc_inter_ = rhs.pfunc_inter_;
+  histogram_ = rhs.histogram_;
+  inter_func_ = rhs.inter_func_;
+  return *this;
+}
 
-  return copy_histo;
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+Histogram<Tp_> &Histogram<Tp_>::operator=(Histogram<Tp_> &&rhs) {
+  inter_ = std::move(rhs.inter_);
+  pfunc_inter_ = std::move(rhs.pfunc_inter_);
+  histogram_ = std::move(rhs.histogram_);
+  inter_func_ = std::move(rhs.inter_func_);
+  return *this;
 }
 
 //==============================================================================
@@ -86,67 +106,45 @@ Histogram<Tp_> Histogram<Tp_>::operator=(const Histogram<Tp_> &histo) {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE void Histogram<Tp_>::CreateHistogram(
-    std::vector<Tp_> const &data) {
-  std::map<Tp_, int> histo_init_ = {{min_data_, 0}};
-  typename std::map<Tp_, int>::iterator it_histo = histo_init_.begin();
-  for (int i = 1; i <= floor(max_data_ / inter_); ++i) {
-    histo_init_.insert(std::make_pair<Tp_, int>(
-        static_cast<Tp_>(min_data_ + (i * inter_)), 0));
-  }
-  int index;
-  for (auto const &it : data) {
-    index = floor((it - min_data_) / inter_);
-    std::advance(it_histo, index);
-    it_histo->second += 1;
-    it_histo = histo_init_.begin();
-  }
-
-  histogram_ = histo_init_;
+ATLAS_ALWAYS_INLINE uint64_t Histogram<Tp_>::Index(const Tp_ &value) {
+  return std::distance(std::begin(histogram_), histogram_.find(value));
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_ Histogram<Tp_>::GetMaxValue() {
-  Tp_ max = histogram_.begin()->second;
-  for (typename std::map<Tp_, int>::iterator it = std::next(histogram_.begin());
-       it != histogram_.end(); ++it) {
-    if (it->second > max) {
-      max = it->second;
-    }
-  }
-  return max;
+ATLAS_ALWAYS_INLINE Tp_ Histogram<Tp_>::At(const uint64_t &index) const {
+  return histogram_.at(index);
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_ Histogram<Tp_>::GetMinValue() {
-  Tp_ min = histogram_.begin()->second;
-  for (typename std::map<Tp_, int>::iterator it = std::next(histogram_.begin());
-       it != histogram_.end(); ++it) {
-    if (it->second < min) {
-      min = it->second;
-    }
-  }
-  return min;
+ATLAS_ALWAYS_INLINE Tp_ Histogram<Tp_>::Max() const ATLAS_NOEXCEPT {
+  return (std::max_element(std::begin(histogram_), std::end(histogram_)))
+      ->first;
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE Tp_ Histogram<Tp_>::Min() const ATLAS_NOEXCEPT {
+  return (std::min_element(std::begin(histogram_), std::end(histogram_)))
+      ->first;
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE double Histogram<Tp_>::GetMinIndex() const ATLAS_NOEXCEPT {
-  Tp_ min = histogram_.begin()->first;
-  return min;
+  return std::distance(std::begin(histogram_), Min());
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE double Histogram<Tp_>::GetMaxIndex() const ATLAS_NOEXCEPT {
-  Tp_ max = histogram_.rbegin()->first;
-  return max;
+  return std::distance(std::begin(histogram_), Max());
 }
 
 //------------------------------------------------------------------------------
@@ -169,53 +167,29 @@ ATLAS_ALWAYS_INLINE void Histogram<Tp_>::SetInterFunction(
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE void Histogram<Tp_>::AddData(std::vector<Tp_> const &data) {
-  Tp_ max_from_data = Max(data);
-  Tp_ min_from_data = Min(data);
-
-  if (min_data_ > min_from_data) {
-    int add = ceil((min_data_ - min_from_data) / inter_);
-    for (int i = add - 1; i >= 0; --i) {
-      histogram_.insert(
-          histogram_.begin(),
-          std::make_pair(static_cast<Tp_>(min_from_data + (inter_ * i)), 0));
-    }
-  }
-
-  if (max_data_ < max_from_data) {
-    int add = ceil((max_from_data - max_data_) / inter_);
-    for (int i = 1; i <= add; ++i) {
-      histogram_.insert(
-          std::make_pair(static_cast<Tp_>(max_data_ + (inter_ * i)), 0));
-    }
-  }
-
-  int index;
-  typename std::map<Tp_, int>::iterator it_histo;
-  for (auto const &it : data) {
-    index = ceil((it - min_data_) / inter_);
-    it_histo = histogram_.find(it);
-    it_histo->second += 1;
+ATLAS_ALWAYS_INLINE void Histogram<Tp_>::Add(const Tp_ &data) ATLAS_NOEXCEPT {
+  if (histogram_.find(data) == histogram_.end()) {
+    histogram_[data] = 1;
+  } else {
+    ++histogram_[data];
   }
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Histogram<Tp_> Histogram<Tp_>::ZoomHistogram(Tp_ begin_zoom,
-                                                                 Tp_ end_zoom) {
-  Histogram<Tp_> new_histo;
-  for (typename std::map<Tp_, int>::iterator it =
-           histogram_.find(ceil((begin_zoom - min_data_) / inter_));
-       it != histogram_.find(ceil((end_zoom - min_data_) / inter_) + 1); ++it) {
-    new_histo.histogram_.insert(std::make_pair(it->first, it->second));
+ATLAS_ALWAYS_INLINE std::shared_ptr<Histogram<Tp_>>
+Histogram<Tp_>::ZoomOnValues(const Tp_ &begin, const Tp_ &end) ATLAS_NOEXCEPT {
+  auto new_histo = std::make_shared<Histogram<Tp_>>();
+  for (const auto &e : histogram_) {
+    if (e.first <= end && e.first >= begin) {
+      new_histo->histogram_[e.first] = e.second;
+    }
   }
 
-  new_histo.inter_ = this->inter_;
-  new_histo.max_data_ = new_histo.histogram_.rbegin()->first;
-  new_histo.min_data_ = new_histo.histogram_.begin()->first;
-  new_histo.inter_func_ = this->inter_func_;
-  new_histo.pfunc_inter_ = this->pfunc_inter_;
+  new_histo->inter_ = inter_;
+  new_histo->inter_func_ = inter_func_;
+  new_histo->pfunc_inter_ = pfunc_inter_;
 
   return new_histo;
 }
@@ -223,27 +197,41 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_> Histogram<Tp_>::ZoomHistogram(Tp_ begin_zoom,
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE int Histogram<Tp_>::FindOccurencie(Tp_ value) {
-  int index = ceil((value - min_data_) / inter_);
-  typename std::map<Tp_, int>::iterator it = histogram_.begin();
-  std::advance(it, index);
-  return it->second;
+ATLAS_ALWAYS_INLINE std::shared_ptr<Histogram<Tp_>>
+Histogram<Tp_>::ZoomOnIndexes(const uint64_t &begin,
+                              const uint64_t &end) ATLAS_NOEXCEPT {
+  if (end - begin < 0) {
+    throw std::invalid_argument(
+        "The end index cannot be superior to the begin index");
+  }
+
+  auto begin_it = histogram_.begin();
+  std::advance(begin_it, begin);
+  auto first_it = begin_it;
+  std::advance(begin_it, end - begin + 1);
+  auto last_it = begin_it;
+
+  auto new_histo = std::make_shared<Histogram<Tp_>>();
+  for (; first_it != last_it; std::advance(first_it, 1)) {
+    new_histo->Add(first_it->first);
+  }
+
+  new_histo->inter_ = inter_;
+  new_histo->inter_func_ = inter_func_;
+  new_histo->pfunc_inter_ = pfunc_inter_;
+
+  return new_histo;
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE void Histogram<Tp_>::RefactorHistogram() {
-  std::map<Tp_, int> refactor_histo = {
-      {histogram_.begin()->first, histogram_.begin()->second}};
-  typename std::map<Tp_, int>::iterator it_ref = refactor_histo.begin();
-  for (auto const &it : histogram_) {
-    if (it.first + inter_ >= std::next(it).first) {
-      it_ref->second += it.second;
-    } else {
-      refactor_histo.insert(static_cast<Tp_>(it_ref->first + inter_),
-                            it.second);
-    }
+ATLAS_ALWAYS_INLINE uint64_t Histogram<Tp_>::Count(
+    const Tp_ &value) const ATLAS_NOEXCEPT {
+  try {
+    return histogram_.at(value);
+  } catch (const std::out_of_range &e) {
+    return 0;
   }
 }
 
