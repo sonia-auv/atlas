@@ -1,6 +1,7 @@
 /**
  * \file	stats_inl.h
  * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \author  Antoine Dozois <dozois.a@gmail.com>
  * \date	17/08/2015
  * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
  * Use of this source code is governed by the MIT license that can be
@@ -69,8 +70,6 @@ template <typename Tp_, typename Up_>
 ATLAS_ALWAYS_INLINE double Jaccard(const Tp_ &v1, const Up_ &v2) {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
-  static_assert(details::is_iterable<Up_>::value,
-                "The data set must be iterable");
   if (v1.size() != v2.size()) {
     throw std::invalid_argument("The lengh of the data set is not the same");
   }
@@ -106,6 +105,50 @@ ATLAS_ALWAYS_INLINE double Mean(const Tp_ &v) ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
+ATLAS_ALWAYS_INLINE typename Tp_::value_type Median(const Tp_ &v)
+    ATLAS_NOEXCEPT {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must be iterable");
+  Tp_ sorted_data = {v};
+  std::sort(sorted_data.cbegin(), sorted_data.cend());
+  return sorted_data.at(ceil(sorted_data.size() / 2));
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE double GeometricMean(const Tp_ &v) ATLAS_NOEXCEPT {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must be iterable");
+  double sum = 1.f;
+
+  for (const auto &e : v) {
+    sum *= e;
+  }
+  return pow(sum, 1.0 / static_cast<double>(v.size()));
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE double HarmonicMean(const Tp_ &v) {
+  static_assert(details::is_iterable<Tp_>::value,
+                "The data set must be iterable");
+  double harmonic = 0.;
+  for (const auto &e : v) {
+    harmonic += 1. / static_cast<double>(e);
+  }
+
+  if (harmonic == 0) {
+    throw std::logic_error("The harmonic equal zero! Can't return result");
+  }
+
+  return static_cast<double>(v.size()) / harmonic;
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
 ATLAS_ALWAYS_INLINE typename Tp_::value_type Min(const Tp_ &v) ATLAS_NOEXCEPT {
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
@@ -124,8 +167,8 @@ ATLAS_ALWAYS_INLINE typename Tp_::value_type Max(const Tp_ &v) ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Tp_ &xmin,
-                              const Tp_ &xmax) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE Tp_
+Clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT {
   return x < xmin ? xmin : (x > xmax ? xmax : x);
 }
 

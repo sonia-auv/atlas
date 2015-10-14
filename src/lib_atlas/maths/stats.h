@@ -1,6 +1,7 @@
 /**
  * \file	stats.h
  * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \author  Antoine Dozois <dozois.a@gmail.com>
  * \date	17/08/2015
  * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
  * Use of this source code is governed by the MIT license that can be
@@ -47,6 +48,38 @@ double Jaccard(const Tp_ &v1, const Up_ &v2);
  */
 template <typename Tp_>
 double Mean(const Tp_ &v) ATLAS_NOEXCEPT;
+
+/**
+ * Returns the median of the data set provided.
+ *
+ * This function will sort an find the value of the item in the middle.
+ *
+ * \returns The median of the vector vector_data.
+ */
+template <typename Tp_>
+typename Tp_::value_type median(std::vector<Tp_> const &v) ATLAS_NOEXCEPT;
+
+/**
+ * Returns the geometric mean of the data set provided.
+ *
+ * This function give the nth root of the data, where the nth equal
+ * the size of the vector.
+ *
+ * \returns The geometric mean of the vector vector_data.
+ */
+template <typename Tp_>
+double GeometricMean(std::vector<Tp_> const &v) ATLAS_NOEXCEPT;
+
+/**
+ * Returns the harmonic mean of the data set provided.
+ *
+ * The harmonic mean is useful to calculate the average rates of a
+ * data set.
+ *
+ * \returns The harmonic mean of the vector vector_data.
+ */
+template <typename Tp_>
+double HarmonicMean(std::vector<Tp_> const &v);
 
 /**
  *
