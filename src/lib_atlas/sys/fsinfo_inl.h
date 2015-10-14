@@ -75,8 +75,8 @@ ATLAS_ALWAYS_INLINE double FreePhysicalMemory(BitUnit unit,
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE auto AvailablePhysicalMemory(BitUnit unit, const char *path)
-    ATLAS_NOEXCEPT -> double {
+ATLAS_ALWAYS_INLINE double AvailablePhysicalMemory(BitUnit unit, const char *path)
+    ATLAS_NOEXCEPT {
   auto vfs = details::GenerateVFS(path);
   return details::ConvertToBit(vfs.f_bavail, vfs.f_frsize, unit);
 }

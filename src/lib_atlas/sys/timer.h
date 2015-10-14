@@ -37,14 +37,14 @@ class Timer {
    *
    * \return the current number of count from the CPU.
    */
-  static auto Now() ATLAS_NOEXCEPT -> int64_t;
+  static int64_t Now() ATLAS_NOEXCEPT;
 
   /**
    * Make a pause on the current calling thread.
    *
    * \param sleeping_time The time to sleep the current thread with the unit Ut_
    */
-  static auto Sleep(int64_t sleeping_time) ATLAS_NOEXCEPT -> void;
+  static void Sleep(int64_t sleeping_time) ATLAS_NOEXCEPT;
 
   /**
    * Return the current date and time with the current format.
