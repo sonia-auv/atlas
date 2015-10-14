@@ -46,6 +46,15 @@ class Timer {
    */
   static auto Sleep(int64_t sleeping_time) ATLAS_NOEXCEPT -> void;
 
+  /**
+   * Return the current date and time with the current format.
+   *
+   * The return format is YYYY-MM-DD.HH:mm:ss
+   *
+   * \return The current date and time as a string.
+   */
+  static std::string CurrentDate() ATLAS_NOEXCEPT;
+
   //============================================================================
   // P U B L I C   M E T H O D S
 
