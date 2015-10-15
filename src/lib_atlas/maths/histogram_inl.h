@@ -22,13 +22,7 @@ namespace atlas {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram()
-    : inter_(0), inter_func_(false), pfunc_inter_(nullptr), histogram_() {}
-
-//------------------------------------------------------------------------------
-//
-template <typename Tp_>
-ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(const Histogram<Tp_> &rhs) {
+ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(const Histogram<Tp_> &rhs) ATLAS_NOEXCEPT{
   inter_ = rhs.inter_;
   pfunc_inter_ = rhs.pfunc_inter_;
   histogram_ = rhs.histogram_;
@@ -38,7 +32,7 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(const Histogram<Tp_> &rhs) {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(Histogram<Tp_> &&rhs) {
+ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(Histogram<Tp_> &&rhs) ATLAS_NOEXCEPT{
   inter_ = std::move(rhs.inter_);
   pfunc_inter_ = std::move(rhs.pfunc_inter_);
   histogram_ = std::move(rhs.histogram_);
@@ -49,7 +43,7 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(Histogram<Tp_> &&rhs) {
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
-                                              double inter)
+                                              double inter) ATLAS_NOEXCEPT
     : inter_(inter), inter_func_(false), pfunc_inter_(nullptr), histogram_() {
   for (const auto &e : data) {
     Add(e);
@@ -60,7 +54,7 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
-                                              unsigned int function)
+                                              unsigned int function) ATLAS_NOEXCEPT
     : pfunc_inter_((unsigned int (*)(unsigned int))function),
       inter_func_(true),
       inter_(0),
@@ -73,7 +67,7 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Histogram<Tp_>::~Histogram() {}
+ATLAS_ALWAYS_INLINE Histogram<Tp_>::~Histogram() ATLAS_NOEXCEPT{}
 
 //==============================================================================
 // O P E P R A T O R S   S E C T I O N
@@ -81,7 +75,7 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::~Histogram() {}
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-Histogram<Tp_> &Histogram<Tp_>::operator=(const Histogram<Tp_> &rhs) {
+Histogram<Tp_> &Histogram<Tp_>::operator=(const Histogram<Tp_> &rhs) ATLAS_NOEXCEPT{
   inter_ = rhs.inter_;
   pfunc_inter_ = rhs.pfunc_inter_;
   histogram_ = rhs.histogram_;
@@ -92,7 +86,7 @@ Histogram<Tp_> &Histogram<Tp_>::operator=(const Histogram<Tp_> &rhs) {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-Histogram<Tp_> &Histogram<Tp_>::operator=(Histogram<Tp_> &&rhs) {
+Histogram<Tp_> &Histogram<Tp_>::operator=(Histogram<Tp_> &&rhs) ATLAS_NOEXCEPT{
   inter_ = std::move(rhs.inter_);
   pfunc_inter_ = std::move(rhs.pfunc_inter_);
   histogram_ = std::move(rhs.histogram_);
@@ -106,14 +100,14 @@ Histogram<Tp_> &Histogram<Tp_>::operator=(Histogram<Tp_> &&rhs) {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE uint64_t Histogram<Tp_>::Index(const Tp_ &value) {
+ATLAS_ALWAYS_INLINE uint64_t Histogram<Tp_>::Index(const Tp_ &value) ATLAS_NOEXCEPT{
   return std::distance(std::begin(histogram_), histogram_.find(value));
 }
 
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_ Histogram<Tp_>::At(const uint64_t &index) const {
+ATLAS_ALWAYS_INLINE Tp_ Histogram<Tp_>::At(const uint64_t &index) const ATLAS_NOEXCEPT{
   return histogram_.at(index);
 }
 
@@ -150,7 +144,7 @@ ATLAS_ALWAYS_INLINE double Histogram<Tp_>::GetMaxIndex() const ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE void Histogram<Tp_>::SetInterNumber(double inter) {
+ATLAS_ALWAYS_INLINE void Histogram<Tp_>::SetInterNumber(double inter) ATLAS_NOEXCEPT{
   inter_ = inter;
   inter_func_ = false;
 }
@@ -159,7 +153,7 @@ ATLAS_ALWAYS_INLINE void Histogram<Tp_>::SetInterNumber(double inter) {
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE void Histogram<Tp_>::SetInterFunction(
-    unsigned int function) {
+    unsigned int function) ATLAS_NOEXCEPT{
   pfunc_inter_ = (unsigned int (*)(unsigned int))function;
   inter_func_ = true;
 }
@@ -182,7 +176,7 @@ ATLAS_ALWAYS_INLINE std::shared_ptr<Histogram<Tp_>>
 Histogram<Tp_>::ZoomOnValues(const Tp_ &begin, const Tp_ &end) ATLAS_NOEXCEPT {
   auto new_histo = std::make_shared<Histogram<Tp_>>();
   for (const auto &e : histogram_) {
-    if (e.first <= end && e.first >= begin) {
+    if (e.first < end && e.first >= begin) {
       new_histo->histogram_[e.first] = e.second;
     }
   }
@@ -199,7 +193,7 @@ Histogram<Tp_>::ZoomOnValues(const Tp_ &begin, const Tp_ &end) ATLAS_NOEXCEPT {
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE std::shared_ptr<Histogram<Tp_>>
 Histogram<Tp_>::ZoomOnIndexes(const uint64_t &begin,
-                              const uint64_t &end) ATLAS_NOEXCEPT {
+                              const uint64_t &end) {
   if (end - begin < 0) {
     throw std::invalid_argument(
         "The end index cannot be superior to the begin index");
