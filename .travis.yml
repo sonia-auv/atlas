@@ -49,4 +49,4 @@ before_script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
 
 script:
-  - catkin_make -j8 --pkg provider_vision
+  - catkin_make -j8 --pkg lib_atlas
