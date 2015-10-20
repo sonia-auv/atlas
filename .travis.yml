@@ -68,6 +68,10 @@ install:
   # Install dependencies
   - cd ~/catkin_ws/
   - rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+  # Debug before make
+  - export PYTHONPATH='$PYTHONPATH:/opt/ros/indigo/lib/python2.7/dist-packages:/usr/lib/python2.7/dist-packages/'
+  - echo $PYTHONPATH
+  - dpkg -L python-catkin-pkg
   # Build
   - catkin_make
 
