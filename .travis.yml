@@ -14,8 +14,7 @@ compiler:
 os:
   - linux
 
-dist:
-  - trusty
+dist: trusty
 
 notifications:
   email:
