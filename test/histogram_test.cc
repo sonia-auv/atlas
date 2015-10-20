@@ -49,12 +49,12 @@ TEST(HistogramTest, CreationHistogram) {
   ASSERT_EQ(test.Index(test.Min()), 0);
 
   auto test2(test.ZoomOnValues(4, 9));
-  ASSERT_EQ(test2->Max(), 9);
+  ASSERT_EQ(test2->Max(), 7);
   ASSERT_EQ(test2->Min(), 5);
-  ASSERT_EQ(test2->Index(test2->Max()), 2);
+  ASSERT_EQ(test2->Index(test2->Max()), 1);
   ASSERT_EQ(test2->Index(test2->Min()), 0);
   ASSERT_EQ(test2->Count(4), 0);
-  ASSERT_EQ(test2->Count(9), 5);
+  ASSERT_EQ(test2->Count(7), 1);
 
 
   atlas::Histogram<double> test3(v1, 3.0);

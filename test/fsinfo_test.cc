@@ -37,7 +37,10 @@ TEST(FSInfo, freeSpace) {
   // Removing the created file
   remove("/tmp/atlas_fsinfo_test");
 
-  ASSERT_EQ(free_space, new_free_space + size);
+  // Accept an error margin
+  auto margin = 50;
+  ASSERT_LT(free_space, new_free_space + size + margin);
+  ASSERT_GT(free_space, new_free_space + size - margin);
 }
 
 TEST(FSInfo, availableSpace) {
@@ -59,7 +62,10 @@ TEST(FSInfo, availableSpace) {
   // Removing the created file
   remove("/tmp/atlas_fsinfo_test");
 
-  ASSERT_EQ(avail_space, new_avail_space + size);
+  // Accept an error margin
+  auto margin = 50;
+  ASSERT_LT(avail_space, new_avail_space + size + margin);
+  ASSERT_GT(avail_space, new_avail_space + size - margin);
 }
 
 TEST(FSInfo, totalSpace) {

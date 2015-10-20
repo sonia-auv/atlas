@@ -117,7 +117,7 @@ ATLAS_ALWAYS_INLINE std::string Timer<Up_, Tp_>::CurrentDate() ATLAS_NOEXCEPT {
   tstruct = *localtime(&now);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
   // for more information about date/time format
-  strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+  strftime(buf.c_str(), sizeof(buf), "%Y-%m-%d.%X", &tstruct);
   return buf;
 }
 
