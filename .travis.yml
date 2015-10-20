@@ -18,17 +18,17 @@ os:
 
 dist: trusty
 
+branches:
+  only:
+    - master
+    - develop
+
 notifications:
-  email:
-    recipients:
-      - thibaut.mattio@gmail.com
-    on_success: never
-    on_failure: always
   slack:
     rooms:
       - sonia-auv:VuDl4QAG49oxkr53yCiKMAxH
-    on_success: change
-    on_failure: change
+    on_success: never
+    on_failure: always
 
 # Allow caching of debian (apt-get) packages. This means they're cached
 # on Travis, so we still have to download/install them, but it will be
