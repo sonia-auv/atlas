@@ -22,6 +22,11 @@ notifications:
       - thibaut.mattio@gmail.com
     on_success: never
     on_failure: always
+  slack:
+    rooms:
+      - sonia-auv:VuDl4QAG49oxkr53yCiKMAxH
+    on_success: change
+    on_failure: change
 
 before_install:
   - export ROS_DISTRO=indigo
@@ -31,7 +36,7 @@ before_install:
   - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
   - sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-key 0xB01FA116
   - sudo apt-get update -qq
-  - sudo apt-get install -qq ros-indigo-ros-base
+  - sudo apt-get install -qq ros-indigo-ros-base python-catkin-pkg
   - sudo rosdep init
   - rosdep update
 
@@ -49,4 +54,9 @@ before_script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
 
 script:
+  # Some base informations on python for debug
+  - which python
+  - python -V
+  - dpkg -L python-catkin-pkg
+  # Actuall build
   - catkin_make -j8 --pkg lib_atlas
