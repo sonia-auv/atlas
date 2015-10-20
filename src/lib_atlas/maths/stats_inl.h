@@ -110,7 +110,7 @@ ATLAS_ALWAYS_INLINE typename Tp_::value_type Median(const Tp_ &v)
   static_assert(details::is_iterable<Tp_>::value,
                 "The data set must be iterable");
   Tp_ sorted_data = {v};
-  std::sort(sorted_data.cbegin(), sorted_data.cend());
+  std::sort(sorted_data.begin(), sorted_data.end());
   return sorted_data.at(ceil(sorted_data.size() / 2));
 }
 

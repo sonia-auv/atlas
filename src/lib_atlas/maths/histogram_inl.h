@@ -42,7 +42,7 @@ ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(Histogram<Tp_> &&rhs) ATLAS_NOEXCE
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(std::vector<Tp_> const &data,
+ATLAS_ALWAYS_INLINE Histogram<Tp_>::Histogram(const std::vector<Tp_> &data,
                                               double inter) ATLAS_NOEXCEPT
     : inter_(inter), inter_func_(false), pfunc_inter_(nullptr), histogram_() {
   for (const auto &e : data) {
@@ -174,14 +174,14 @@ ATLAS_ALWAYS_INLINE void Histogram<Tp_>::Add(const Tp_ &data) ATLAS_NOEXCEPT {
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE std::shared_ptr<Histogram<Tp_>>
 Histogram<Tp_>::ZoomOnValues(const Tp_ &begin, const Tp_ &end) ATLAS_NOEXCEPT {
-  auto new_histo = std::make_shared<Histogram<Tp_>>();
+  std::vector<Tp_> new_values;
   for (const auto &e : histogram_) {
     if (e.first < end && e.first >= begin) {
-      new_histo->histogram_[e.first] = e.second;
+      new_values.push_back(e.first);
     }
   }
 
-  new_histo->inter_ = inter_;
+  auto new_histo = std::make_shared<Histogram<Tp_>>(new_values, inter_);
   new_histo->inter_func_ = inter_func_;
   new_histo->pfunc_inter_ = pfunc_inter_;
 

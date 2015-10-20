@@ -28,11 +28,11 @@ class Histogram {
 
   explicit Histogram(Histogram<Tp_> &&rhs) ATLAS_NOEXCEPT;
 
-  explicit Histogram(std::vector<Tp_> const &data, double inter) ATLAS_NOEXCEPT;
+  explicit Histogram(const std::vector<Tp_> &data, double inter) ATLAS_NOEXCEPT;
 
-  explicit Histogram(std::vector<Tp_> const &data, unsigned int function) ATLAS_NOEXCEPT;
+  explicit Histogram(const std::vector<Tp_> &data, unsigned int function) ATLAS_NOEXCEPT;
 
-  ~Histogram()ATLAS_NOEXCEPT;
+  ~Histogram() ATLAS_NOEXCEPT;
 
   //============================================================================
   // P U B L I C  O P E R A T O R S
