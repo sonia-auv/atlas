@@ -62,7 +62,7 @@ install:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Create workspace.
   - mkdir -p ~/catkin_ws/src
-  - mv $CI_SOURCE_PATH/$REPOSITORY_ORG/$REPOSITORY_NAME ~/catkin_ws/src/$REPOSITORY_NAME
+  - mv $CI_SOURCE_PATH ~/catkin_ws/src/$REPOSITORY_NAME
   - cd ~/catkin_ws/src
   - catkin_init_workspace
   # Install dependencies
