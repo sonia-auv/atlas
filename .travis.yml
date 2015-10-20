@@ -39,12 +39,10 @@ cache: apt
 # general.
 before_install: # Use this to prepare the system to install prerequisites or dependencies
   # Define some config vars
-  - sudo apt-get --purge remove mongodb-10gen postgresql-9.2 postgresql-contrib-9.2 postgresql-9.3 postgresql-contrib-9.3
   - export ROS_DISTRO=indigo
   - export CI_SOURCE_PATH=$(pwd)
   - export REPOSITORY_ORG=sonia-auv
   - export REPOSITORY_NAME=lib_atlas
-  # Settings to make installing script more general.
   - export ROS_CI_DESKTOP=`lsb_release -cs`  # e.g. 'trusty'
 
 # Commands to install dependencies
