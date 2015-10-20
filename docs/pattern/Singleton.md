@@ -1,5 +1,4 @@
-`atlas/pattern/singleton.h`
----------------------------
+# `lib_atlas/pattern/singleton.h`
 
 This class is an implementation of the GOF pattern Singleton.
 

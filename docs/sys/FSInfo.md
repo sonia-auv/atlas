@@ -1,5 +1,4 @@
-`atlas/system/fsinfo.h`
------------------------
+# `lib_atlas/sys/fsinfo.h`
 
 ### Synopsis
 ***

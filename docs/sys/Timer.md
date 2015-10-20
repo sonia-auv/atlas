@@ -1,5 +1,4 @@
-`atlas/thread_pool.h`
----------------------
+# `lib_atlas/sys/thread_pool.h`
 
 This header provide an easy to use Thread Pool.
 
