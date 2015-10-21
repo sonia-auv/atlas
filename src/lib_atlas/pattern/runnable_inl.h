@@ -24,7 +24,11 @@ ATLAS_ALWAYS_INLINE Runnable::Runnable() ATLAS_NOEXCEPT : stop_(), thread_() {}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT { Stop(); }
+ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT {
+  if(IsRunning()) {
+    Stop();
+  }
+}
 
 //==============================================================================
 // M E T H O D S   S E C T I O N

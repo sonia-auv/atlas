@@ -26,8 +26,7 @@ class ImagePublisher : public ImageSequenceWriter {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ImagePublisher(std::shared_ptr<ros::NodeHandle> node_handle,
-                          const std::string &topic_name) ATLAS_NOEXCEPT;
+  explicit ImagePublisher(const std::string &topic_name) ATLAS_NOEXCEPT;
 
   ~ImagePublisher() ATLAS_NOEXCEPT;
 

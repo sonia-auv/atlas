@@ -46,11 +46,9 @@ class ServiceServerManager {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ServiceServerManager(std::shared_ptr<ros::NodeHandle> node_handle)
-      ATLAS_NOEXCEPT : node_handler_(node_handle),
-                       services_() {
-    assert(node_handle.get() != nullptr);
-  }
+  explicit ServiceServerManager()
+      ATLAS_NOEXCEPT : node_handler_(),
+                       services_() {}
 
   virtual ~ServiceServerManager() {
     for (auto &service : services_) {
@@ -81,7 +79,7 @@ class ServiceServerManager {
 
       if (it == services_.end()) {
         auto result_advertise =
-            node_handler_->advertiseService(name.c_str(), function, &manager);
+            node_handler_.advertiseService(name.c_str(), function, &manager);
         auto pair =
             std::pair<std::string, ros::ServiceServer>(name, result_advertise);
         services_.insert(pair);
@@ -133,7 +131,7 @@ class ServiceServerManager {
   /**
    * The Node Handler provided by ROS to manage nodes.
    */
-  std::shared_ptr<ros::NodeHandle> node_handler_;
+  ros::NodeHandle node_handler_;
 
   /**
    * List of ROS services offered by this class.

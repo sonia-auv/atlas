@@ -22,12 +22,10 @@ namespace atlas {
 //------------------------------------------------------------------------------
 //
 ATLAS_ALWAYS_INLINE ImagePublisher::ImagePublisher(
-    std::shared_ptr<ros::NodeHandle> node_handle,
     const std::string &topic_name) ATLAS_NOEXCEPT
     : topic_name_(topic_name),
-      img_transport_(*node_handle),
+      img_transport_(ros::NodeHandle()),
       publisher_() {
-  assert(node_handle.get() != nullptr);
   publisher_ = img_transport_.advertise(topic_name_, 1);
 }
 

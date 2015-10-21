@@ -26,7 +26,7 @@ class ServiceClientManager {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ServiceClientManager(const ros::NodeHandle &hdl) ATLAS_NOEXCEPT;
+  explicit ServiceClientManager() ATLAS_NOEXCEPT;
 
   virtual ~ServiceClientManager() {
     for (auto &service : services_) {

@@ -26,10 +26,9 @@ class ImageSubscriber : public ImageSequenceCapture {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ImageSubscriber(const ros::NodeHandle &node_handle,
-                           const std::string &topic_name)
+  explicit ImageSubscriber(const std::string &topic_name)
       : topic_name_(topic_name),
-        img_transport_(node_handle),
+        img_transport_(ros::NodeHandle()),
         subscriber_(img_transport_.subscribe(
             topic_name_, 1, &ImageSubscriber::ImageCallback, this)),
         image_(),
