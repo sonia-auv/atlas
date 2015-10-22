@@ -27,7 +27,7 @@ notifications:
   slack:
     rooms:
       - sonia-auv:VuDl4QAG49oxkr53yCiKMAxH
-    on_success: never
+    on_success: always
     on_failure: always
 
 # Allow caching of debian (apt-get) packages. This means they're cached
