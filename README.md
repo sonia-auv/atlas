@@ -1,4 +1,4 @@
-[![S.O.N.I.A. Logo](docs/assets/logo.jpg)](http://sonia.etsmtl.ca/en/)
+[![S.O.N.I.A. Logo](http://sonia.etsmtl.ca/wp-content/uploads/logo.jpg)](http://sonia.etsmtl.ca/en/)
 
 [![Build Status](https://travis-ci.org/sonia-auv/lib_atlas.svg?branch=develop)](https://travis-ci.org/sonia-auv/lib_atlas)
 
