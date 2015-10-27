@@ -22,8 +22,8 @@ struct HasDecAccuracy {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE double drand(bool force_re_seed = false,
-                                 bool prevent_re_seed = false) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE double drand(bool force_re_seed,
+                                 bool prevent_re_seed) ATLAS_NOEXCEPT {
   static bool seeded = prevent_re_seed;
   if (!seeded || force_re_seed) {
     srand(time(NULL));
@@ -37,7 +37,7 @@ ATLAS_ALWAYS_INLINE double drand(bool force_re_seed = false,
 //
 template <class Tp_>
 ATLAS_ALWAYS_INLINE Tp_ Rand(const Tp_ &low, const Tp_ &high_,
-                             const bool &nonzero = false) ATLAS_NOEXCEPT {
+                             const bool &nonzero) ATLAS_NOEXCEPT {
   const static bool dec_accuracy = HasDecAccuracy<Tp_>::val;
   const Tp_ high = dec_accuracy ? high_ : high_ + 1;
 
@@ -108,7 +108,7 @@ ATLAS_ALWAYS_INLINE Tp_ ProbabilityDistribution(const Tp_ &u, const Tp_ &s,
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE void ClampPropValue(Tp_ &value1, Tp_ &value2,
-                                        const Tp_ &mag_cap) {
+                                        const Tp_ &mag_cap) ATLAS_NOEXCEPT {
   const static bool dec_accuracy = HasDecAccuracy<Tp_>::val;
 
   static Tp_ largest;
