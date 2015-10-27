@@ -77,15 +77,16 @@ set_target_properties( ${TARGET_NAME}
 #==========================================================================
 # C R E A T I N G   U N I T   T E S T S
 
-catkin_add_gtest( utest_fsinfo test/fsinfo_test.cc )
-catkin_add_gtest( utest_observer test/observer_test.cc )
-catkin_add_gtest( utest_timer test/timer_test.cc )
-catkin_add_gtest( utest_image_publisher test/image_node_test.cc )
-target_link_libraries( utest_image_publisher ${catkin_LIBRARIES} )
-catkin_add_gtest( utest_runnable test/runnable_test.cc )
-catkin_add_gtest( utest_stats test/stats_test.cc )
-catkin_add_gtest( utest_histogram test/histogram_test.cc )
-
+catkin_add_gtest( fsinfo_test test/fsinfo_test.cc )
+catkin_add_gtest( observer_test test/observer_test.cc )
+catkin_add_gtest( timer_test test/timer_test.cc )
+catkin_add_gtest( image_node_test test/image_node_test.cc )
+target_link_libraries( image_node_test ${catkin_LIBRARIES} )
+catkin_add_gtest( runnable_test test/runnable_test.cc )
+catkin_add_gtest( stats_test test/stats_test.cc )
+catkin_add_gtest( numbers_test test/numbers_test.cc )
+catkin_add_gtest( trigo_test test/trigo_test.cc )
+catkin_add_gtest( histogram_test test/histogram_test.cc )
 
 #==========================================================================
 # I N S T A L L I N G   T A R G E T S
