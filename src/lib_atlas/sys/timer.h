@@ -160,12 +160,9 @@ class Timer {
 };
 
 using SecTimer = Timer<std::chrono::seconds, std::chrono::steady_clock>;
-using MilliTimer =
-    Timer<std::chrono::milliseconds, std::chrono::steady_clock>;
-using MicroTimer =
-    Timer<std::chrono::microseconds, std::chrono::steady_clock>;
-using NanoTimer =
-    Timer<std::chrono::nanoseconds, std::chrono::steady_clock>;
+using MilliTimer = Timer<std::chrono::milliseconds, std::chrono::steady_clock>;
+using MicroTimer = Timer<std::chrono::microseconds, std::chrono::steady_clock>;
+using NanoTimer = Timer<std::chrono::nanoseconds, std::chrono::steady_clock>;
 
 }  // namespace atlas
 

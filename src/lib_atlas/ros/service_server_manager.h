@@ -46,9 +46,8 @@ class ServiceServerManager {
   //============================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
-  explicit ServiceServerManager()
-      ATLAS_NOEXCEPT : node_handler_(),
-                       services_() {}
+  explicit ServiceServerManager() ATLAS_NOEXCEPT : node_handler_(),
+                                                   services_() {}
 
   virtual ~ServiceServerManager() {
     for (auto &service : services_) {

@@ -111,8 +111,8 @@ ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Now() ATLAS_NOEXCEPT {
 //
 template <class Up_, class Tp_>
 ATLAS_ALWAYS_INLINE std::string Timer<Up_, Tp_>::CurrentDate() ATLAS_NOEXCEPT {
-  time_t     now = time(0);
-  struct tm  tstruct;
+  time_t now = time(0);
+  struct tm tstruct;
   std::string buf;
   tstruct = *localtime(&now);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime

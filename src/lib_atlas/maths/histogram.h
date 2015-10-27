@@ -30,7 +30,8 @@ class Histogram {
 
   explicit Histogram(const std::vector<Tp_> &data, double inter) ATLAS_NOEXCEPT;
 
-  explicit Histogram(const std::vector<Tp_> &data, unsigned int function) ATLAS_NOEXCEPT;
+  explicit Histogram(const std::vector<Tp_> &data,
+                     unsigned int function) ATLAS_NOEXCEPT;
 
   ~Histogram() ATLAS_NOEXCEPT;
 
@@ -91,14 +92,15 @@ class Histogram {
 
   /**
    * To zoom on a certain region of the histogram.
-   * TODO Antoine Dozois: Find another way to return the histogram without shared_ptr
+   * TODO Antoine Dozois: Find another way to return the histogram without
+   * shared_ptr
    * \return a new histogram
    */
   std::shared_ptr<Histogram<Tp_>> ZoomOnValues(const Tp_ &begin,
                                                const Tp_ &end) ATLAS_NOEXCEPT;
 
-  std::shared_ptr<Histogram<Tp_>> ZoomOnIndexes(
-      const uint64_t &begin, const uint64_t &end);
+  std::shared_ptr<Histogram<Tp_>> ZoomOnIndexes(const uint64_t &begin,
+                                                const uint64_t &end);
 
   /**
    * To change the interval by passing a value.
@@ -154,7 +156,8 @@ class Histogram {
 
   /**
    * Flag that states if the histogram is using a custom interval function.
-   * TODO Antoine Dozois: Remove this flag and create a default interval function
+   * TODO Antoine Dozois: Remove this flag and create a default interval
+   * function
    * if none was passed to ctor.
    */
   bool inter_func_;
