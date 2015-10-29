@@ -58,87 +58,87 @@ class Serial::SerialImpl {
   //============================================================================
   // P U B L I C   M E T H O D S
 
-  void open();
+  void Open();
 
-  void close();
+  void Close();
 
-  bool isOpen() const;
+  bool IsOpen() const;
 
-  size_t available();
+  size_t Available();
 
-  bool waitReadable(uint32_t timeout);
+  bool WaitReadable(uint32_t timeout);
 
-  void waitByteTimes(size_t count);
+  void WaitByteTimes(size_t count);
 
-  size_t read(uint8_t *buf, size_t size = 1);
+  size_t Read(uint8_t *buf, size_t size = 1);
 
-  size_t write(const uint8_t *data, size_t length);
+  size_t Write(const uint8_t *data, size_t length);
 
-  void flush();
+  void Flush();
 
-  void flushInput();
+  void FlushInput();
 
-  void flushOutput();
+  void FlushOutput();
 
-  void sendBreak(int duration);
+  void SendBreak(int duration);
 
-  void setBreak(bool level);
+  void SetBreak(bool level);
 
-  void setRTS(bool level);
+  void SetRTS(bool level);
 
-  void setDTR(bool level);
+  void SetDTR(bool level);
 
-  bool waitForChange();
+  bool WaitForChange();
 
-  bool getCTS();
+  bool GetCTS();
 
-  bool getDSR();
+  bool GetDSR();
 
-  bool getRI();
+  bool GetRI();
 
-  bool getCD();
+  bool GetCD();
 
-  void setPort(const std::string &port);
+  void SetPort(const std::string &port);
 
-  std::string getPort() const;
+  std::string GetPort() const;
 
-  void setTimeout(Timeout &timeout);
+  void SetTimeout(Timeout &timeout);
 
-  Timeout getTimeout() const;
+  Timeout GetTimeout() const;
 
-  void setBaudrate(unsigned long baudrate);
+  void SetBaudrate(unsigned long baudrate);
 
-  unsigned long getBaudrate() const;
+  unsigned long GetBaudrate() const;
 
-  void setBytesize(bytesize_t bytesize);
+  void SetBytesize(bytesize_t bytesize);
 
-  bytesize_t getBytesize() const;
+  bytesize_t GetBytesize() const;
 
-  void setParity(parity_t parity);
+  void SetParity(parity_t parity);
 
-  parity_t getParity() const;
+  parity_t GetParity() const;
 
-  void setStopbits(stopbits_t stopbits);
+  void SetStopbits(stopbits_t stopbits);
 
-  stopbits_t getStopbits() const;
+  stopbits_t GetStopbits() const;
 
-  void setFlowcontrol(flowcontrol_t flowcontrol);
+  void SetFlowcontrol(flowcontrol_t flowcontrol);
 
-  flowcontrol_t getFlowcontrol() const;
+  flowcontrol_t GetFlowcontrol() const;
 
-  void readLock();
+  void ReadLock();
 
-  void readUnlock();
+  void ReadUnlock();
 
-  void writeLock();
+  void WriteLock();
 
-  void writeUnlock();
+  void WriteUnlock();
 
  protected:
   //============================================================================
   // P R O T E C T E D   M E T H O D S
 
-  void reconfigurePort();
+  void ReconfigurePort();
 
  private:
   //============================================================================
