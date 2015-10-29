@@ -1,36 +1,9 @@
-/* To run these tests you need to change the define below to the serial port 
- * with a loop back device attached.
- * 
- * Alternatively you could use an Arduino:
- 
-void setup()
-{
- Serial.begin(115200);
-}
-
-void loop()
-{
- while (Serial.available() > 0) {
-   Serial.write(Serial.read());
- }
-}
- 
-*/
-
 #include <string>
 #include "gtest/gtest.h"
-
 #include <boost/bind.hpp>
-
-// Use FRIEND_TEST... its not as nasty, thats what friends are for
-// // OMG this is so nasty...
-// #define private public
-// #define protected public
-
 #include <lib_atlas/io/serial.h>
-#include <lib_atlas/io/details/serial_impl.h>
 
-#if defined(__linux__)
+#if defined(OS_LINUX)
 #include <pty.h>
 #else
 #include <util.h>
