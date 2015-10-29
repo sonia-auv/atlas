@@ -24,6 +24,11 @@ set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++1 -O3" )
 #===============================================================================
 # C A T K I N   C O N F I G U R A T I O N
 
+if(APPLE)
+  find_library(IOKIT_LIBRARY IOKit)
+  find_library(FOUNDATION_LIBRARY Foundation)
+endif()
+
 find_package( catkin REQUIRED COMPONENTS
    std_msgs
    roscpp
@@ -33,12 +38,21 @@ find_package( catkin REQUIRED COMPONENTS
    cv_bridge
 )
 
-# Declare this project as a catkin package and export the necessary build flags
-catkin_package(
-   INCLUDE_DIRS src
-   LIBRARIES sonia_atlas
-   CATKIN_DEPENDS roscpp std_msgs image_transport cv_bridge
-)
+if(UNIX AND NOT APPLE)
+  # If Linux, add rt and pthread
+  catkin_package(
+          INCLUDE_DIRS src
+          LIBRARIES sonia_atlas
+          CATKIN_DEPENDS roscpp std_msgs image_transport cv_bridge
+          DEPENDS rt pthread
+  )
+else()
+  catkin_package(
+          INCLUDE_DIRS src
+          LIBRARIES sonia_atlas
+          CATKIN_DEPENDS roscpp std_msgs image_transport cv_bridge
+  )
+endif()
 
 #===============================================================================
 # I N C L U D E   F I L E S
@@ -75,20 +89,6 @@ set_target_properties( ${TARGET_NAME}
 )
 
 #==========================================================================
-# C R E A T I N G   U N I T   T E S T S
-
-catkin_add_gtest( fsinfo_test test/fsinfo_test.cc )
-catkin_add_gtest( observer_test test/observer_test.cc )
-catkin_add_gtest( timer_test test/timer_test.cc )
-catkin_add_gtest( image_node_test test/image_node_test.cc )
-target_link_libraries( image_node_test ${catkin_LIBRARIES} )
-catkin_add_gtest( runnable_test test/runnable_test.cc )
-catkin_add_gtest( stats_test test/stats_test.cc )
-catkin_add_gtest( numbers_test test/numbers_test.cc )
-catkin_add_gtest( trigo_test test/trigo_test.cc )
-catkin_add_gtest( histogram_test test/histogram_test.cc )
-
-#==========================================================================
 # I N S T A L L I N G   T A R G E T S
 
 install( TARGETS ${TARGET_NAME}
@@ -102,3 +102,8 @@ install(
    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
    PATTERN ".git" EXCLUDE
 )
+
+## Tests
+if(CATKIN_ENABLE_TESTING)
+  add_subdirectory(test)
+endif()
