@@ -161,6 +161,8 @@ class serial::Serial::SerialImpl {
 
 }  // namespace atlas
 
+#include <lib_atlas/io/impl/unix_inl.h>
+
 #endif  // SERIAL_IMPL_UNIX_H
 
 #endif  // !defined(_WIN32)

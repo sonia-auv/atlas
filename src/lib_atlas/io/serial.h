@@ -604,8 +604,8 @@ class Serial {
 
  private:
   // Disable copy constructors
-  Serial(const Serial &);
-  Serial &operator=(const Serial &);
+  Serial(const Serial &) = delete;
+  Serial &operator=(const Serial &) = delete;
 
   // Pimpl idiom, d_pointer
   class SerialImpl;
@@ -623,7 +623,7 @@ class Serial {
 
 class SerialException : public std::exception {
   // Disable copy constructors
-  SerialException &operator=(const SerialException &);
+  SerialException &operator=(const SerialException &) = delete;
   std::string e_what_;
 
  public:
@@ -639,7 +639,7 @@ class SerialException : public std::exception {
 
 class IOException : public std::exception {
   // Disable copy constructors
-  IOException &operator=(const IOException &);
+  IOException &operator=(const IOException &) = delete;
   std::string file_;
   int line_;
   std::string e_what_;
@@ -677,7 +677,7 @@ class IOException : public std::exception {
 
 class PortNotOpenedException : public std::exception {
   // Disable copy constructors
-  const PortNotOpenedException &operator=(PortNotOpenedException);
+  const PortNotOpenedException &operator=(PortNotOpenedException) = delete;
   std::string e_what_;
 
  public:
@@ -720,5 +720,7 @@ std::vector<PortInfo> list_ports();
 }  // namespace serial
 
 }  // namespace atlas
+
+#include <lib_atlas/io/serial_inl.h>
 
 #endif

@@ -1,4 +1,9 @@
 /* Copyright 2012 William Woodall and John Harrison */
+
+#ifndef SERIAL_H
+#error This file may only be included from serial.h
+#endif
+
 #include <algorithm>
 
 #if !defined(_WIN32) && !defined(__OpenBSD__)
@@ -43,8 +48,8 @@ class Serial::ScopedReadLock {
 
  private:
   // Disable copy constructors
-  ScopedReadLock(const ScopedReadLock &);
-  const ScopedReadLock &operator=(ScopedReadLock);
+  ScopedReadLock(const ScopedReadLock &) = delete;
+  const ScopedReadLock &operator=(ScopedReadLock) = delete;
 
   SerialImpl *pimpl_;
 };
@@ -58,8 +63,8 @@ class Serial::ScopedWriteLock {
 
  private:
   // Disable copy constructors
-  ScopedWriteLock(const ScopedWriteLock &);
-  const ScopedWriteLock &operator=(ScopedWriteLock);
+  ScopedWriteLock(const ScopedWriteLock &) = delete;
+  const ScopedWriteLock &operator=(ScopedWriteLock) = delete;
   SerialImpl *pimpl_;
 };
 

@@ -3,6 +3,10 @@
  * Additional Contributors: Christopher Baker @bakercp
  */
 
+#ifndef SERIAL_IMPL_UNIX_H
+#error This file may only be included from unix.h
+#endif
+
 #if !defined(_WIN32)
 
 #include <stdio.h>
@@ -32,7 +36,6 @@
 #include <mach/mach.h>
 #endif
 
-#include <lib_atlas/io/impl/unix.h>
 #include <lib_atlas/sys/timer.h>
 
 #ifndef TIOCINQ
@@ -514,7 +517,7 @@ bool Serial::SerialImpl::waitReadable(uint32_t timeout) {
   fd_set readfds;
   FD_ZERO(&readfds);
   FD_SET(fd_, &readfds);
-  timespec timeout_ts(Timer::TimeSpecFromMs(timeout));
+  timespec timeout_ts(MilliTimer::TimeSpecFromMs(timeout));
   int r = pselect(fd_ + 1, &readfds, NULL, NULL, &timeout_ts, NULL);
 
   if (r < 0) {
@@ -640,7 +643,7 @@ size_t Serial::SerialImpl::write(const uint8_t *data, size_t length) {
       // Timed out
       break;
     }
-    timespec timeout(Timer::TimeSpecFromMs(timeout_remaining_ms));
+    timespec timeout(MilliTimer::TimeSpecFromMs(timeout_remaining_ms));
 
     FD_ZERO(&writefds);
     FD_SET(fd_, &writefds);
