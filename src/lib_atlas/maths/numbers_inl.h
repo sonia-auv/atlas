@@ -13,6 +13,8 @@
 
 #include <cstdlib>
 #include <random>
+#include <stdexcept>
+#include <lib_atlas/maths/stats.h>
 
 namespace atlas {
 
@@ -35,8 +37,29 @@ ATLAS_ALWAYS_INLINE Tp_ ProbabilityDistribution(const Tp_ &u, const Tp_ &s,
 
 //------------------------------------------------------------------------------
 //
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Tp_ &xmin,
+                              const Tp_ &xmax) ATLAS_NOEXCEPT {
+  return std::min(std::max(x, xmin), xmax);
+}
+
+//------------------------------------------------------------------------------
+//
+template <typename Tp_, typename Up_>
+ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Up_ &v) {
+  static_assert(details::IsIterable<Up_>::value,
+                "The data set must be iterable");
+  return Clamp(x, Min(v), Max(v));
+}
+
+//------------------------------------------------------------------------------
+//
 ATLAS_ALWAYS_INLINE double Gaussian(const double &x,
                                     const double &v) ATLAS_NOEXCEPT {
+  if (v == 0) {
+    throw std::invalid_argument("The variance cannot be null");
+  }
+
   return (1 / sqrt(2 * M_PI * v)) *
          exp(-pow(x, 2) / (2 * v));
 }
@@ -46,6 +69,10 @@ ATLAS_ALWAYS_INLINE double Gaussian(const double &x,
 //
 ATLAS_ALWAYS_INLINE double NormalizedGaussian(
     const double &x, const double &v) ATLAS_NOEXCEPT {
+  if (v == 0) {
+    throw std::invalid_argument("The variance cannot be null");
+  }
+
   return exp(-pow(x, 2) / (2 * v));
 }
 

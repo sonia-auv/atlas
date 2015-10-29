@@ -166,23 +166,6 @@ ATLAS_ALWAYS_INLINE typename Tp_::value_type Max(const Tp_ &v) ATLAS_NOEXCEPT {
 
 //------------------------------------------------------------------------------
 //
-template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Tp_ &xmin,
-                              const Tp_ &xmax) ATLAS_NOEXCEPT {
-  return x < xmin ? xmin : (x > xmax ? xmax : x);
-}
-
-//------------------------------------------------------------------------------
-//
-template <typename Tp_, typename Up_>
-ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Up_ &v) {
-  static_assert(details::IsIterable<Up_>::value,
-                "The data set must be iterable");
-  return Clamp(x, Min(v), Max(v));
-}
-
-//------------------------------------------------------------------------------
-//
 template <typename Tp_, typename Up_>
 ATLAS_ALWAYS_INLINE double Covariance(const Tp_ &v1, const Up_ &v2) {
   static_assert(details::IsIterable<Tp_>::value,

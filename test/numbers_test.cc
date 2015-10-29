@@ -10,6 +10,29 @@
 #include <gtest/gtest.h>
 #include <lib_atlas/maths/numbers.h>
 
+static std::vector<int> v1 = {{
+                                  828,
+                                  522,
+                                  832,
+                                  71,
+                                  609,
+                                  787,
+                                  179,
+                                  756,
+                                  259,
+                                  977,
+                                  816,
+                                  179,
+                                  330,
+                                  581,
+                                  124,
+                                  911,
+                                  78,
+                                  71,
+                                  869,
+                                  223
+                              }};
+
 TEST(StatsTest, clamp) {
   ASSERT_EQ(atlas::Clamp(1, 0, 5), 1);
   ASSERT_EQ(atlas::Clamp(-1, 0, 3), 0);

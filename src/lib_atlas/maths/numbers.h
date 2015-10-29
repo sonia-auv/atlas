@@ -49,6 +49,17 @@ template <typename Tp_>
 Tp_ Clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT;
 
 /**
+ * Clamp x into the data set v.
+ *
+ * This will actuall call the clamp method with the minimum and the maximum
+ * element found on the data set.
+ *
+ * \return The element x, clamped into the data set v.
+ */
+template <typename Tp_, typename Up_>
+Tp_ Clamp(const Tp_ &x, const Up_ &v);
+
+/**
  * \param v The variance
  */
 double Gaussian(const double &x, const double &v) ATLAS_NOEXCEPT;
@@ -66,7 +77,6 @@ double NormalizedGaussian(const double &x,
  * certain precision.
  *
  * \param v The number to round.
- *
  */
 template <typename Tp_>
 Tp_ SetPrecision(const Tp_ &v, uint32_t d) ATLAS_NOEXCEPT;
