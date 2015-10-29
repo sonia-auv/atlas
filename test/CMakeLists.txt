@@ -10,7 +10,7 @@ catkin_add_gtest( trigo_test trigo_test.cc )
 catkin_add_gtest( histogram_test histogram_test.cc )
 
 if(UNIX)
-    catkin_add_gtest(serial_test unix_serial_tests.cc)
+    catkin_add_gtest(serial_test serial_test.cc)
     target_link_libraries(serial_test ${Boost_LIBRARIES})
     if(NOT APPLE)
         target_link_libraries(serial_test util)
