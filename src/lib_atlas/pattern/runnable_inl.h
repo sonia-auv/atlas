@@ -35,7 +35,8 @@ ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT {
 //
 ATLAS_ALWAYS_INLINE void Runnable::Start() {
   if (thread_ == nullptr) {
-    thread_ = std::unique_ptr<std::thread>(new std::thread(&Runnable::Run, this));
+    thread_ =
+        std::unique_ptr<std::thread>(new std::thread(&Runnable::Run, this));
   } else {
     throw std::logic_error("The thread must be stoped before it is started.");
   }
