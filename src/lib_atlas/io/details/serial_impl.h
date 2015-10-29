@@ -44,9 +44,7 @@
 
 namespace atlas {
 
-namespace serial {
-
-class serial::Serial::SerialImpl {
+class Serial::SerialImpl {
  public:
   SerialImpl(const std::string &port, unsigned long baudrate, bytesize_t bytesize,
              parity_t parity, stopbits_t stopbits, flowcontrol_t flowcontrol);
@@ -155,10 +153,8 @@ class serial::Serial::SerialImpl {
   pthread_mutex_t write_mutex;
 };
 
-}
-
 }  // namespace atlas
 
-#include <lib_atlas/io/impl/unix_inl.h>
+#include <lib_atlas/io/details/serial_impl_inl.h>
 
 #endif  // SERIAL_IMPL_UNIX_H

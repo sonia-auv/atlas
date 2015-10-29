@@ -51,15 +51,7 @@
 
 namespace atlas {
 
-using std::string;
-using std::stringstream;
-using std::invalid_argument;
-using serial::Serial;
-using serial::SerialException;
-using serial::PortNotOpenedException;
-using serial::IOException;
-
-Serial::SerialImpl::SerialImpl(const string &port, unsigned long baudrate,
+Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
                                bytesize_t bytesize, parity_t parity,
                                stopbits_t stopbits, flowcontrol_t flowcontrol)
     : port_(port),
@@ -85,7 +77,7 @@ Serial::SerialImpl::~SerialImpl() {
 
 void Serial::SerialImpl::open() {
   if (port_.empty()) {
-    throw invalid_argument("Empty port is invalid.");
+    throw std::invalid_argument("Empty port is invalid.");
   }
   if (is_open_ == true) {
     throw SerialException("Serial port already open.");
@@ -383,7 +375,7 @@ void Serial::SerialImpl::reconfigurePort() {
   else if (bytesize_ == fivebits)
     options.c_cflag |= CS5;
   else
-    throw invalid_argument("invalid char len");
+    throw std::invalid_argument("invalid char len");
   // setup stopbits
   if (stopbits_ == stopbits_one)
     options.c_cflag &= (tcflag_t) ~(CSTOPB);
@@ -393,7 +385,7 @@ void Serial::SerialImpl::reconfigurePort() {
   else if (stopbits_ == stopbits_two)
     options.c_cflag |= (CSTOPB);
   else
-    throw invalid_argument("invalid stop bit");
+    throw std::invalid_argument("invalid stop bit");
   // setup parity
   options.c_iflag &= (tcflag_t) ~(INPCK | ISTRIP);
   if (parity_ == parity_none) {
@@ -418,7 +410,7 @@ void Serial::SerialImpl::reconfigurePort() {
   }
 #endif  // ifdef CMSPAR
   else {
-    throw invalid_argument("invalid parity");
+    throw std::invalid_argument("invalid parity");
   }
   // setup flow control
   if (flowcontrol_ == flowcontrol_none) {
@@ -708,15 +700,15 @@ size_t Serial::SerialImpl::write(const uint8_t *data, size_t length) {
   return bytes_written;
 }
 
-void Serial::SerialImpl::setPort(const string &port) { port_ = port; }
+void Serial::SerialImpl::setPort(const std::string &port) { port_ = port; }
 
-string Serial::SerialImpl::getPort() const { return port_; }
+std::string Serial::SerialImpl::getPort() const { return port_; }
 
-void Serial::SerialImpl::setTimeout(serial::Timeout &timeout) {
+void Serial::SerialImpl::setTimeout(Timeout &timeout) {
   timeout_ = timeout;
 }
 
-serial::Timeout Serial::SerialImpl::getTimeout() const { return timeout_; }
+Timeout Serial::SerialImpl::getTimeout() const { return timeout_; }
 
 void Serial::SerialImpl::setBaudrate(unsigned long baudrate) {
   baudrate_ = baudrate;
@@ -725,33 +717,33 @@ void Serial::SerialImpl::setBaudrate(unsigned long baudrate) {
 
 unsigned long Serial::SerialImpl::getBaudrate() const { return baudrate_; }
 
-void Serial::SerialImpl::setBytesize(serial::bytesize_t bytesize) {
+void Serial::SerialImpl::setBytesize(bytesize_t bytesize) {
   bytesize_ = bytesize;
   if (is_open_) reconfigurePort();
 }
 
-serial::bytesize_t Serial::SerialImpl::getBytesize() const { return bytesize_; }
+bytesize_t Serial::SerialImpl::getBytesize() const { return bytesize_; }
 
-void Serial::SerialImpl::setParity(serial::parity_t parity) {
+void Serial::SerialImpl::setParity(parity_t parity) {
   parity_ = parity;
   if (is_open_) reconfigurePort();
 }
 
-serial::parity_t Serial::SerialImpl::getParity() const { return parity_; }
+parity_t Serial::SerialImpl::getParity() const { return parity_; }
 
-void Serial::SerialImpl::setStopbits(serial::stopbits_t stopbits) {
+void Serial::SerialImpl::setStopbits(stopbits_t stopbits) {
   stopbits_ = stopbits;
   if (is_open_) reconfigurePort();
 }
 
-serial::stopbits_t Serial::SerialImpl::getStopbits() const { return stopbits_; }
+stopbits_t Serial::SerialImpl::getStopbits() const { return stopbits_; }
 
-void Serial::SerialImpl::setFlowcontrol(serial::flowcontrol_t flowcontrol) {
+void Serial::SerialImpl::setFlowcontrol(flowcontrol_t flowcontrol) {
   flowcontrol_ = flowcontrol;
   if (is_open_) reconfigurePort();
 }
 
-serial::flowcontrol_t Serial::SerialImpl::getFlowcontrol() const {
+flowcontrol_t Serial::SerialImpl::getFlowcontrol() const {
   return flowcontrol_;
 }
 
@@ -790,14 +782,14 @@ void Serial::SerialImpl::setBreak(bool level) {
 
   if (level) {
     if (-1 == ioctl(fd_, TIOCSBRK)) {
-      stringstream ss;
+      std::stringstream ss;
       ss << "setBreak failed on a call to ioctl(TIOCSBRK): " << errno << " "
          << strerror(errno);
       throw(SerialException(ss.str().c_str()));
     }
   } else {
     if (-1 == ioctl(fd_, TIOCCBRK)) {
-      stringstream ss;
+      std::stringstream ss;
       ss << "setBreak failed on a call to ioctl(TIOCCBRK): " << errno << " "
          << strerror(errno);
       throw(SerialException(ss.str().c_str()));
@@ -814,14 +806,14 @@ void Serial::SerialImpl::setRTS(bool level) {
 
   if (level) {
     if (-1 == ioctl(fd_, TIOCMBIS, &command)) {
-      stringstream ss;
+      std::stringstream ss;
       ss << "setRTS failed on a call to ioctl(TIOCMBIS): " << errno << " "
          << strerror(errno);
       throw(SerialException(ss.str().c_str()));
     }
   } else {
     if (-1 == ioctl(fd_, TIOCMBIC, &command)) {
-      stringstream ss;
+      std::stringstream ss;
       ss << "setRTS failed on a call to ioctl(TIOCMBIC): " << errno << " "
          << strerror(errno);
       throw(SerialException(ss.str().c_str()));
@@ -838,14 +830,14 @@ void Serial::SerialImpl::setDTR(bool level) {
 
   if (level) {
     if (-1 == ioctl(fd_, TIOCMBIS, &command)) {
-      stringstream ss;
+      std::stringstream ss;
       ss << "setDTR failed on a call to ioctl(TIOCMBIS): " << errno << " "
          << strerror(errno);
       throw(SerialException(ss.str().c_str()));
     }
   } else {
     if (-1 == ioctl(fd_, TIOCMBIC, &command)) {
-      stringstream ss;
+      std::stringstream ss;
       ss << "setDTR failed on a call to ioctl(TIOCMBIC): " << errno << " "
          << strerror(errno);
       throw(SerialException(ss.str().c_str()));
@@ -879,7 +871,7 @@ bool Serial::SerialImpl::waitForChange() {
   int command = (TIOCM_CD | TIOCM_DSR | TIOCM_RI | TIOCM_CTS);
 
   if (-1 == ioctl(fd_, TIOCMIWAIT, &command)) {
-    stringstream ss;
+    std::stringstream ss;
     ss << "waitForDSR failed on a call to ioctl(TIOCMIWAIT): " << errno << " "
        << strerror(errno);
     throw(SerialException(ss.str().c_str()));
@@ -896,7 +888,7 @@ bool Serial::SerialImpl::getCTS() {
   int status;
 
   if (-1 == ioctl(fd_, TIOCMGET, &status)) {
-    stringstream ss;
+    std::stringstream ss;
     ss << "getCTS failed on a call to ioctl(TIOCMGET): " << errno << " "
        << strerror(errno);
     throw(SerialException(ss.str().c_str()));
@@ -913,7 +905,7 @@ bool Serial::SerialImpl::getDSR() {
   int status;
 
   if (-1 == ioctl(fd_, TIOCMGET, &status)) {
-    stringstream ss;
+    std::stringstream ss;
     ss << "getDSR failed on a call to ioctl(TIOCMGET): " << errno << " "
        << strerror(errno);
     throw(SerialException(ss.str().c_str()));
@@ -930,7 +922,7 @@ bool Serial::SerialImpl::getRI() {
   int status;
 
   if (-1 == ioctl(fd_, TIOCMGET, &status)) {
-    stringstream ss;
+    std::stringstream ss;
     ss << "getRI failed on a call to ioctl(TIOCMGET): " << errno << " "
        << strerror(errno);
     throw(SerialException(ss.str().c_str()));
@@ -947,7 +939,7 @@ bool Serial::SerialImpl::getCD() {
   int status;
 
   if (-1 == ioctl(fd_, TIOCMGET, &status)) {
-    stringstream ss;
+    std::stringstream ss;
     ss << "getCD failed on a call to ioctl(TIOCMGET): " << errno << " "
        << strerror(errno);
     throw(SerialException(ss.str().c_str()));
