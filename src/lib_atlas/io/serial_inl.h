@@ -73,30 +73,30 @@ Serial::~Serial() { delete pimpl_; }
 
 //------------------------------------------------------------------------------
 //
-void Serial::open() { pimpl_->Open(); }
+void Serial::Open() { pimpl_->Open(); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::close() { pimpl_->Close(); }
+void Serial::Close() { pimpl_->Close(); }
 
 //------------------------------------------------------------------------------
 //
-bool Serial::isOpen() const { return pimpl_->IsOpen(); }
+bool Serial::IsOpen() const { return pimpl_->IsOpen(); }
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::available() { return pimpl_->Available(); }
+size_t Serial::Available() { return pimpl_->Available(); }
 
 //------------------------------------------------------------------------------
 //
-bool Serial::waitReadable() {
+bool Serial::WaitReadable() {
   Timeout timeout(pimpl_->GetTimeout());
   return pimpl_->WaitReadable(timeout.read_timeout_constant);
 }
 
 //------------------------------------------------------------------------------
 //
-void Serial::waitByteTimes(size_t count) { pimpl_->WaitByteTimes(count); }
+void Serial::WaitByteTimes(size_t count) { pimpl_->WaitByteTimes(count); }
 
 //------------------------------------------------------------------------------
 //
@@ -106,14 +106,14 @@ size_t Serial::read_(uint8_t *buffer, size_t size) {
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::read(uint8_t *buffer, size_t size) {
+size_t Serial::Read(uint8_t *buffer, size_t size) {
   ScopedReadLock lock(this->pimpl_);
   return this->pimpl_->Read(buffer, size);
 }
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::read(std::vector<uint8_t> &buffer, size_t size) {
+size_t Serial::Read(std::vector<uint8_t> &buffer, size_t size) {
   ScopedReadLock lock(this->pimpl_);
   uint8_t *buffer_ = new uint8_t[size];
   size_t bytes_read = this->pimpl_->Read(buffer_, size);
@@ -124,7 +124,7 @@ size_t Serial::read(std::vector<uint8_t> &buffer, size_t size) {
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::read(std::string &buffer, size_t size) {
+size_t Serial::Read(std::string &buffer, size_t size) {
   ScopedReadLock lock(this->pimpl_);
   uint8_t *buffer_ = new uint8_t[size];
   size_t bytes_read = this->pimpl_->Read(buffer_, size);
@@ -135,15 +135,15 @@ size_t Serial::read(std::string &buffer, size_t size) {
 
 //------------------------------------------------------------------------------
 //
-std::string Serial::read(size_t size) {
+std::string Serial::Read(size_t size) {
   std::string buffer;
-  this->read(buffer, size);
+  this->Read(buffer, size);
   return buffer;
 }
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::readline(std::string &buffer, size_t size, std::string eol) {
+size_t Serial::ReadLine(std::string &buffer, size_t size, std::string eol) {
   ScopedReadLock lock(this->pimpl_);
   size_t eol_len = eol.length();
   uint8_t *buffer_ = static_cast<uint8_t *>(alloca(size * sizeof(uint8_t)));
@@ -169,15 +169,15 @@ size_t Serial::readline(std::string &buffer, size_t size, std::string eol) {
 
 //------------------------------------------------------------------------------
 //
-std::string Serial::readline(size_t size, std::string eol) {
+std::string Serial::ReadLine(size_t size, std::string eol) {
   std::string buffer;
-  this->readline(buffer, size, eol);
+  this->ReadLine(buffer, size, eol);
   return buffer;
 }
 
 //------------------------------------------------------------------------------
 //
-std::vector<std::string> Serial::readlines(size_t size, std::string eol) {
+std::vector<std::string> Serial::ReadLines(size_t size, std::string eol) {
   ScopedReadLock lock(this->pimpl_);
   std::vector<std::string> lines;
   size_t eol_len = eol.length();
@@ -218,7 +218,7 @@ std::vector<std::string> Serial::readlines(size_t size, std::string eol) {
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::write(const std::string &data) {
+size_t Serial::Write(const std::string &data) {
   ScopedWriteLock lock(this->pimpl_);
   return this->write_(reinterpret_cast<const uint8_t *>(data.c_str()),
                       data.length());
@@ -226,14 +226,14 @@ size_t Serial::write(const std::string &data) {
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::write(const std::vector<uint8_t> &data) {
+size_t Serial::Write(const std::vector<uint8_t> &data) {
   ScopedWriteLock lock(this->pimpl_);
   return this->write_(&data[0], data.size());
 }
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::write(const uint8_t *data, size_t size) {
+size_t Serial::Write(const uint8_t *data, size_t size) {
   ScopedWriteLock lock(this->pimpl_);
   return this->write_(data, size);
 }
@@ -246,74 +246,74 @@ size_t Serial::write_(const uint8_t *data, size_t length) {
 
 //------------------------------------------------------------------------------
 //
-void Serial::setPort(const std::string &port) {
+void Serial::SetPort(const std::string &port) {
   ScopedReadLock rlock(this->pimpl_);
   ScopedWriteLock wlock(this->pimpl_);
   bool was_open = pimpl_->IsOpen();
-  if (was_open) close();
+  if (was_open) Close();
   pimpl_->SetPort(port);
-  if (was_open) open();
+  if (was_open) Open();
 }
 
 //------------------------------------------------------------------------------
 //
-std::string Serial::getPort() const { return pimpl_->GetPort(); }
+std::string Serial::GetPort() const { return pimpl_->GetPort(); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setTimeout(Timeout &timeout) { pimpl_->SetTimeout(timeout); }
+void Serial::SetTimeout(Timeout &timeout) { pimpl_->SetTimeout(timeout); }
 
 //------------------------------------------------------------------------------
 //
-Timeout Serial::getTimeout() const { return pimpl_->GetTimeout(); }
+Timeout Serial::GetTimeout() const { return pimpl_->GetTimeout(); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setBaudrate(uint32_t baudrate) { pimpl_->SetBaudrate(baudrate); }
+void Serial::SetBaudrate(uint32_t baudrate) { pimpl_->SetBaudrate(baudrate); }
 
 //------------------------------------------------------------------------------
 //
-uint32_t Serial::getBaudrate() const { return uint32_t(pimpl_->GetBaudrate()); }
+uint32_t Serial::GetBaudrate() const { return uint32_t(pimpl_->GetBaudrate()); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setBytesize(bytesize_t bytesize) { pimpl_->SetBytesize(bytesize); }
+void Serial::SetBytesize(bytesize_t bytesize) { pimpl_->SetBytesize(bytesize); }
 
 //------------------------------------------------------------------------------
 //
-bytesize_t Serial::getBytesize() const { return pimpl_->GetBytesize(); }
+bytesize_t Serial::GetBytesize() const { return pimpl_->GetBytesize(); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setParity(parity_t parity) { pimpl_->SetParity(parity); }
+void Serial::SetParity(parity_t parity) { pimpl_->SetParity(parity); }
 
 //------------------------------------------------------------------------------
 //
-parity_t Serial::getParity() const { return pimpl_->GetParity(); }
+parity_t Serial::GetParity() const { return pimpl_->GetParity(); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setStopbits(stopbits_t stopbits) { pimpl_->SetStopbits(stopbits); }
+void Serial::SetStopbits(stopbits_t stopbits) { pimpl_->SetStopbits(stopbits); }
 
 //------------------------------------------------------------------------------
 //
-stopbits_t Serial::getStopbits() const { return pimpl_->GetStopbits(); }
+stopbits_t Serial::GetStopbits() const { return pimpl_->GetStopbits(); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setFlowcontrol(flowcontrol_t flowcontrol) {
+void Serial::SetFlowcontrol(flowcontrol_t flowcontrol) {
   pimpl_->SetFlowcontrol(flowcontrol);
 }
 
 //------------------------------------------------------------------------------
 //
-flowcontrol_t Serial::getFlowcontrol() const {
+flowcontrol_t Serial::GetFlowcontrol() const {
   return pimpl_->GetFlowcontrol();
 }
 
 //------------------------------------------------------------------------------
 //
-void Serial::flush() {
+void Serial::Flush() {
   ScopedReadLock rlock(this->pimpl_);
   ScopedWriteLock wlock(this->pimpl_);
   pimpl_->Flush();
@@ -321,52 +321,52 @@ void Serial::flush() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::flushInput() {
+void Serial::FlushInput() {
   ScopedReadLock lock(this->pimpl_);
   pimpl_->FlushInput();
 }
 
 //------------------------------------------------------------------------------
 //
-void Serial::flushOutput() {
+void Serial::FlushOutput() {
   ScopedWriteLock lock(this->pimpl_);
   pimpl_->FlushOutput();
 }
 
 //------------------------------------------------------------------------------
 //
-void Serial::sendBreak(int duration) { pimpl_->SendBreak(duration); }
+void Serial::SendBreak(int duration) { pimpl_->SendBreak(duration); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setBreak(bool level) { pimpl_->SetBreak(level); }
+void Serial::SetBreak(bool level) { pimpl_->SetBreak(level); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setRTS(bool level) { pimpl_->SetRTS(level); }
+void Serial::SetRTS(bool level) { pimpl_->SetRTS(level); }
 
 //------------------------------------------------------------------------------
 //
-void Serial::setDTR(bool level) { pimpl_->SetDTR(level); }
+void Serial::SetDTR(bool level) { pimpl_->SetDTR(level); }
 
 //------------------------------------------------------------------------------
 //
-bool Serial::waitForChange() { return pimpl_->WaitForChange(); }
+bool Serial::WaitForChange() { return pimpl_->WaitForChange(); }
 
 //------------------------------------------------------------------------------
 //
-bool Serial::getCTS() { return pimpl_->GetCTS(); }
+bool Serial::GetCTS() { return pimpl_->GetCTS(); }
 
 //------------------------------------------------------------------------------
 //
-bool Serial::getDSR() { return pimpl_->GetDSR(); }
+bool Serial::GetDSR() { return pimpl_->GetDSR(); }
 
 //------------------------------------------------------------------------------
 //
-bool Serial::getRI() { return pimpl_->GetRI(); }
+bool Serial::GetRI() { return pimpl_->GetRI(); }
 
 //------------------------------------------------------------------------------
 //
-bool Serial::getCD() { return pimpl_->GetCD(); }
+bool Serial::GetCD() { return pimpl_->GetCD(); }
 
 }  // namespace atlas

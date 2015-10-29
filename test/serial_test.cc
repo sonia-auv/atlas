@@ -29,7 +29,7 @@ protected:
   }
 
   virtual void TearDown() {
-    port1->close();
+    port1->Close();
     delete port1;
   }
 
@@ -41,25 +41,25 @@ protected:
 
 TEST_F(SerialTests, readWorks) {
   write(master_fd, "abc\n", 4);
-  std::string r = port1->read(4);
+  std::string r = port1->Read(4);
   EXPECT_EQ(r, std::string("abc\n"));
 }
 
 TEST_F(SerialTests, writeWorks) {
   char buf[5] = "";
-  port1->write("abc\n");
+  port1->Write("abc\n");
   read(master_fd, buf, 4);
   EXPECT_EQ(std::string(buf, 4), std::string("abc\n"));
 }
 
 TEST_F(SerialTests, timeoutWorks) {
   // Timeout a read, returns an empty string
-  std::string empty = port1->read();
+  std::string empty = port1->Read();
   EXPECT_EQ(empty, std::string(""));
   
   // Ensure that writing/reading still works after a timeout.
   write(master_fd, "abc\n", 4);
-  std::string r = port1->read(4);
+  std::string r = port1->Read(4);
   EXPECT_EQ(r, std::string("abc\n"));
 }
 
@@ -68,12 +68,12 @@ TEST_F(SerialTests, partialRead) {
   write(master_fd, "abc\n", 4);
 
   // Should timeout, but return what was in the buffer.
-  std::string empty = port1->read(10);
+  std::string empty = port1->Read(10);
   EXPECT_EQ(empty, std::string("abc\n"));
   
   // Ensure that writing/reading still works after a timeout.
   write(master_fd, "abc\n", 4);
-  std::string r = port1->read(4);
+  std::string r = port1->Read(4);
   EXPECT_EQ(r, std::string("abc\n"));
 }
 

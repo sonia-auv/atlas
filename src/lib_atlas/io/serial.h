@@ -222,31 +222,31 @@ class Serial {
    * \throw serial::SerialException
    * \throw serial::IOException
    */
-  void open();
+  void Open();
 
   /*! Gets the open status of the serial port.
    *
    * \return Returns true if the port is open, false otherwise.
    */
-  bool isOpen() const;
+  bool IsOpen() const;
 
   /*! Closes the serial port. */
-  void close();
+  void Close();
 
   /*! Return the number of characters in the buffer. */
-  size_t available();
+  size_t Available();
 
   /*! Block until there is serial data to read or read_timeout_constant
    * number of milliseconds have elapsed. The return value is true when
    * the function exits with the port in a readable state, false otherwise
    * (due to timeout or select interruption). */
-  bool waitReadable();
+  bool WaitReadable();
 
   /*! Block for a period of time corresponding to the transmission time of
    * count characters at present serial settings. This may be used in con-
    * junction with waitReadable to read larger blocks of data from the
    * port. */
-  void waitByteTimes(size_t count);
+  void WaitByteTimes(size_t count);
 
   /*! Read a given amount of bytes from the serial port into a given buffer.
    *
@@ -276,7 +276,7 @@ class Serial {
    * \throw serial::PortNotOpenedException
    * \throw serial::SerialException
    */
-  size_t read(uint8_t *buffer, size_t size);
+  size_t Read(uint8_t *buffer, size_t size);
 
   /*! Read a given amount of bytes from the serial port into a give buffer.
    *
@@ -289,7 +289,7 @@ class Serial {
    * \throw serial::PortNotOpenedException
    * \throw serial::SerialException
    */
-  size_t read(std::vector<uint8_t> &buffer, size_t size = 1);
+  size_t Read(std::vector<uint8_t> &buffer, size_t size = 1);
 
   /*! Read a given amount of bytes from the serial port into a give buffer.
    *
@@ -302,7 +302,7 @@ class Serial {
    * \throw serial::PortNotOpenedException
    * \throw serial::SerialException
    */
-  size_t read(std::string &buffer, size_t size = 1);
+  size_t Read(std::string &buffer, size_t size = 1);
 
   /*! Read a given amount of bytes from the serial port and return a string
    *  containing the data.
@@ -314,7 +314,7 @@ class Serial {
    * \throw serial::PortNotOpenedException
    * \throw serial::SerialException
    */
-  std::string read(size_t size = 1);
+  std::string Read(size_t size = 1);
 
   /*! Reads in a line or until a given delimiter has been processed.
    *
@@ -329,7 +329,7 @@ class Serial {
    * \throw serial::PortNotOpenedException
    * \throw serial::SerialException
    */
-  size_t readline(std::string &buffer, size_t size = 65536,
+  size_t ReadLine(std::string &buffer, size_t size = 65536,
                   std::string eol = "\n");
 
   /*! Reads in a line or until a given delimiter has been processed.
@@ -344,7 +344,7 @@ class Serial {
    * \throw serial::PortNotOpenedException
    * \throw serial::SerialException
    */
-  std::string readline(size_t size = 65536, std::string eol = "\n");
+  std::string ReadLine(size_t size = 65536, std::string eol = "\n");
 
   /*! Reads in multiple lines until the serial port times out.
    *
@@ -360,7 +360,7 @@ class Serial {
    * \throw serial::PortNotOpenedException
    * \throw serial::SerialException
    */
-  std::vector<std::string> readlines(size_t size = 65536,
+  std::vector<std::string> ReadLines(size_t size = 65536,
                                      std::string eol = "\n");
 
   /*! Write a string to the serial port.
@@ -378,7 +378,7 @@ class Serial {
    * \throw serial::SerialException
    * \throw serial::IOException
    */
-  size_t write(const uint8_t *data, size_t size);
+  size_t Write(const uint8_t *data, size_t size);
 
   /*! Write a string to the serial port.
    *
@@ -392,7 +392,7 @@ class Serial {
    * \throw serial::SerialException
    * \throw serial::IOException
    */
-  size_t write(const std::vector<uint8_t> &data);
+  size_t Write(const std::vector<uint8_t> &data);
 
   /*! Write a string to the serial port.
    *
@@ -406,7 +406,7 @@ class Serial {
    * \throw serial::SerialException
    * \throw serial::IOException
    */
-  size_t write(const std::string &data);
+  size_t Write(const std::string &data);
 
   /*! Sets the serial port identifier.
    *
@@ -416,7 +416,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  void setPort(const std::string &port);
+  void SetPort(const std::string &port);
 
   /*! Gets the serial port identifier.
    *
@@ -424,7 +424,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  std::string getPort() const;
+  std::string GetPort() const;
 
   /*! Sets the timeout for reads and writes using the Timeout struct.
    *
@@ -460,17 +460,17 @@ class Serial {
    *
    * \see serial::Timeout
    */
-  void setTimeout(Timeout &timeout);
+  void SetTimeout(Timeout &timeout);
 
   /*! Sets the timeout for reads and writes. */
-  void setTimeout(uint32_t inter_byte_timeout, uint32_t read_timeout_constant,
+  void SetTimeout(uint32_t inter_byte_timeout, uint32_t read_timeout_constant,
                   uint32_t read_timeout_multiplier,
                   uint32_t write_timeout_constant,
                   uint32_t write_timeout_multiplier) {
     Timeout timeout(inter_byte_timeout, read_timeout_constant,
                     read_timeout_multiplier, write_timeout_constant,
                     write_timeout_multiplier);
-    return setTimeout(timeout);
+    return SetTimeout(timeout);
   }
 
   /*! Gets the timeout for reads in seconds.
@@ -480,7 +480,7 @@ class Serial {
    *
    * \see Serial::setTimeout
    */
-  Timeout getTimeout() const;
+  Timeout GetTimeout() const;
 
   /*! Sets the baudrate for the serial port.
    *
@@ -494,7 +494,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  void setBaudrate(uint32_t baudrate);
+  void SetBaudrate(uint32_t baudrate);
 
   /*! Gets the baudrate for the serial port.
    *
@@ -504,7 +504,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  uint32_t getBaudrate() const;
+  uint32_t GetBaudrate() const;
 
   /*! Sets the bytesize for the serial port.
    *
@@ -514,7 +514,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  void setBytesize(bytesize_t bytesize);
+  void SetBytesize(bytesize_t bytesize);
 
   /*! Gets the bytesize for the serial port.
    *
@@ -522,7 +522,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  bytesize_t getBytesize() const;
+  bytesize_t GetBytesize() const;
 
   /*! Sets the parity for the serial port.
    *
@@ -531,7 +531,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  void setParity(parity_t parity);
+  void SetParity(parity_t parity);
 
   /*! Gets the parity for the serial port.
    *
@@ -539,7 +539,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  parity_t getParity() const;
+  parity_t GetParity() const;
 
   /*! Sets the stopbits for the serial port.
    *
@@ -548,7 +548,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  void setStopbits(stopbits_t stopbits);
+  void SetStopbits(stopbits_t stopbits);
 
   /*! Gets the stopbits for the serial port.
    *
@@ -556,7 +556,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  stopbits_t getStopbits() const;
+  stopbits_t GetStopbits() const;
 
   /*! Sets the flow control for the serial port.
    *
@@ -566,7 +566,7 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  void setFlowcontrol(flowcontrol_t flowcontrol);
+  void SetFlowcontrol(flowcontrol_t flowcontrol);
 
   /*! Gets the flow control for the serial port.
    *
@@ -574,28 +574,28 @@ class Serial {
    *
    * \throw std::invalid_argument
    */
-  flowcontrol_t getFlowcontrol() const;
+  flowcontrol_t GetFlowcontrol() const;
 
   /*! Flush the input and output buffers */
-  void flush();
+  void Flush();
 
   /*! Flush only the input buffer */
-  void flushInput();
+  void FlushInput();
 
   /*! Flush only the output buffer */
-  void flushOutput();
+  void FlushOutput();
 
   /*! Sends the RS-232 break signal.  See tcsendbreak(3). */
-  void sendBreak(int duration);
+  void SendBreak(int duration);
 
   /*! Set the break condition to a given level.  Defaults to true. */
-  void setBreak(bool level = true);
+  void SetBreak(bool level = true);
 
   /*! Set the RTS handshaking line to the given level.  Defaults to true. */
-  void setRTS(bool level = true);
+  void SetRTS(bool level = true);
 
   /*! Set the DTR handshaking line to the given level.  Defaults to true. */
-  void setDTR(bool level = true);
+  void SetDTR(bool level = true);
 
   /*!
    * Blocks until CTS, DSR, RI, CD changes or something interrupts it.
@@ -611,19 +611,19 @@ class Serial {
    *
    * \throw SerialException
    */
-  bool waitForChange();
+  bool WaitForChange();
 
   /*! Returns the current status of the CTS line. */
-  bool getCTS();
+  bool GetCTS();
 
   /*! Returns the current status of the DSR line. */
-  bool getDSR();
+  bool GetDSR();
 
   /*! Returns the current status of the RI line. */
-  bool getRI();
+  bool GetRI();
 
   /*! Returns the current status of the CD line. */
-  bool getCD();
+  bool GetCD();
 
  private:
   //============================================================================
