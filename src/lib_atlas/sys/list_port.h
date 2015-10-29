@@ -2,7 +2,7 @@
  * \file	list_port.h
  * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
  * \date	29/10/2015
- * \copyright Copyright (c) 2015 Thibaut Mattio. All rights reserved.
+ * \copyright Copyright (c) 2015 S.O.N.I.A.. All rights reserved.
  * Use of this source code is governed by the MIT license that can be
  * found in the LICENSE file.
  */
