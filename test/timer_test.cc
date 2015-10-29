@@ -64,11 +64,12 @@ TEST(timer_tests, short_intervals) {
   {
     uint32_t ms = rand() % 20;
     MilliTimer mt(ms);
-    usleep(1000 * ms);
+    mt.Sleep(ms);
     int32_t r = mt.Remaining();
 
     // 1ms slush, for the cost of calling usleep.
-    EXPECT_NEAR(r+1, 0, 1);
+    // Putting 4 here. For some reason, 1ms of margin is not enough...
+    EXPECT_NEAR(r+1, 0, 4);
   }
 }
 

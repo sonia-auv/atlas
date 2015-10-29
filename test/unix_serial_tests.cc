@@ -28,6 +28,7 @@ void loop()
 // #define protected public
 
 #include <lib_atlas/io/serial.h>
+#include <lib_atlas/io/impl/unix.h>
 
 #if defined(__linux__)
 #include <pty.h>
