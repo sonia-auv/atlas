@@ -50,8 +50,6 @@
 
 namespace atlas {
 
-namespace serial {
-
 /*!
  * Enumeration defines the possible bytesizes for the serial port.
  */
@@ -711,8 +709,6 @@ struct PortInfo {
  * \return vector of serial::PortInfo.
  */
 std::vector<PortInfo> list_ports();
-
-}  // namespace serial
 
 }  // namespace atlas
 
