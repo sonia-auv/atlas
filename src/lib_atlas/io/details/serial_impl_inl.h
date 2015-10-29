@@ -3,8 +3,8 @@
  * Additional Contributors: Christopher Baker @bakercp
  */
 
-#ifndef SERIAL_IMPL_UNIX_H
-#error This file may only be included from unix.h
+#ifndef LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
+#error This file may only be included from serial_impl_inl.h
 #endif
 
 #include <stdio.h>
@@ -51,6 +51,11 @@
 
 namespace atlas {
 
+//==============================================================================
+// C / D T O R S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
 Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
                                bytesize_t bytesize, parity_t parity,
                                stopbits_t stopbits, flowcontrol_t flowcontrol)
@@ -69,12 +74,19 @@ Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
   if (port_.empty() == false) open();
 }
 
+//------------------------------------------------------------------------------
+//
 Serial::SerialImpl::~SerialImpl() {
   close();
   pthread_mutex_destroy(&this->read_mutex);
   pthread_mutex_destroy(&this->write_mutex);
 }
 
+//==============================================================================
+// M E T H O D S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::open() {
   if (port_.empty()) {
     throw std::invalid_argument("Empty port is invalid.");
@@ -103,6 +115,8 @@ void Serial::SerialImpl::open() {
   is_open_ = true;
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::reconfigurePort() {
   if (fd_ == -1) {
     // Can only operate on a valid file descriptor
@@ -473,6 +487,8 @@ void Serial::SerialImpl::reconfigurePort() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::close() {
   if (is_open_ == true) {
     if (fd_ != -1) {
@@ -488,8 +504,12 @@ void Serial::SerialImpl::close() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 bool Serial::SerialImpl::isOpen() const { return is_open_; }
 
+//------------------------------------------------------------------------------
+//
 size_t Serial::SerialImpl::available() {
   if (!is_open_) {
     return 0;
@@ -502,6 +522,8 @@ size_t Serial::SerialImpl::available() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 bool Serial::SerialImpl::waitReadable(uint32_t timeout) {
   // Setup a select call to block for serial data or a timeout
   fd_set readfds;
@@ -532,11 +554,15 @@ bool Serial::SerialImpl::waitReadable(uint32_t timeout) {
   return true;
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::waitByteTimes(size_t count) {
   timespec wait_time = {0, static_cast<long>(byte_time_ns_ * count)};
   pselect(0, NULL, NULL, NULL, &wait_time, NULL);
 }
 
+//------------------------------------------------------------------------------
+//
 size_t Serial::SerialImpl::read(uint8_t *buf, size_t size) {
   // If the port is not open, throw
   if (!is_open_) {
@@ -614,6 +640,8 @@ size_t Serial::SerialImpl::read(uint8_t *buf, size_t size) {
   return bytes_read;
 }
 
+//------------------------------------------------------------------------------
+//
 size_t Serial::SerialImpl::write(const uint8_t *data, size_t length) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::write");
@@ -700,53 +728,81 @@ size_t Serial::SerialImpl::write(const uint8_t *data, size_t length) {
   return bytes_written;
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setPort(const std::string &port) { port_ = port; }
 
+//------------------------------------------------------------------------------
+//
 std::string Serial::SerialImpl::getPort() const { return port_; }
 
-void Serial::SerialImpl::setTimeout(Timeout &timeout) {
-  timeout_ = timeout;
-}
+//------------------------------------------------------------------------------
+//
+void Serial::SerialImpl::setTimeout(Timeout &timeout) { timeout_ = timeout; }
 
+//------------------------------------------------------------------------------
+//
 Timeout Serial::SerialImpl::getTimeout() const { return timeout_; }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setBaudrate(unsigned long baudrate) {
   baudrate_ = baudrate;
   if (is_open_) reconfigurePort();
 }
 
+//------------------------------------------------------------------------------
+//
 unsigned long Serial::SerialImpl::getBaudrate() const { return baudrate_; }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setBytesize(bytesize_t bytesize) {
   bytesize_ = bytesize;
   if (is_open_) reconfigurePort();
 }
 
+//------------------------------------------------------------------------------
+//
 bytesize_t Serial::SerialImpl::getBytesize() const { return bytesize_; }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setParity(parity_t parity) {
   parity_ = parity;
   if (is_open_) reconfigurePort();
 }
 
+//------------------------------------------------------------------------------
+//
 parity_t Serial::SerialImpl::getParity() const { return parity_; }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setStopbits(stopbits_t stopbits) {
   stopbits_ = stopbits;
   if (is_open_) reconfigurePort();
 }
 
+//------------------------------------------------------------------------------
+//
 stopbits_t Serial::SerialImpl::getStopbits() const { return stopbits_; }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setFlowcontrol(flowcontrol_t flowcontrol) {
   flowcontrol_ = flowcontrol;
   if (is_open_) reconfigurePort();
 }
 
+//------------------------------------------------------------------------------
+//
 flowcontrol_t Serial::SerialImpl::getFlowcontrol() const {
   return flowcontrol_;
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::flush() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::flush");
@@ -754,6 +810,8 @@ void Serial::SerialImpl::flush() {
   tcdrain(fd_);
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::flushInput() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::flushInput");
@@ -761,6 +819,8 @@ void Serial::SerialImpl::flushInput() {
   tcflush(fd_, TCIFLUSH);
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::flushOutput() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::flushOutput");
@@ -768,6 +828,8 @@ void Serial::SerialImpl::flushOutput() {
   tcflush(fd_, TCOFLUSH);
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::sendBreak(int duration) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::sendBreak");
@@ -775,6 +837,8 @@ void Serial::SerialImpl::sendBreak(int duration) {
   tcsendbreak(fd_, static_cast<int>(duration / 4));
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setBreak(bool level) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::setBreak");
@@ -797,6 +861,8 @@ void Serial::SerialImpl::setBreak(bool level) {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setRTS(bool level) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::setRTS");
@@ -821,6 +887,8 @@ void Serial::SerialImpl::setRTS(bool level) {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::setDTR(bool level) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::setDTR");
@@ -845,9 +913,10 @@ void Serial::SerialImpl::setDTR(bool level) {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 bool Serial::SerialImpl::waitForChange() {
 #ifndef TIOCMIWAIT
-
   while (is_open_ == true) {
     int status;
 
@@ -880,6 +949,8 @@ bool Serial::SerialImpl::waitForChange() {
 #endif
 }
 
+//------------------------------------------------------------------------------
+//
 bool Serial::SerialImpl::getCTS() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getCTS");
@@ -897,6 +968,8 @@ bool Serial::SerialImpl::getCTS() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 bool Serial::SerialImpl::getDSR() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getDSR");
@@ -914,6 +987,8 @@ bool Serial::SerialImpl::getDSR() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 bool Serial::SerialImpl::getRI() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getRI");
@@ -931,6 +1006,8 @@ bool Serial::SerialImpl::getRI() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 bool Serial::SerialImpl::getCD() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getCD");
@@ -948,6 +1025,8 @@ bool Serial::SerialImpl::getCD() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::readLock() {
   int result = pthread_mutex_lock(&this->read_mutex);
   if (result) {
@@ -955,6 +1034,8 @@ void Serial::SerialImpl::readLock() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::readUnlock() {
   int result = pthread_mutex_unlock(&this->read_mutex);
   if (result) {
@@ -962,6 +1043,8 @@ void Serial::SerialImpl::readUnlock() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::writeLock() {
   int result = pthread_mutex_lock(&this->write_mutex);
   if (result) {
@@ -969,6 +1052,8 @@ void Serial::SerialImpl::writeLock() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
 void Serial::SerialImpl::writeUnlock() {
   int result = pthread_mutex_unlock(&this->write_mutex);
   if (result) {

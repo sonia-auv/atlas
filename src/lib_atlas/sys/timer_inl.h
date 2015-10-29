@@ -133,7 +133,8 @@ ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Now() ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE timespec Timer<Up_, Tp_>::TimeSpecFromMs(const uint32_t millis) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE timespec
+Timer<Up_, Tp_>::TimeSpecFromMs(const uint32_t millis) ATLAS_NOEXCEPT {
   timespec time;
   time.tv_sec = millis / 1e3;
   time.tv_nsec = (millis - (time.tv_sec * 1e3)) * 1e6;

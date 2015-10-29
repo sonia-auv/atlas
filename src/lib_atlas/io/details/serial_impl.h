@@ -35,8 +35,8 @@
  *
  */
 
-#ifndef SERIAL_IMPL_UNIX_H
-#define SERIAL_IMPL_UNIX_H
+#ifndef LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
+#define LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
 
 #include <lib_atlas/io/serial.h>
 
@@ -46,10 +46,17 @@ namespace atlas {
 
 class Serial::SerialImpl {
  public:
-  SerialImpl(const std::string &port, unsigned long baudrate, bytesize_t bytesize,
-             parity_t parity, stopbits_t stopbits, flowcontrol_t flowcontrol);
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
+  SerialImpl(const std::string &port, unsigned long baudrate,
+             bytesize_t bytesize, parity_t parity, stopbits_t stopbits,
+             flowcontrol_t flowcontrol);
 
   virtual ~SerialImpl();
+
+  //============================================================================
+  // P U B L I C   M E T H O D S
 
   void open();
 
@@ -128,11 +135,17 @@ class Serial::SerialImpl {
   void writeUnlock();
 
  protected:
+  //============================================================================
+  // P R O T E C T E D   M E T H O D S
+
   void reconfigurePort();
 
  private:
+  //============================================================================
+  // P R I V A T E   M E M B E R S
+
   std::string port_;  // Path to the file descriptor
-  int fd_;       // The current file descriptor
+  int fd_;            // The current file descriptor
 
   bool is_open_;
   bool xonxoff_;
@@ -157,4 +170,4 @@ class Serial::SerialImpl {
 
 #include <lib_atlas/io/details/serial_impl_inl.h>
 
-#endif  // SERIAL_IMPL_UNIX_H
+#endif  // LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_

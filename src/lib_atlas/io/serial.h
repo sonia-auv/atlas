@@ -33,8 +33,8 @@
  * This provides a cross platform interface for interacting with Serial Ports.
  */
 
-#ifndef SERIAL_H
-#define SERIAL_H
+#ifndef LIB_ATLAS_IO_SERIAL_H_
+#define LIB_ATLAS_IO_SERIAL_H_
 
 #include <limits>
 #include <vector>
@@ -47,6 +47,10 @@
 
 #define THROW(exceptionClass, message) \
   throw exceptionClass(__FILE__, __LINE__, (message))
+
+#ifdef max
+#undef max
+#endif
 
 namespace atlas {
 
@@ -96,10 +100,25 @@ typedef enum {
  * In order to disable the interbyte timeout, set it to Timeout::max().
  */
 struct Timeout {
-#ifdef max
-#undef max
-#endif
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
+  explicit Timeout(uint32_t inter_byte_timeout_ = 0,
+                   uint32_t read_timeout_constant_ = 0,
+                   uint32_t read_timeout_multiplier_ = 0,
+                   uint32_t write_timeout_constant_ = 0,
+                   uint32_t write_timeout_multiplier_ = 0)
+      : inter_byte_timeout(inter_byte_timeout_),
+        read_timeout_constant(read_timeout_constant_),
+        read_timeout_multiplier(read_timeout_multiplier_),
+        write_timeout_constant(write_timeout_constant_),
+        write_timeout_multiplier(write_timeout_multiplier_) {}
+
+  //============================================================================
+  // P U B L I C   S T A T I C   M E T H O D S
+
   static uint32_t max() { return std::numeric_limits<uint32_t>::max(); }
+
   /*!
    * Convenience function to generate Timeout structs using a
    * single absolute timeout.
@@ -112,6 +131,9 @@ struct Timeout {
   static Timeout simpleTimeout(uint32_t timeout) {
     return Timeout(max(), timeout, 0, timeout, 0);
   }
+
+  //============================================================================
+  // P U B L I C   M E M B E R S
 
   /*! Number of milliseconds between bytes received to timeout on. */
   uint32_t inter_byte_timeout;
@@ -127,17 +149,6 @@ struct Timeout {
    *  calling write.
    */
   uint32_t write_timeout_multiplier;
-
-  explicit Timeout(uint32_t inter_byte_timeout_ = 0,
-                   uint32_t read_timeout_constant_ = 0,
-                   uint32_t read_timeout_multiplier_ = 0,
-                   uint32_t write_timeout_constant_ = 0,
-                   uint32_t write_timeout_multiplier_ = 0)
-      : inter_byte_timeout(inter_byte_timeout_),
-        read_timeout_constant(read_timeout_constant_),
-        read_timeout_multiplier(read_timeout_multiplier_),
-        write_timeout_constant(write_timeout_constant_),
-        write_timeout_multiplier(write_timeout_multiplier_) {}
 };
 
 /*!
@@ -145,6 +156,9 @@ struct Timeout {
  */
 class Serial {
  public:
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
   /*!
    * Creates a Serial object and opens the port if a port is specified,
    * otherwise it remains closed until serial::Serial::open is called.
@@ -181,8 +195,19 @@ class Serial {
          parity_t parity = parity_none, stopbits_t stopbits = stopbits_one,
          flowcontrol_t flowcontrol = flowcontrol_none);
 
+  // Disable copy constructors
+  Serial(const Serial &) = delete;
+
   /*! Destructor */
   virtual ~Serial();
+
+  //============================================================================
+  // P U B L I C   O P E R A T O R S
+
+  Serial &operator=(const Serial &) = delete;
+
+  //============================================================================
+  // P U B L I C   M E T H O D S
 
   /*!
    * Opens the serial port as long as the port is set and the port isn't
@@ -601,17 +626,20 @@ class Serial {
   bool getCD();
 
  private:
-  // Disable copy constructors
-  Serial(const Serial &) = delete;
-  Serial &operator=(const Serial &) = delete;
+  //============================================================================
+  // P R I V A T E  I N N E R   C L A S S
 
   // Pimpl idiom, d_pointer
   class SerialImpl;
-  SerialImpl *pimpl_;
 
   // Scoped Lock Classes
   class ScopedReadLock;
   class ScopedWriteLock;
+
+  //============================================================================
+  // P R I V A T E  M E M B E R S
+
+  SerialImpl *pimpl_;
 
   // Read common function
   size_t read_(uint8_t *buffer, size_t size);
