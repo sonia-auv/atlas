@@ -27,6 +27,20 @@ ATLAS_ALWAYS_INLINE Timer<Up_, Tp_>::Timer() ATLAS_NOEXCEPT {}
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
+ATLAS_ALWAYS_INLINE Timer<Up_, Tp_>::Timer(const uint32_t millis) ATLAS_NOEXCEPT
+    : expiry_(TimeSpecNow()) {
+  int64_t tv_nsec = expiry_.tv_nsec + (millis * 1e6);
+  if (tv_nsec >= 1e9) {
+    int64_t sec_diff = tv_nsec / static_cast<int>(1e9);
+    expiry_.tv_nsec = tv_nsec - static_cast<int>(1e9 * sec_diff);
+    expiry_.tv_sec += sec_diff;
+  } else {
+    expiry_.tv_nsec = tv_nsec;
+  }
+}
+//------------------------------------------------------------------------------
+//
+template <class Up_, class Tp_>
 ATLAS_ALWAYS_INLINE Timer<Up_, Tp_>::~Timer() ATLAS_NOEXCEPT {}
 
 //==============================================================================
@@ -79,6 +93,16 @@ ATLAS_ALWAYS_INLINE void Timer<Up_, Tp_>::Unpause() {
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
+ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Remaining() ATLAS_NOEXCEPT {
+  timespec now(TimeSpecNow());
+  int64_t millis = (expiry_.tv_sec - now.tv_sec) * 1e3;
+  millis += (expiry_.tv_nsec - now.tv_nsec) / 1e6;
+  return millis;
+}
+
+//------------------------------------------------------------------------------
+//
+template <class Up_, class Tp_>
 ATLAS_ALWAYS_INLINE bool Timer<Up_, Tp_>::IsRunning() ATLAS_NOEXCEPT {
   std::lock_guard<std::mutex> guard(member_guard_);
   return is_running_;
@@ -105,6 +129,15 @@ ATLAS_ALWAYS_INLINE double Timer<Up_, Tp_>::Time() const ATLAS_NOEXCEPT {
 template <class Up_, class Tp_>
 ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Now() ATLAS_NOEXCEPT {
   return std::chrono::duration_cast<Up_>(Tp_::now().time_since_epoch()).count();
+}
+//------------------------------------------------------------------------------
+//
+template <class Up_, class Tp_>
+ATLAS_ALWAYS_INLINE timespec Timer<Up_, Tp_>::TimeSpecFromMs(const uint32_t millis) ATLAS_NOEXCEPT {
+  timespec time;
+  time.tv_sec = millis / 1e3;
+  time.tv_nsec = (millis - (time.tv_sec * 1e3)) * 1e6;
+  return time;
 }
 
 //------------------------------------------------------------------------------
@@ -172,6 +205,25 @@ ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Minutes() const ATLAS_NOEXCEPT {
 template <class Up_, class Tp_>
 ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Hours() const ATLAS_NOEXCEPT {
   return static_cast<int64_t>(Time<std::chrono::hours>() / 3600);
+}
+
+//------------------------------------------------------------------------------
+//
+template <class Up_, class Tp_>
+ATLAS_ALWAYS_INLINE timespec Timer<Up_, Tp_>::TimeSpecNow() ATLAS_NOEXCEPT {
+  timespec time;
+#ifdef __MACH__  // OS X does not have clock_gettime, use clock_get_time
+  clock_serv_t cclock;
+  mach_timespec_t mts;
+  host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
+  clock_get_time(cclock, &mts);
+  mach_port_deallocate(mach_task_self(), cclock);
+  time.tv_sec = mts.tv_sec;
+  time.tv_nsec = mts.tv_nsec;
+#else
+  clock_gettime(CLOCK_REALTIME, &time);
+#endif
+  return time;
 }
 
 }  // namespace atlas

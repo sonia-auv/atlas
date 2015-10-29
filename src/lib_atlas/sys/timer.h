@@ -26,6 +26,8 @@ class Timer {
 
   Timer() ATLAS_NOEXCEPT;
 
+  explicit Timer(const uint32_t millis) ATLAS_NOEXCEPT;
+
   ~Timer() ATLAS_NOEXCEPT;
 
   //============================================================================
@@ -38,6 +40,11 @@ class Timer {
    * \return the current number of count from the CPU.
    */
   static int64_t Now() ATLAS_NOEXCEPT;
+
+  /**
+   * Get the current timespec from a value in milliseconds.
+   */
+  static timespec TimeSpecFromMs(const uint32_t millis) ATLAS_NOEXCEPT;
 
   /**
    * Make a pause on the current calling thread.
@@ -81,6 +88,12 @@ class Timer {
    * Reset the timer by setting both the start and the pause time to now.
    */
   void Reset() ATLAS_NOEXCEPT;
+
+  /**
+   * Return the remaining time if one was provided on the construction
+   * of the timer. Throw an exception if not.
+   */
+  int64_t Remaining() ATLAS_NOEXCEPT;
 
   /**
    * \return Either if the timer is running or being paused.
@@ -148,9 +161,16 @@ class Timer {
 
  private:
   //============================================================================
+  // P R I V A T E   M E T H O D S
+
+  static timespec TimeSpecNow() ATLAS_NOEXCEPT;
+
+  //============================================================================
   // P R I V A T E   M E M B E R S
 
   bool is_running_ = {false};
+
+  timespec expiry_;
 
   typename Tp_::time_point start_time_ = {};
 
