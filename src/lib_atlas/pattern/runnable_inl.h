@@ -11,8 +11,6 @@
 #error This file may only be included from runnable.h
 #endif
 
-#include <lib_atlas/details/pointers.h>
-
 namespace atlas {
 
 //==============================================================================
@@ -37,7 +35,7 @@ ATLAS_ALWAYS_INLINE Runnable::~Runnable() ATLAS_NOEXCEPT {
 //
 ATLAS_ALWAYS_INLINE void Runnable::Start() {
   if (thread_ == nullptr) {
-    thread_ = std::make_unique<std::thread>(&Runnable::Run, this);
+    thread_ = std::unique_ptr<std::thread>(new std::thread(&Runnable::Run, this));
   } else {
     throw std::logic_error("The thread must be stoped before it is started.");
   }

@@ -13,7 +13,6 @@
 
 #include <functional>
 #include <lib_atlas/sys/timer.h>
-#include <lib_atlas/details/pointers.h>
 
 namespace atlas {
 
