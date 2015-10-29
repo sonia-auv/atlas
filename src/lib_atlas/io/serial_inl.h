@@ -6,21 +6,12 @@
 
 #include <algorithm>
 
-#if !defined(_WIN32) && !defined(__OpenBSD__)
+#if !defined(__OpenBSD__)
 #include <alloca.h>
 #endif
 
-#if defined(__MINGW32__)
-#define alloca __builtin_alloca
-#endif
-
 #include <lib_atlas/io/serial.h>
-
-#ifdef _WIN32
-#include "serial/impl/win.h"
-#else
 #include <lib_atlas/io/impl/unix.h>
-#endif
 
 namespace atlas {
 
@@ -288,4 +279,4 @@ bool Serial::getRI() { return pimpl_->getRI(); }
 
 bool Serial::getCD() { return pimpl_->getCD(); }
 
-}  // namespace serial
+}  // namespace atlas

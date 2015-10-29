@@ -35,8 +35,6 @@
  *
  */
 
-#if !defined(_WIN32)
-
 #ifndef SERIAL_IMPL_UNIX_H
 #define SERIAL_IMPL_UNIX_H
 
@@ -164,5 +162,3 @@ class serial::Serial::SerialImpl {
 #include <lib_atlas/io/impl/unix_inl.h>
 
 #endif  // SERIAL_IMPL_UNIX_H
-
-#endif  // !defined(_WIN32)

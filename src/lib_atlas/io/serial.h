@@ -649,12 +649,7 @@ class IOException : public std::exception {
   explicit IOException(std::string file, int line, int errnum)
       : file_(file), line_(line), errno_(errnum) {
     std::stringstream ss;
-#if defined(_WIN32) && !defined(__MINGW32__)
-    char error_str[1024];
-    strerror_s(error_str, 1024, errnum);
-#else
     char *error_str = strerror(errnum);
-#endif
     ss << "IO Exception (" << errno_ << "): " << error_str;
     ss << ", file " << file_ << ", line " << line_ << ".";
     e_what_ = ss.str();

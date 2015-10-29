@@ -7,8 +7,6 @@
 #error This file may only be included from unix.h
 #endif
 
-#if !defined(_WIN32)
-
 #include <stdio.h>
 #include <string.h>
 #include <sstream>
@@ -987,5 +985,3 @@ void Serial::SerialImpl::writeUnlock() {
 }
 
 }  // namespace atlas
-
-#endif  // !defined(_WIN32)
