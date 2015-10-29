@@ -19,33 +19,41 @@
 
 namespace atlas {
 
+/**
+ * Convert the value passed in argument into a radian value.
+ *
+ * This assume that the value passed is in degree and will convert
+ * it into a radian value.
+ *
+ * \param degree The value of the angle to convert.
+ * \return The angle converted in radian.
+ */
 template <class Tp_>
 Tp_ DegToRad(const Tp_ &degrees) ATLAS_NOEXCEPT;
 
+/**
+ * Convert the value passed in argument into a radian value.
+ *
+ * This assume that the value passed is in degree and will convert
+ * it into a radian value.
+ *
+ * \param degree The value of the angle to convert.
+ * \return The angle converted in radian.
+ */
 template <class Tp_>
 Tp_ RadToDeg(const Tp_ &radians) ATLAS_NOEXCEPT;
 
-template <class Tp_>
-void PolarToEuler(Tp_ &angle) ATLAS_NOEXCEPT;
-
-template <class Tp_>
-void EulerToPolar(Tp_ &angle) ATLAS_NOEXCEPT;
-
+/**
+ * Normalize an angle in the inteval of [0; 360[
+ *
+ * This take a degree angle and apply a modulus operation in order
+ * to have the value clamped between 0 and 360.
+ *
+ * \param a The angle to clamp
+ * \return The normalized angle value.
+ */
 template <typename Tp_>
-Tp_ AngleDistRel(const Tp_ &from_angle, const Tp_ &to_angle) ATLAS_NOEXCEPT;
-
-template <typename Tp_>
-void NormalizeAngle(Tp_ &angle) ATLAS_NOEXCEPT;
-
-// calculates the ratio of difference between a1 and a2 such that angleRatio(x,
-// x+180) = 1 and angleRatio(x, x) = 0
-template <class Tp_>
-Tp_ LinearAngleDiffRatio(const Tp_ &from_angle,
-                         const Tp_ &to_angle) ATLAS_NOEXCEPT;
-
-template <class Tp_>
-Tp_ TrigAngleDiffRatio(const Tp_ &from_angle,
-                       const Tp_ &to_angle) ATLAS_NOEXCEPT;
+Tp_ NormalizeAngle(const Tp_ &angle) ATLAS_NOEXCEPT;
 
 }  // namespace atlas
 

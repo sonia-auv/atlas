@@ -82,33 +82,22 @@ template <typename Tp_>
 double HarmonicMean(const Tp_ &v);
 
 /**
+ * Return the minimum value in the iterable parameter v.
  *
+ * \param v The collection to iterate to find the min value.
+ * \return The min value in v.
  */
 template <typename Tp_>
 typename Tp_::value_type Min(const Tp_ &v) ATLAS_NOEXCEPT;
 
 /**
+ * Return the maximum value in the iterable parameter v.
  *
+ * \param v The collection to iterate to find the max value.
+ * \return The max value in v.
  */
 template <typename Tp_>
 typename Tp_::value_type Max(const Tp_ &v) ATLAS_NOEXCEPT;
-
-/**
- *
- */
-template <typename Tp_>
-Tp_ Clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT;
-
-/**
- * Clamp x into the data set v.
- *
- * This will actuall call the clamp method with the minimum and the maximum
- * element found on the data set.
- *
- * \return The element x, clamped into the data set v.
- */
-template <typename Tp_, typename Up_>
-Tp_ Clamp(const Tp_ &x, const Up_ &v);
 
 /**
  *
