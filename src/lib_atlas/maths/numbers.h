@@ -67,8 +67,7 @@ double Gaussian(const double &x, const double &v) ATLAS_NOEXCEPT;
 /**
  * \param v The variance
  */
-double NormalizedGaussian(const double &x,
-                          const double &v) ATLAS_NOEXCEPT;
+double NormalizedGaussian(const double &x, const double &v) ATLAS_NOEXCEPT;
 
 /**
  * This function will round the value to n significant digits.

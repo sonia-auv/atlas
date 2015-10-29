@@ -60,15 +60,13 @@ ATLAS_ALWAYS_INLINE double Gaussian(const double &x,
     throw std::invalid_argument("The variance cannot be null");
   }
 
-  return (1 / sqrt(2 * M_PI * v)) *
-         exp(-pow(x, 2) / (2 * v));
+  return (1 / sqrt(2 * M_PI * v)) * exp(-pow(x, 2) / (2 * v));
 }
-
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE double NormalizedGaussian(
-    const double &x, const double &v) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE double NormalizedGaussian(const double &x,
+                                              const double &v) ATLAS_NOEXCEPT {
   if (v == 0) {
     throw std::invalid_argument("The variance cannot be null");
   }
@@ -80,7 +78,7 @@ ATLAS_ALWAYS_INLINE double NormalizedGaussian(
 //
 template <typename Tp_>
 ATLAS_ALWAYS_INLINE Tp_ SetPrecision(const Tp_ &v, uint32_t d) ATLAS_NOEXCEPT {
-  if (v == 0.0){
+  if (v == 0.0) {
     return static_cast<Tp_>(0.0);
   }
   Tp_ factor = pow(10.0, d - ceil(log10(fabs(v))));
