@@ -25,7 +25,7 @@ protected:
     ASSERT_TRUE(slave_fd > 0);
     ASSERT_TRUE(std::string(name).length() > 0);
 
-    port1 = new Serial(std::string(name), 115200, Timeout::simpleTimeout(250));
+    port1 = new Serial(std::string(name), 115200, Timeout::SimpleTimeout(250));
   }
 
   virtual void TearDown() {

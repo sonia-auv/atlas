@@ -44,6 +44,7 @@
 #include <exception>
 #include <stdexcept>
 #include <stdint.h>
+#include <lib_atlas/macros.h>
 
 #define THROW(exceptionClass, message) \
   throw exceptionClass(__FILE__, __LINE__, (message))
@@ -81,7 +82,7 @@ typedef enum {
 typedef enum {
   stopbits_one = 1,
   stopbits_two = 2,
-  stopbits_one_point_five
+  stopbits_one_point_five = 3 
 } stopbits_t;
 
 /*!
@@ -89,8 +90,8 @@ typedef enum {
  */
 typedef enum {
   flowcontrol_none = 0,
-  flowcontrol_software,
-  flowcontrol_hardware
+  flowcontrol_software = 1,
+  flowcontrol_hardware = 2
 } flowcontrol_t;
 
 /*!
@@ -128,7 +129,7 @@ struct Timeout {
    *
    * \return Timeout struct that represents this simple timeout provided.
    */
-  static Timeout simpleTimeout(uint32_t timeout) {
+  static Timeout SimpleTimeout(uint32_t timeout) {
     return Timeout(max(), timeout, 0, timeout, 0);
   }
 
@@ -137,14 +138,18 @@ struct Timeout {
 
   /*! Number of milliseconds between bytes received to timeout on. */
   uint32_t inter_byte_timeout;
+  
   /*! A constant number of milliseconds to wait after calling read. */
   uint32_t read_timeout_constant;
+  
   /*! A multiplier against the number of requested bytes to wait after
    *  calling read.
    */
   uint32_t read_timeout_multiplier;
+  
   /*! A constant number of milliseconds to wait after calling write. */
   uint32_t write_timeout_constant;
+  
   /*! A multiplier against the number of requested bytes to wait after
    *  calling write.
    */
@@ -659,8 +664,8 @@ class SerialException : public std::exception {
     e_what_ = ss.str();
   }
   SerialException(const SerialException &other) : e_what_(other.e_what_) {}
-  virtual ~SerialException() throw() {}
-  virtual const char *what() const throw() { return e_what_.c_str(); }
+  virtual ~SerialException() ATLAS_NOEXCEPT {}
+  const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
 };
 
 class IOException : public std::exception {
@@ -687,13 +692,13 @@ class IOException : public std::exception {
     ss << ", file " << file_ << ", line " << line_ << ".";
     e_what_ = ss.str();
   }
-  virtual ~IOException() throw() {}
+  virtual ~IOException() ATLAS_NOEXCEPT {}
   IOException(const IOException &other)
       : line_(other.line_), e_what_(other.e_what_), errno_(other.errno_) {}
 
-  int getErrorNumber() { return errno_; }
+  int GetErrorNumber() { return errno_; }
 
-  virtual const char *what() const throw() { return e_what_.c_str(); }
+  const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
 };
 
 class PortNotOpenedException : public std::exception {
@@ -709,8 +714,8 @@ class PortNotOpenedException : public std::exception {
   }
   PortNotOpenedException(const PortNotOpenedException &other)
       : e_what_(other.e_what_) {}
-  virtual ~PortNotOpenedException() throw() {}
-  virtual const char *what() const throw() { return e_what_.c_str(); }
+  virtual ~PortNotOpenedException() ATLAS_NOEXCEPT {}
+  const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
 };
 
 }  // namespace atlas

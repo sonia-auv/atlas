@@ -160,6 +160,7 @@ class Serial::SerialImpl {
   stopbits_t stopbits_;        // Stop Bits
   flowcontrol_t flowcontrol_;  // Flow Control
 
+  // TODO: Use the mutex from mutex.h
   // Mutex used to lock the read functions
   pthread_mutex_t read_mutex;
   // Mutex used to lock the write functions

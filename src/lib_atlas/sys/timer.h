@@ -26,7 +26,7 @@ class Timer {
 
   Timer() ATLAS_NOEXCEPT;
 
-  explicit Timer(const uint32_t millis) ATLAS_NOEXCEPT;
+  explicit Timer(const uint32_t &v) ATLAS_NOEXCEPT;
 
   ~Timer() ATLAS_NOEXCEPT;
 
@@ -44,7 +44,7 @@ class Timer {
   /**
    * Get the current timespec from a value in milliseconds.
    */
-  static timespec TimeSpecFromMs(const uint32_t millis) ATLAS_NOEXCEPT;
+  static timespec TimeSpecFromMs(const uint32_t &v) ATLAS_NOEXCEPT;
 
   /**
    * Make a pause on the current calling thread.

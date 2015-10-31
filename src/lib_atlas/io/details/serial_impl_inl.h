@@ -69,17 +69,19 @@ Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
       bytesize_(bytesize),
       stopbits_(stopbits),
       flowcontrol_(flowcontrol) {
-  pthread_mutex_init(&this->read_mutex, NULL);
-  pthread_mutex_init(&this->write_mutex, NULL);
-  if (port_.empty() == false) Open();
+  pthread_mutex_init(&read_mutex, NULL);
+  pthread_mutex_init(&write_mutex, NULL);
+  if (port_.empty() == false) {
+    Open();
+  }
 }
 
 //------------------------------------------------------------------------------
 //
 Serial::SerialImpl::~SerialImpl() {
   Close();
-  pthread_mutex_destroy(&this->read_mutex);
-  pthread_mutex_destroy(&this->write_mutex);
+  pthread_mutex_destroy(&read_mutex);
+  pthread_mutex_destroy(&write_mutex);
 }
 
 //==============================================================================
@@ -143,6 +145,7 @@ void Serial::SerialImpl::ReconfigurePort() {
   options.c_iflag &= (tcflag_t)~PARMRK;
 #endif
 
+  // TODO: Optimize baudrate
   // setup baud rate
   bool custom_baud = false;
   speed_t baud;
@@ -1028,7 +1031,7 @@ bool Serial::SerialImpl::GetCD() {
 //------------------------------------------------------------------------------
 //
 void Serial::SerialImpl::ReadLock() {
-  int result = pthread_mutex_lock(&this->read_mutex);
+  int result = pthread_mutex_lock(&read_mutex);
   if (result) {
     THROW(IOException, result);
   }
@@ -1037,7 +1040,7 @@ void Serial::SerialImpl::ReadLock() {
 //------------------------------------------------------------------------------
 //
 void Serial::SerialImpl::ReadUnlock() {
-  int result = pthread_mutex_unlock(&this->read_mutex);
+  int result = pthread_mutex_unlock(&read_mutex);
   if (result) {
     THROW(IOException, result);
   }
@@ -1046,7 +1049,7 @@ void Serial::SerialImpl::ReadUnlock() {
 //------------------------------------------------------------------------------
 //
 void Serial::SerialImpl::WriteLock() {
-  int result = pthread_mutex_lock(&this->write_mutex);
+  int result = pthread_mutex_lock(&write_mutex);
   if (result) {
     THROW(IOException, result);
   }
@@ -1055,7 +1058,7 @@ void Serial::SerialImpl::WriteLock() {
 //------------------------------------------------------------------------------
 //
 void Serial::SerialImpl::WriteUnlock() {
-  int result = pthread_mutex_unlock(&this->write_mutex);
+  int result = pthread_mutex_unlock(&write_mutex);
   if (result) {
     THROW(IOException, result);
   }

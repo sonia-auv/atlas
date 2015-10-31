@@ -27,9 +27,9 @@ ATLAS_ALWAYS_INLINE Timer<Up_, Tp_>::Timer() ATLAS_NOEXCEPT {}
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE Timer<Up_, Tp_>::Timer(const uint32_t millis) ATLAS_NOEXCEPT
+ATLAS_ALWAYS_INLINE Timer<Up_, Tp_>::Timer(const uint32_t &v) ATLAS_NOEXCEPT
     : expiry_(TimeSpecNow()) {
-  int64_t tv_nsec = expiry_.tv_nsec + (millis * 1e6);
+  int64_t tv_nsec = expiry_.tv_nsec + (v * 1e6);
   if (tv_nsec >= 1e9) {
     int64_t sec_diff = tv_nsec / static_cast<int>(1e9);
     expiry_.tv_nsec = tv_nsec - static_cast<int>(1e9 * sec_diff);
@@ -134,10 +134,10 @@ ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Now() ATLAS_NOEXCEPT {
 //
 template <class Up_, class Tp_>
 ATLAS_ALWAYS_INLINE timespec
-Timer<Up_, Tp_>::TimeSpecFromMs(const uint32_t millis) ATLAS_NOEXCEPT {
+Timer<Up_, Tp_>::TimeSpecFromMs(const uint32_t &v) ATLAS_NOEXCEPT {
   timespec time;
-  time.tv_sec = millis / 1e3;
-  time.tv_nsec = (millis - (time.tv_sec * 1e3)) * 1e6;
+  time.tv_sec = v / 1e3;
+  time.tv_nsec = (v - (time.tv_sec * 1e3)) * 1e6;
   return time;
 }
 
