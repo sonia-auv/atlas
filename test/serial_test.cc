@@ -1,4 +1,4 @@
-/*!
+/**
  * \file serial_test.cc
  * \author  William Woodall <wjwwood@gmail.com>
  * \author  John Harrison   <ash.gti@gmail.com>

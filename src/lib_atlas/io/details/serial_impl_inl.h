@@ -1,4 +1,4 @@
-/*!
+/**
  * \file serial_impl_inl.h
  * \author  William Woodall <wjwwood@gmail.com>
  * \author  John Harrison   <ash.gti@gmail.com>
