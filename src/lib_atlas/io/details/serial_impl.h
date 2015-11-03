@@ -38,11 +38,11 @@
 #ifndef LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
 #define LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
 
-#include <lib_atlas/io/serial.h>
-
 #include <pthread.h>
 
 namespace atlas {
+
+class Serial;
 
 class Serial::SerialImpl {
  public:
@@ -102,7 +102,7 @@ class Serial::SerialImpl {
 
   std::string GetPort() const;
 
-  void SetTimeout(Timeout &timeout);
+  void SetTimeout(const Timeout &timeout);
 
   Timeout GetTimeout() const;
 

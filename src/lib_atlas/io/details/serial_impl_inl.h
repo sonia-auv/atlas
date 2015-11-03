@@ -30,7 +30,7 @@
  */
 
 #ifndef LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
-#error This file may only be included from serial_impl_inl.h
+#error This file may only be included from serial_impl.h
 #endif
 
 #include <stdio.h>
@@ -82,7 +82,7 @@ namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
+ATLAS_INLINE Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
                                bytesize_t bytesize, parity_t parity,
                                stopbits_t stopbits, flowcontrol_t flowcontrol)
     : port_(port),
@@ -104,7 +104,7 @@ Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
 
 //------------------------------------------------------------------------------
 //
-Serial::SerialImpl::~SerialImpl() {
+ATLAS_INLINE Serial::SerialImpl::~SerialImpl() {
   Close();
   pthread_mutex_destroy(&read_mutex);
   pthread_mutex_destroy(&write_mutex);
@@ -115,7 +115,7 @@ Serial::SerialImpl::~SerialImpl() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::Open() {
+ATLAS_INLINE void Serial::SerialImpl::Open() {
   if (port_.empty()) {
     throw std::invalid_argument("Empty port is invalid.");
   }
@@ -145,7 +145,7 @@ void Serial::SerialImpl::Open() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::ReconfigurePort() {
+ATLAS_INLINE void Serial::SerialImpl::ReconfigurePort() {
   if (fd_ == -1) {
     // Can only operate on a valid file descriptor
     THROW(IOException, "Invalid file descriptor, is the serial port open?");
@@ -518,7 +518,7 @@ void Serial::SerialImpl::ReconfigurePort() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::Close() {
+ATLAS_INLINE void Serial::SerialImpl::Close() {
   if (is_open_ == true) {
     if (fd_ != -1) {
       int ret;
@@ -535,11 +535,11 @@ void Serial::SerialImpl::Close() {
 
 //------------------------------------------------------------------------------
 //
-bool Serial::SerialImpl::IsOpen() const { return is_open_; }
+ATLAS_INLINE bool Serial::SerialImpl::IsOpen() const { return is_open_; }
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::SerialImpl::Available() {
+ATLAS_INLINE size_t Serial::SerialImpl::Available() {
   if (!is_open_) {
     return 0;
   }
@@ -553,7 +553,7 @@ size_t Serial::SerialImpl::Available() {
 
 //------------------------------------------------------------------------------
 //
-bool Serial::SerialImpl::WaitReadable(uint32_t timeout) {
+ATLAS_INLINE bool Serial::SerialImpl::WaitReadable(uint32_t timeout) {
   // Setup a select call to block for serial data or a timeout
   fd_set readfds;
   FD_ZERO(&readfds);
@@ -585,14 +585,14 @@ bool Serial::SerialImpl::WaitReadable(uint32_t timeout) {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::WaitByteTimes(size_t count) {
+ATLAS_INLINE void Serial::SerialImpl::WaitByteTimes(size_t count) {
   timespec wait_time = {0, static_cast<long>(byte_time_ns_ * count)};
   pselect(0, NULL, NULL, NULL, &wait_time, NULL);
 }
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::SerialImpl::Read(uint8_t *buf, size_t size) {
+ATLAS_INLINE size_t Serial::SerialImpl::Read(uint8_t *buf, size_t size) {
   // If the port is not open, throw
   if (!is_open_) {
     throw PortNotOpenedException("Serial::read");
@@ -671,7 +671,7 @@ size_t Serial::SerialImpl::Read(uint8_t *buf, size_t size) {
 
 //------------------------------------------------------------------------------
 //
-size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length) {
+ATLAS_INLINE size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::write");
   }
@@ -759,80 +759,80 @@ size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length) {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetPort(const std::string &port) { port_ = port; }
+ATLAS_INLINE void Serial::SerialImpl::SetPort(const std::string &port) { port_ = port; }
 
 //------------------------------------------------------------------------------
 //
-std::string Serial::SerialImpl::GetPort() const { return port_; }
+ATLAS_INLINE std::string Serial::SerialImpl::GetPort() const { return port_; }
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetTimeout(Timeout &timeout) { timeout_ = timeout; }
+ATLAS_INLINE void Serial::SerialImpl::SetTimeout(const Timeout &timeout) { timeout_ = timeout; }
 
 //------------------------------------------------------------------------------
 //
-Timeout Serial::SerialImpl::GetTimeout() const { return timeout_; }
+ATLAS_INLINE Timeout Serial::SerialImpl::GetTimeout() const { return timeout_; }
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetBaudrate(unsigned long baudrate) {
+ATLAS_INLINE void Serial::SerialImpl::SetBaudrate(unsigned long baudrate) {
   baudrate_ = baudrate;
   if (is_open_) ReconfigurePort();
 }
 
 //------------------------------------------------------------------------------
 //
-unsigned long Serial::SerialImpl::GetBaudrate() const { return baudrate_; }
+ATLAS_INLINE unsigned long Serial::SerialImpl::GetBaudrate() const { return baudrate_; }
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetBytesize(bytesize_t bytesize) {
+ATLAS_INLINE void Serial::SerialImpl::SetBytesize(bytesize_t bytesize) {
   bytesize_ = bytesize;
   if (is_open_) ReconfigurePort();
 }
 
 //------------------------------------------------------------------------------
 //
-bytesize_t Serial::SerialImpl::GetBytesize() const { return bytesize_; }
+ATLAS_INLINE bytesize_t Serial::SerialImpl::GetBytesize() const { return bytesize_; }
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetParity(parity_t parity) {
+ATLAS_INLINE void Serial::SerialImpl::SetParity(parity_t parity) {
   parity_ = parity;
   if (is_open_) ReconfigurePort();
 }
 
 //------------------------------------------------------------------------------
 //
-parity_t Serial::SerialImpl::GetParity() const { return parity_; }
+ATLAS_INLINE parity_t Serial::SerialImpl::GetParity() const { return parity_; }
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetStopbits(stopbits_t stopbits) {
+ATLAS_INLINE void Serial::SerialImpl::SetStopbits(stopbits_t stopbits) {
   stopbits_ = stopbits;
   if (is_open_) ReconfigurePort();
 }
 
 //------------------------------------------------------------------------------
 //
-stopbits_t Serial::SerialImpl::GetStopbits() const { return stopbits_; }
+ATLAS_INLINE stopbits_t Serial::SerialImpl::GetStopbits() const { return stopbits_; }
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetFlowcontrol(flowcontrol_t flowcontrol) {
+ATLAS_INLINE void Serial::SerialImpl::SetFlowcontrol(flowcontrol_t flowcontrol) {
   flowcontrol_ = flowcontrol;
   if (is_open_) ReconfigurePort();
 }
 
 //------------------------------------------------------------------------------
 //
-flowcontrol_t Serial::SerialImpl::GetFlowcontrol() const {
+ATLAS_INLINE flowcontrol_t Serial::SerialImpl::GetFlowcontrol() const {
   return flowcontrol_;
 }
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::Flush() {
+ATLAS_INLINE void Serial::SerialImpl::Flush() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::flush");
   }
@@ -841,7 +841,7 @@ void Serial::SerialImpl::Flush() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::FlushInput() {
+ATLAS_INLINE void Serial::SerialImpl::FlushInput() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::flushInput");
   }
@@ -850,7 +850,7 @@ void Serial::SerialImpl::FlushInput() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::FlushOutput() {
+ATLAS_INLINE void Serial::SerialImpl::FlushOutput() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::flushOutput");
   }
@@ -859,7 +859,7 @@ void Serial::SerialImpl::FlushOutput() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SendBreak(int duration) {
+ATLAS_INLINE void Serial::SerialImpl::SendBreak(int duration) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::sendBreak");
   }
@@ -868,7 +868,7 @@ void Serial::SerialImpl::SendBreak(int duration) {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetBreak(bool level) {
+ATLAS_INLINE void Serial::SerialImpl::SetBreak(bool level) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::setBreak");
   }
@@ -892,7 +892,7 @@ void Serial::SerialImpl::SetBreak(bool level) {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetRTS(bool level) {
+ATLAS_INLINE void Serial::SerialImpl::SetRTS(bool level) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::setRTS");
   }
@@ -918,7 +918,7 @@ void Serial::SerialImpl::SetRTS(bool level) {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::SetDTR(bool level) {
+ATLAS_INLINE void Serial::SerialImpl::SetDTR(bool level) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::setDTR");
   }
@@ -944,7 +944,7 @@ void Serial::SerialImpl::SetDTR(bool level) {
 
 //------------------------------------------------------------------------------
 //
-bool Serial::SerialImpl::WaitForChange() {
+ATLAS_INLINE bool Serial::SerialImpl::WaitForChange() {
 #ifndef TIOCMIWAIT
   while (is_open_ == true) {
     int status;
@@ -980,7 +980,7 @@ bool Serial::SerialImpl::WaitForChange() {
 
 //------------------------------------------------------------------------------
 //
-bool Serial::SerialImpl::GetCTS() {
+ATLAS_INLINE bool Serial::SerialImpl::GetCTS() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getCTS");
   }
@@ -999,7 +999,7 @@ bool Serial::SerialImpl::GetCTS() {
 
 //------------------------------------------------------------------------------
 //
-bool Serial::SerialImpl::GetDSR() {
+ATLAS_INLINE bool Serial::SerialImpl::GetDSR() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getDSR");
   }
@@ -1018,7 +1018,7 @@ bool Serial::SerialImpl::GetDSR() {
 
 //------------------------------------------------------------------------------
 //
-bool Serial::SerialImpl::GetRI() {
+ATLAS_INLINE bool Serial::SerialImpl::GetRI() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getRI");
   }
@@ -1037,7 +1037,7 @@ bool Serial::SerialImpl::GetRI() {
 
 //------------------------------------------------------------------------------
 //
-bool Serial::SerialImpl::GetCD() {
+ATLAS_INLINE bool Serial::SerialImpl::GetCD() {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::getCD");
   }
@@ -1056,7 +1056,7 @@ bool Serial::SerialImpl::GetCD() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::ReadLock() {
+ATLAS_INLINE void Serial::SerialImpl::ReadLock() {
   int result = pthread_mutex_lock(&read_mutex);
   if (result) {
     THROW(IOException, result);
@@ -1065,7 +1065,7 @@ void Serial::SerialImpl::ReadLock() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::ReadUnlock() {
+ATLAS_INLINE void Serial::SerialImpl::ReadUnlock() {
   int result = pthread_mutex_unlock(&read_mutex);
   if (result) {
     THROW(IOException, result);
@@ -1074,7 +1074,7 @@ void Serial::SerialImpl::ReadUnlock() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::WriteLock() {
+ATLAS_INLINE void Serial::SerialImpl::WriteLock() {
   int result = pthread_mutex_lock(&write_mutex);
   if (result) {
     THROW(IOException, result);
@@ -1083,7 +1083,7 @@ void Serial::SerialImpl::WriteLock() {
 
 //------------------------------------------------------------------------------
 //
-void Serial::SerialImpl::WriteUnlock() {
+ATLAS_INLINE void Serial::SerialImpl::WriteUnlock() {
   int result = pthread_mutex_unlock(&write_mutex);
   if (result) {
     THROW(IOException, result);

@@ -465,7 +465,7 @@ class Serial {
    *
    * \see serial::Timeout
    */
-  void SetTimeout(Timeout &timeout);
+  void SetTimeout(const Timeout &timeout);
 
   /** Sets the timeout for reads and writes. */
   void SetTimeout(uint32_t inter_byte_timeout, uint32_t read_timeout_constant,
@@ -722,4 +722,4 @@ class PortNotOpenedException : public std::exception {
 
 #include <lib_atlas/io/serial_inl.h>
 
-#endif
+#endif  // LIB_ATLAS_IO_SERIAL_H_
