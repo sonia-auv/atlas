@@ -83,9 +83,9 @@ namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE Serial::SerialImpl::SerialImpl(const std::string &port, unsigned long baudrate,
-                               bytesize_t bytesize, parity_t parity,
-                               stopbits_t stopbits, flowcontrol_t flowcontrol)
+ATLAS_INLINE Serial::SerialImpl::SerialImpl(
+    const std::string &port, unsigned long baudrate, bytesize_t bytesize,
+    parity_t parity, stopbits_t stopbits, flowcontrol_t flowcontrol)
     : port_(port),
       fd_(-1),
       is_open_(false),
@@ -149,7 +149,8 @@ ATLAS_INLINE void Serial::SerialImpl::Open() {
 ATLAS_INLINE void Serial::SerialImpl::ReconfigurePort() {
   if (fd_ == -1) {
     // Can only operate on a valid file descriptor
-    ATLAS_THROW(IOException, "Invalid file descriptor, is the serial port open?");
+    ATLAS_THROW(IOException,
+                "Invalid file descriptor, is the serial port open?");
   }
 
   struct termios options;  // The options for the file descriptor
@@ -577,8 +578,8 @@ ATLAS_INLINE bool Serial::SerialImpl::WaitReadable(uint32_t timeout) {
   // This shouldn't happen, if r > 0 our fd has to be in the list!
   if (!FD_ISSET(fd_, &readfds)) {
     ATLAS_THROW(IOException,
-          "select reports ready to read, but our fd isn't"
-          " in the list, this shouldn't happen!");
+                "select reports ready to read, but our fd isn't"
+                " in the list, this shouldn't happen!");
   }
   // Data available to read.
   return true;
@@ -672,7 +673,8 @@ ATLAS_INLINE size_t Serial::SerialImpl::Read(uint8_t *buf, size_t size) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length) {
+ATLAS_INLINE size_t
+Serial::SerialImpl::Write(const uint8_t *data, size_t length) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::write");
   }
@@ -751,8 +753,8 @@ ATLAS_INLINE size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length
       }
       // This shouldn't happen, if r > 0 our fd has to be in the list!
       ATLAS_THROW(IOException,
-            "select reports ready to write, but our fd isn't"
-            " in the list, this shouldn't happen!");
+                  "select reports ready to write, but our fd isn't"
+                  " in the list, this shouldn't happen!");
     }
   }
   return bytes_written;
@@ -760,7 +762,9 @@ ATLAS_INLINE size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SerialImpl::SetPort(const std::string &port) { port_ = port; }
+ATLAS_INLINE void Serial::SerialImpl::SetPort(const std::string &port) {
+  port_ = port;
+}
 
 //------------------------------------------------------------------------------
 //
@@ -768,7 +772,9 @@ ATLAS_INLINE std::string Serial::SerialImpl::GetPort() const { return port_; }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SerialImpl::SetTimeout(const Timeout &timeout) { timeout_ = timeout; }
+ATLAS_INLINE void Serial::SerialImpl::SetTimeout(const Timeout &timeout) {
+  timeout_ = timeout;
+}
 
 //------------------------------------------------------------------------------
 //
@@ -783,7 +789,9 @@ ATLAS_INLINE void Serial::SerialImpl::SetBaudrate(unsigned long baudrate) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE unsigned long Serial::SerialImpl::GetBaudrate() const { return baudrate_; }
+ATLAS_INLINE unsigned long Serial::SerialImpl::GetBaudrate() const {
+  return baudrate_;
+}
 
 //------------------------------------------------------------------------------
 //
@@ -794,7 +802,9 @@ ATLAS_INLINE void Serial::SerialImpl::SetBytesize(bytesize_t bytesize) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE bytesize_t Serial::SerialImpl::GetBytesize() const { return bytesize_; }
+ATLAS_INLINE bytesize_t Serial::SerialImpl::GetBytesize() const {
+  return bytesize_;
+}
 
 //------------------------------------------------------------------------------
 //
@@ -816,11 +826,14 @@ ATLAS_INLINE void Serial::SerialImpl::SetStopbits(stopbits_t stopbits) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE stopbits_t Serial::SerialImpl::GetStopbits() const { return stopbits_; }
+ATLAS_INLINE stopbits_t Serial::SerialImpl::GetStopbits() const {
+  return stopbits_;
+}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SerialImpl::SetFlowcontrol(flowcontrol_t flowcontrol) {
+ATLAS_INLINE void Serial::SerialImpl::SetFlowcontrol(
+    flowcontrol_t flowcontrol) {
   flowcontrol_ = flowcontrol;
   if (is_open_) ReconfigurePort();
 }

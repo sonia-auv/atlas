@@ -19,32 +19,34 @@ namespace details {
 
 class ArgBase {
  public:
-  ArgBase() { }
-  virtual ~ArgBase() { }
+  ArgBase() {}
+  virtual ~ArgBase() {}
   virtual void Format(std::ostringstream &ss, const std::string &fmt) = 0;
 };
 
-template<class T>
-class Arg: public ArgBase {
+template <class T>
+class Arg : public ArgBase {
  public:
-  Arg(T arg) : m_arg(arg) { }
-  virtual ~Arg() { }
+  Arg(T arg) : m_arg(arg) {}
+  virtual ~Arg() {}
   virtual void Format(std::ostringstream &ss, const std::string &fmt) {
     ss << m_arg;
   }
+
  private:
   T m_arg;
 };
 
-class ArgArray: public std::vector<ArgBase *> {
+class ArgArray : public std::vector<ArgBase *> {
  public:
-  ArgArray() { }
+  ArgArray() {}
   ~ArgArray() {
     std::for_each(begin(), end(), [](ArgBase *p) { delete p; });
   }
 };
 
-static void FormatItem(std::ostringstream &ss, const std::string &item, const ArgArray &args) {
+static void FormatItem(std::ostringstream &ss, const std::string &item,
+                       const ArgArray &args) {
   int index = 0;
   int alignment = 0;
   std::string fmt;
@@ -59,8 +61,7 @@ static void FormatItem(std::ostringstream &ss, const std::string &item, const Ar
     alignment = strtol(endptr + 1, &endptr, 10);
     if (alignment > 0) {
       ss << std::right << std::setw(alignment);
-    }
-    else if (alignment < 0) {
+    } else if (alignment < 0) {
       ss << std::left << std::setw(-alignment);
     }
   }
@@ -74,24 +75,22 @@ static void FormatItem(std::ostringstream &ss, const std::string &item, const Ar
   return;
 }
 
-template<class T>
+template <class T>
 static void Transfer(ArgArray &argArray, T t) {
   argArray.push_back(new Arg<T>(t));
 }
 
-template<class T, typename... Args>
+template <class T, typename... Args>
 static void Transfer(ArgArray &argArray, T t, Args &&... args) {
   Transfer(argArray, t);
   Transfer(argArray, args...);
 }
 
-} // namespace details
+}  // namespace details
 
 template <typename... Args>
-std::string Format(const std::string& format, Args&&... args)
-{
-  if (sizeof...(args) == 0)
-  {
+std::string Format(const std::string &format, Args &&... args) {
+  if (sizeof...(args) == 0) {
     return format;
   }
 
@@ -100,18 +99,15 @@ std::string Format(const std::string& format, Args&&... args)
   size_t start = 0;
   size_t pos = 0;
   std::ostringstream ss;
-  while (true)
-  {
+  while (true) {
     pos = format.find('{', start);
-    if (pos == std::string::npos)
-    {
+    if (pos == std::string::npos) {
       ss << format.substr(start);
       break;
     }
 
     ss << format.substr(start, pos - start);
-    if (format[pos + 1] == '{')
-    {
+    if (format[pos + 1] == '{') {
       ss << '{';
       start = pos + 2;
       continue;
@@ -119,8 +115,7 @@ std::string Format(const std::string& format, Args&&... args)
 
     start = pos + 1;
     pos = format.find('}', start);
-    if (pos == std::string::npos)
-    {
+    if (pos == std::string::npos) {
       ss << format.substr(start - 1);
       break;
     }
@@ -132,6 +127,6 @@ std::string Format(const std::string& format, Args&&... args)
   return ss.str();
 }
 
-} // namespace atlas
+}  // namespace atlas
 
-#endif //LIB_ATLAS_IO_FORMATTER_H_
+#endif  // LIB_ATLAS_IO_FORMATTER_H_
