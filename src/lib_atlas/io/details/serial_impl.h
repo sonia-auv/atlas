@@ -39,6 +39,7 @@
 #define LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
 
 #include <pthread.h>
+#include <lib_atlas/exceptions.h>
 
 namespace atlas {
 

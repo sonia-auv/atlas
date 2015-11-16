@@ -1,0 +1,54 @@
+/**
+ * \file	serial_exception.h
+ * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
+ * \date	16/11/2015
+ *
+ * \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
+ *
+ * \section LICENSE
+ *
+ * This file is part of S.O.N.I.A. software.
+ *
+ * S.O.N.I.A. software is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * S.O.N.I.A. software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef LIB_ATLAS_EXCEPTIONS_SERIAL_EXCEPTION_H_
+#define LIB_ATLAS_EXCEPTIONS_SERIAL_EXCEPTION_H_
+
+#include <string>
+#include <iostream>
+#include <stdexcept>
+#include <lib_atlas/macros.h>
+
+namespace atlas {
+
+class SerialException: public std::exception {
+  // Disable copy constructors
+  SerialException &operator=(const SerialException &) = delete;
+  std::string e_what_;
+
+ public:
+  SerialException(const char *description) {
+    std::stringstream ss;
+    ss << "SerialException " << description << " failed.";
+    e_what_ = ss.str();
+  }
+  SerialException(const SerialException &other) : e_what_(other.e_what_) { }
+  virtual ~SerialException() ATLAS_NOEXCEPT { }
+  const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
+};
+
+} // namespace atlas
+
+#endif // LIB_ATLAS_EXCEPTIONS_SERIAL_EXCEPTION_H_

@@ -46,6 +46,7 @@
 #include <termios.h>
 #include <sys/param.h>
 #include <pthread.h>
+#include <lib_atlas/exceptions.h>
 
 #if defined(__linux__)
 #include <linux/serial.h>

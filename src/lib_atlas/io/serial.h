@@ -45,6 +45,7 @@
 #include <stdexcept>
 #include <stdint.h>
 #include <lib_atlas/macros.h>
+#include <lib_atlas/exceptions.h>
 
 #ifdef max
 #undef max
@@ -647,72 +648,6 @@ class Serial {
   size_t read_(uint8_t *buffer, size_t size);
   // Write common function
   size_t write_(const uint8_t *data, size_t length);
-};
-
-class SerialException : public std::exception {
-  // Disable copy constructors
-  SerialException &operator=(const SerialException &) = delete;
-  std::string e_what_;
-
- public:
-  SerialException(const char *description) {
-    std::stringstream ss;
-    ss << "SerialException " << description << " failed.";
-    e_what_ = ss.str();
-  }
-  SerialException(const SerialException &other) : e_what_(other.e_what_) {}
-  virtual ~SerialException() ATLAS_NOEXCEPT {}
-  const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
-};
-
-class IOException : public std::exception {
-  // Disable copy constructors
-  IOException &operator=(const IOException &) = delete;
-  std::string file_;
-  int line_;
-  std::string e_what_;
-  int errno_;
-
- public:
-  explicit IOException(std::string file, int line, int errnum)
-      : file_(file), line_(line), errno_(errnum) {
-    std::stringstream ss;
-    char *error_str = strerror(errnum);
-    ss << "IO Exception (" << errno_ << "): " << error_str;
-    ss << ", file " << file_ << ", line " << line_ << ".";
-    e_what_ = ss.str();
-  }
-  explicit IOException(std::string file, int line, const char *description)
-      : file_(file), line_(line), errno_(0) {
-    std::stringstream ss;
-    ss << "IO Exception: " << description;
-    ss << ", file " << file_ << ", line " << line_ << ".";
-    e_what_ = ss.str();
-  }
-  virtual ~IOException() ATLAS_NOEXCEPT {}
-  IOException(const IOException &other)
-      : line_(other.line_), e_what_(other.e_what_), errno_(other.errno_) {}
-
-  int GetErrorNumber() { return errno_; }
-
-  const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
-};
-
-class PortNotOpenedException : public std::exception {
-  // Disable copy constructors
-  const PortNotOpenedException &operator=(PortNotOpenedException) = delete;
-  std::string e_what_;
-
- public:
-  PortNotOpenedException(const char *description) {
-    std::stringstream ss;
-    ss << "PortNotOpenedException " << description << " failed.";
-    e_what_ = ss.str();
-  }
-  PortNotOpenedException(const PortNotOpenedException &other)
-      : e_what_(other.e_what_) {}
-  virtual ~PortNotOpenedException() ATLAS_NOEXCEPT {}
-  const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
 };
 
 }  // namespace atlas
