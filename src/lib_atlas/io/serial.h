@@ -46,9 +46,6 @@
 #include <stdint.h>
 #include <lib_atlas/macros.h>
 
-#define THROW(exceptionClass, message) \
-  throw exceptionClass(__FILE__, __LINE__, (message))
-
 #ifdef max
 #undef max
 #endif

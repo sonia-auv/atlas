@@ -133,9 +133,9 @@ ATLAS_INLINE void Serial::SerialImpl::Open() {
         return;
       case ENFILE:
       case EMFILE:
-        THROW(IOException, "Too many file handles open.");
+        ATLAS_THROW(IOException, "Too many file handles open.");
       default:
-        THROW(IOException, errno);
+        ATLAS_THROW(IOException, errno);
     }
   }
 
@@ -148,13 +148,13 @@ ATLAS_INLINE void Serial::SerialImpl::Open() {
 ATLAS_INLINE void Serial::SerialImpl::ReconfigurePort() {
   if (fd_ == -1) {
     // Can only operate on a valid file descriptor
-    THROW(IOException, "Invalid file descriptor, is the serial port open?");
+    ATLAS_THROW(IOException, "Invalid file descriptor, is the serial port open?");
   }
 
   struct termios options;  // The options for the file descriptor
 
   if (tcgetattr(fd_, &options) == -1) {
-    THROW(IOException, "::tcgetattr");
+    ATLAS_THROW(IOException, "::tcgetattr");
   }
 
   // set up raw mode / no echo / binary
@@ -375,14 +375,14 @@ ATLAS_INLINE void Serial::SerialImpl::ReconfigurePort() {
       // and output speed.
       speed_t new_baud = static_cast<speed_t>(baudrate_);
       if (-1 == ioctl(fd_, IOSSIOSPEED, &new_baud, 1)) {
-        THROW(IOException, errno);
+        ATLAS_THROW(IOException, errno);
       }
 // Linux Support
 #elif defined(__linux__) && defined(TIOCSSERIAL)
       struct serial_struct ser;
 
       if (-1 == ioctl(fd_, TIOCGSERIAL, &ser)) {
-        THROW(IOException, errno);
+        ATLAS_THROW(IOException, errno);
       }
 
       // set custom divisor
@@ -392,7 +392,7 @@ ATLAS_INLINE void Serial::SerialImpl::ReconfigurePort() {
       ser.flags |= ASYNC_SPD_CUST;
 
       if (-1 == ioctl(fd_, TIOCSSERIAL, &ser)) {
-        THROW(IOException, errno);
+        ATLAS_THROW(IOException, errno);
       }
 #else
       throw invalid_argument("OS does not currently support custom bauds");
@@ -526,7 +526,7 @@ ATLAS_INLINE void Serial::SerialImpl::Close() {
       if (ret == 0) {
         fd_ = -1;
       } else {
-        THROW(IOException, errno);
+        ATLAS_THROW(IOException, errno);
       }
     }
     is_open_ = false;
@@ -545,7 +545,7 @@ ATLAS_INLINE size_t Serial::SerialImpl::Available() {
   }
   int count = 0;
   if (-1 == ioctl(fd_, TIOCINQ, &count)) {
-    THROW(IOException, errno);
+    ATLAS_THROW(IOException, errno);
   } else {
     return static_cast<size_t>(count);
   }
@@ -567,7 +567,7 @@ ATLAS_INLINE bool Serial::SerialImpl::WaitReadable(uint32_t timeout) {
       return false;
     }
     // Otherwise there was some error
-    THROW(IOException, errno);
+    ATLAS_THROW(IOException, errno);
   }
   // Timeout occurred
   if (r == 0) {
@@ -575,7 +575,7 @@ ATLAS_INLINE bool Serial::SerialImpl::WaitReadable(uint32_t timeout) {
   }
   // This shouldn't happen, if r > 0 our fd has to be in the list!
   if (!FD_ISSET(fd_, &readfds)) {
-    THROW(IOException,
+    ATLAS_THROW(IOException,
           "select reports ready to read, but our fd isn't"
           " in the list, this shouldn't happen!");
   }
@@ -706,7 +706,7 @@ ATLAS_INLINE size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length
         continue;
       }
       // Otherwise there was some error
-      THROW(IOException, errno);
+      ATLAS_THROW(IOException, errno);
     }
     /** Timeout **/
     if (r == 0) {
@@ -749,7 +749,7 @@ ATLAS_INLINE size_t Serial::SerialImpl::Write(const uint8_t *data, size_t length
         }
       }
       // This shouldn't happen, if r > 0 our fd has to be in the list!
-      THROW(IOException,
+      ATLAS_THROW(IOException,
             "select reports ready to write, but our fd isn't"
             " in the list, this shouldn't happen!");
     }
@@ -1059,7 +1059,7 @@ ATLAS_INLINE bool Serial::SerialImpl::GetCD() {
 ATLAS_INLINE void Serial::SerialImpl::ReadLock() {
   int result = pthread_mutex_lock(&read_mutex);
   if (result) {
-    THROW(IOException, result);
+    ATLAS_THROW(IOException, result);
   }
 }
 
@@ -1068,7 +1068,7 @@ ATLAS_INLINE void Serial::SerialImpl::ReadLock() {
 ATLAS_INLINE void Serial::SerialImpl::ReadUnlock() {
   int result = pthread_mutex_unlock(&read_mutex);
   if (result) {
-    THROW(IOException, result);
+    ATLAS_THROW(IOException, result);
   }
 }
 
@@ -1077,7 +1077,7 @@ ATLAS_INLINE void Serial::SerialImpl::ReadUnlock() {
 ATLAS_INLINE void Serial::SerialImpl::WriteLock() {
   int result = pthread_mutex_lock(&write_mutex);
   if (result) {
-    THROW(IOException, result);
+    ATLAS_THROW(IOException, result);
   }
 }
 
@@ -1086,7 +1086,7 @@ ATLAS_INLINE void Serial::SerialImpl::WriteLock() {
 ATLAS_INLINE void Serial::SerialImpl::WriteUnlock() {
   int result = pthread_mutex_unlock(&write_mutex);
   if (result) {
-    THROW(IOException, result);
+    ATLAS_THROW(IOException, result);
   }
 }
 

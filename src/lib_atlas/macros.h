@@ -26,6 +26,9 @@
 #ifndef LIB_ATLAS_MACROS_H_
 #define LIB_ATLAS_MACROS_H_
 
+#define ATLAS_THROW(exceptionClass, message) \
+  throw exceptionClass(__FILE__, __LINE__, (message))
+
 // Defining exception macros
 #if (__cplusplus >= 201103L)
 #define ATLAS_NOEXCEPT noexcept
