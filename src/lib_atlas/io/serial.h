@@ -80,7 +80,7 @@ typedef enum {
 typedef enum {
   stopbits_one = 1,
   stopbits_two = 2,
-  stopbits_one_point_five = 3 
+  stopbits_one_point_five = 3
 } stopbits_t;
 
 /**
@@ -136,18 +136,18 @@ struct Timeout {
 
   /** Number of milliseconds between bytes received to timeout on. */
   uint32_t inter_byte_timeout;
-  
+
   /** A constant number of milliseconds to wait after calling read. */
   uint32_t read_timeout_constant;
-  
+
   /** A multiplier against the number of requested bytes to wait after
    *  calling read.
    */
   uint32_t read_timeout_multiplier;
-  
+
   /** A constant number of milliseconds to wait after calling write. */
   uint32_t write_timeout_constant;
-  
+
   /** A multiplier against the number of requested bytes to wait after
    *  calling write.
    */

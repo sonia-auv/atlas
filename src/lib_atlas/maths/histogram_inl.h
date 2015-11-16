@@ -122,8 +122,8 @@ Histogram<Tp_> &Histogram<Tp_>::operator=(Histogram<Tp_> &&rhs) ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE uint64_t Histogram<Tp_>::Index(const Tp_ &value)
-    ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE uint64_t
+Histogram<Tp_>::Index(const Tp_ &value) ATLAS_NOEXCEPT {
   return std::distance(std::begin(histogram_), histogram_.find(value));
 }
 

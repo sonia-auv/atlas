@@ -49,9 +49,7 @@ namespace atlas {
 //
 class Serial::ScopedReadLock {
  public:
-  ScopedReadLock(SerialImpl *pimpl) : pimpl_(pimpl) {
-    pimpl_->ReadLock();
-  }
+  ScopedReadLock(SerialImpl *pimpl) : pimpl_(pimpl) { pimpl_->ReadLock(); }
   ~ScopedReadLock() { pimpl_->ReadUnlock(); }
 
  private:
@@ -66,9 +64,7 @@ class Serial::ScopedReadLock {
 //
 class Serial::ScopedWriteLock {
  public:
-  ScopedWriteLock(SerialImpl *pimpl) : pimpl_(pimpl) {
-    pimpl_->WriteLock();
-  }
+  ScopedWriteLock(SerialImpl *pimpl) : pimpl_(pimpl) { pimpl_->WriteLock(); }
   ~ScopedWriteLock() { pimpl_->WriteUnlock(); }
 
  private:
@@ -83,9 +79,10 @@ class Serial::ScopedWriteLock {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE Serial::Serial(const std::string &port, uint32_t baudrate, Timeout timeout,
-               bytesize_t bytesize, parity_t parity, stopbits_t stopbits,
-               flowcontrol_t flowcontrol)
+ATLAS_INLINE Serial::Serial(const std::string &port, uint32_t baudrate,
+                            Timeout timeout, bytesize_t bytesize,
+                            parity_t parity, stopbits_t stopbits,
+                            flowcontrol_t flowcontrol)
     : pimpl_(new SerialImpl(port, baudrate, bytesize, parity, stopbits,
                             flowcontrol)) {
   pimpl_->SetTimeout(timeout);
@@ -123,7 +120,9 @@ ATLAS_INLINE bool Serial::WaitReadable() {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::WaitByteTimes(size_t count) { pimpl_->WaitByteTimes(count); }
+ATLAS_INLINE void Serial::WaitByteTimes(size_t count) {
+  pimpl_->WaitByteTimes(count);
+}
 
 //------------------------------------------------------------------------------
 //
@@ -170,7 +169,8 @@ ATLAS_INLINE std::string Serial::Read(size_t size) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE size_t Serial::ReadLine(std::string &buffer, size_t size, std::string eol) {
+ATLAS_INLINE size_t
+Serial::ReadLine(std::string &buffer, size_t size, std::string eol) {
   ScopedReadLock lock(pimpl_);
   size_t eol_len = eol.length();
   uint8_t *buffer_ = static_cast<uint8_t *>(alloca(size * sizeof(uint8_t)));
@@ -204,7 +204,8 @@ ATLAS_INLINE std::string Serial::ReadLine(size_t size, std::string eol) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE std::vector<std::string> Serial::ReadLines(size_t size, std::string eol) {
+ATLAS_INLINE std::vector<std::string> Serial::ReadLines(size_t size,
+                                                        std::string eol) {
   ScopedReadLock lock(pimpl_);
   std::vector<std::string> lines;
   size_t eol_len = eol.length();
@@ -247,8 +248,7 @@ ATLAS_INLINE std::vector<std::string> Serial::ReadLines(size_t size, std::string
 //
 ATLAS_INLINE size_t Serial::Write(const std::string &data) {
   ScopedWriteLock lock(pimpl_);
-  return write_(reinterpret_cast<const uint8_t *>(data.c_str()),
-                      data.length());
+  return write_(reinterpret_cast<const uint8_t *>(data.c_str()), data.length());
 }
 
 //------------------------------------------------------------------------------
@@ -292,7 +292,9 @@ ATLAS_INLINE std::string Serial::GetPort() const { return pimpl_->GetPort(); }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SetTimeout(const Timeout &timeout) { pimpl_->SetTimeout(timeout); }
+ATLAS_INLINE void Serial::SetTimeout(const Timeout &timeout) {
+  pimpl_->SetTimeout(timeout);
+}
 
 //------------------------------------------------------------------------------
 //
@@ -300,23 +302,33 @@ ATLAS_INLINE Timeout Serial::GetTimeout() const { return pimpl_->GetTimeout(); }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SetBaudrate(uint32_t baudrate) { pimpl_->SetBaudrate(baudrate); }
+ATLAS_INLINE void Serial::SetBaudrate(uint32_t baudrate) {
+  pimpl_->SetBaudrate(baudrate);
+}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE uint32_t Serial::GetBaudrate() const { return uint32_t(pimpl_->GetBaudrate()); }
+ATLAS_INLINE uint32_t Serial::GetBaudrate() const {
+  return uint32_t(pimpl_->GetBaudrate());
+}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SetBytesize(bytesize_t bytesize) { pimpl_->SetBytesize(bytesize); }
+ATLAS_INLINE void Serial::SetBytesize(bytesize_t bytesize) {
+  pimpl_->SetBytesize(bytesize);
+}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE bytesize_t Serial::GetBytesize() const { return pimpl_->GetBytesize(); }
+ATLAS_INLINE bytesize_t Serial::GetBytesize() const {
+  return pimpl_->GetBytesize();
+}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SetParity(parity_t parity) { pimpl_->SetParity(parity); }
+ATLAS_INLINE void Serial::SetParity(parity_t parity) {
+  pimpl_->SetParity(parity);
+}
 
 //------------------------------------------------------------------------------
 //
@@ -324,12 +336,15 @@ ATLAS_INLINE parity_t Serial::GetParity() const { return pimpl_->GetParity(); }
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SetStopbits(stopbits_t stopbits) { pimpl_->SetStopbits(stopbits); }
+ATLAS_INLINE void Serial::SetStopbits(stopbits_t stopbits) {
+  pimpl_->SetStopbits(stopbits);
+}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE stopbits_t Serial::GetStopbits() const { return
-      pimpl_->GetStopbits(); }
+ATLAS_INLINE stopbits_t Serial::GetStopbits() const {
+  return pimpl_->GetStopbits();
+}
 
 //------------------------------------------------------------------------------
 //
@@ -367,7 +382,9 @@ ATLAS_INLINE void Serial::FlushOutput() {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE void Serial::SendBreak(int duration) { pimpl_->SendBreak(duration); }
+ATLAS_INLINE void Serial::SendBreak(int duration) {
+  pimpl_->SendBreak(duration);
+}
 
 //------------------------------------------------------------------------------
 //

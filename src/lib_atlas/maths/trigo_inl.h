@@ -46,8 +46,8 @@ ATLAS_ALWAYS_INLINE Tp_ RadToDeg(const Tp_ &radians) ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_ AngleDistance(const Tp_ &a1,
-                                      const Tp_ &a2) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE Tp_
+AngleDistance(const Tp_ &a1, const Tp_ &a2) ATLAS_NOEXCEPT {
   Tp_ angle_diff = a1 - a2;
 
   if (angle_diff < static_cast<Tp_>(-180)) {
