@@ -23,8 +23,8 @@
  * along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LIB_ATLAS_EXCEPTIONS_SERIAL_EXCEPTION_H_
-#define LIB_ATLAS_EXCEPTIONS_SERIAL_EXCEPTION_H_
+#ifndef LIB_ATLAS_EXCEPTIONS_CORRUPTED_DATA_EXCEPTION_H_
+#define LIB_ATLAS_EXCEPTIONS_CORRUPTED_DATA_EXCEPTION_H_
 
 #include <string>
 #include <iostream>
@@ -33,25 +33,26 @@
 
 namespace atlas {
 
-class SerialException : public std::exception {
+class CorruptedDataException : public std::exception {
  public:
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  SerialException(const char *description) {
+  explicit CorruptedDataException(const char *description) {
     std::stringstream ss;
     ss << "SerialException " << description << " failed.";
     e_what_ = ss.str();
   }
 
-  SerialException(const SerialException &other) : e_what_(other.e_what_) {}
+  explicit CorruptedDataException(const CorruptedDataException &other)
+      : e_what_(other.e_what_) {}
 
   virtual ~SerialException() ATLAS_NOEXCEPT {}
 
   //============================================================================
   // P U B L I C   O P E R A T O R S
 
-  SerialException &operator=(const SerialException &) = delete;
+  CorruptedDataException &operator=(const CorruptedDataException &) = delete;
 
   //============================================================================
   // P U B L I C   M E T H O D S
@@ -67,4 +68,4 @@ class SerialException : public std::exception {
 
 }  // namespace atlas
 
-#endif  // LIB_ATLAS_EXCEPTIONS_SERIAL_EXCEPTION_H_
+#endif  // LIB_ATLAS_EXCEPTIONS_CORRUPTED_DATA_EXCEPTION_H_

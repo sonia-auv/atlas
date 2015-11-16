@@ -33,15 +33,11 @@
 
 namespace atlas {
 
-class IOException: public std::exception {
-  // Disable copy constructors
-  IOException &operator=(const IOException &) = delete;
-  std::string file_;
-  int line_;
-  std::string e_what_;
-  int errno_;
-
+class IOException : public std::exception {
  public:
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
   explicit IOException(std::string file, int line, int errnum)
       : file_(file), line_(line), errno_(errnum) {
     std::stringstream ss;
@@ -50,6 +46,7 @@ class IOException: public std::exception {
     ss << ", file " << file_ << ", line " << line_ << ".";
     e_what_ = ss.str();
   }
+
   explicit IOException(std::string file, int line, const char *description)
       : file_(file), line_(line), errno_(0) {
     std::stringstream ss;
@@ -57,15 +54,37 @@ class IOException: public std::exception {
     ss << ", file " << file_ << ", line " << line_ << ".";
     e_what_ = ss.str();
   }
-  virtual ~IOException() ATLAS_NOEXCEPT { }
-  IOException(const IOException &other)
-      : line_(other.line_), e_what_(other.e_what_), errno_(other.errno_) { }
+
+  explicit IOException(const IOException &other)
+      : line_(other.line_), e_what_(other.e_what_), errno_(other.errno_) {}
+
+  virtual ~IOException() ATLAS_NOEXCEPT {}
+
+  //============================================================================
+  // P U B L I C   O P E R A T O R S
+
+  IOException &operator=(const IOException &) = delete;
+
+  //============================================================================
+  // P U B L I C   M E T H O D S
 
   int GetErrorNumber() { return errno_; }
 
   const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
+
+ private:
+  //============================================================================
+  // P R I V A T E   M E M B E R S
+
+  std::string file_;
+
+  int line_;
+
+  std::string e_what_;
+
+  int errno_;
 };
 
-} // namespace atlas
+}  // namespace atlas
 
-#endif // LIB_ATLAS_EXCEPTIONS_IO_EXCEPTION_H_
+#endif  // LIB_ATLAS_EXCEPTIONS_IO_EXCEPTION_H_

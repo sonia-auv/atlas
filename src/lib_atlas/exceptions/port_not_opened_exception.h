@@ -33,23 +33,39 @@
 
 namespace atlas {
 
-class PortNotOpenedException: public std::exception {
-  // Disable copy constructors
-  const PortNotOpenedException &operator=(PortNotOpenedException) = delete;
-  std::string e_what_;
-
+class PortNotOpenedException : public std::exception {
  public:
-  PortNotOpenedException(const char *description) {
+  //============================================================================
+  // P U B L I C   C / D T O R S
+
+  explicit PortNotOpenedException(const char *description) {
     std::stringstream ss;
     ss << "PortNotOpenedException " << description << " failed.";
     e_what_ = ss.str();
   }
-  PortNotOpenedException(const PortNotOpenedException &other)
-      : e_what_(other.e_what_) { }
-  virtual ~PortNotOpenedException() ATLAS_NOEXCEPT { }
+
+  explicit PortNotOpenedException(const PortNotOpenedException &other)
+      : e_what_(other.e_what_) {}
+
+  virtual ~PortNotOpenedException() ATLAS_NOEXCEPT {}
+
+  //============================================================================
+  // P U B L I C   O P E R A T O R S
+
+  const PortNotOpenedException &operator=(PortNotOpenedException) = delete;
+
+  //============================================================================
+  // P U B L I C   M E T H O D S
+
   const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
+
+ private:
+  //============================================================================
+  // P R I V A T E   M E M B E R S
+
+  std::string e_what_;
 };
 
-} // namespace atlas
+}  // namespace atlas
 
-#endif // LIB_ATLAS_EXCEPTIONS_PORT_NOT_OPENED_EXCEPTION_H_
+#endif  // LIB_ATLAS_EXCEPTIONS_PORT_NOT_OPENED_EXCEPTION_H_

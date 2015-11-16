@@ -29,5 +29,6 @@
 #include <lib_atlas/exceptions/serial_exception.h>
 #include <lib_atlas/exceptions/port_not_opened_exception.h>
 #include <lib_atlas/exceptions/io_exception.h>
+#include <lib_atlas/exceptions/corrupted_data_exception.h>
 
-#endif //LIB_ATLAS_EXCEPTIONS_H
+#endif  // LIB_ATLAS_EXCEPTIONS_H
