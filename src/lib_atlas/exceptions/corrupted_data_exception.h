@@ -47,7 +47,7 @@ class CorruptedDataException : public std::exception {
   explicit CorruptedDataException(const CorruptedDataException &other)
       : e_what_(other.e_what_) {}
 
-  virtual ~SerialException() ATLAS_NOEXCEPT {}
+  virtual ~CorruptedDataException() ATLAS_NOEXCEPT {}
 
   //============================================================================
   // P U B L I C   O P E R A T O R S
