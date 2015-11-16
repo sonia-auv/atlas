@@ -44,7 +44,7 @@ class PortNotOpenedException : public std::exception {
     e_what_ = ss.str();
   }
 
-  explicit PortNotOpenedException(const PortNotOpenedException &other)
+  PortNotOpenedException(const PortNotOpenedException &other)
       : e_what_(other.e_what_) {}
 
   virtual ~PortNotOpenedException() ATLAS_NOEXCEPT {}

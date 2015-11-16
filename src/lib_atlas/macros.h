@@ -26,8 +26,15 @@
 #ifndef LIB_ATLAS_MACROS_H_
 #define LIB_ATLAS_MACROS_H_
 
-#define ATLAS_THROW(exceptionClass, message) \
-  throw exceptionClass(__FILE__, __LINE__, (message))
+#include <iostream>
+
+#define ATLAS_THROW(exceptionClass, message)                         \
+  {                                                                  \
+    std::stringstream ss;                                            \
+    ss << message << " at " << __FILE__ << ":" << __LINE__ << " in " \
+       << __FUNCTION__;                                              \
+    throw exceptionClass(ss.str().c_str());                          \
+  }
 
 // Defining exception macros
 #if (__cplusplus >= 201103L)

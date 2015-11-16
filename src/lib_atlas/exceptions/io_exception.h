@@ -38,37 +38,23 @@ class IOException : public std::exception {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  explicit IOException(std::string file, int line, int errnum)
-      : file_(file), line_(line), errno_(errnum) {
+  explicit IOException(const char *description) {
     std::stringstream ss;
-    char *error_str = strerror(errnum);
-    ss << "IO Exception (" << errno_ << "): " << error_str;
-    ss << ", file " << file_ << ", line " << line_ << ".";
+    ss << "IOException " << description << " failed.";
     e_what_ = ss.str();
   }
 
-  explicit IOException(std::string file, int line, const char *description)
-      : file_(file), line_(line), errno_(0) {
-    std::stringstream ss;
-    ss << "IO Exception: " << description;
-    ss << ", file " << file_ << ", line " << line_ << ".";
-    e_what_ = ss.str();
-  }
-
-  explicit IOException(const IOException &other)
-      : line_(other.line_), e_what_(other.e_what_), errno_(other.errno_) {}
+  IOException(const IOException &other) : e_what_(other.e_what_) {}
 
   virtual ~IOException() ATLAS_NOEXCEPT {}
 
   //============================================================================
   // P U B L I C   O P E R A T O R S
 
-  IOException &operator=(const IOException &) = delete;
+  const IOException &operator=(IOException) = delete;
 
   //============================================================================
   // P U B L I C   M E T H O D S
-
-  int GetErrorNumber() { return errno_; }
 
   const char *what() const ATLAS_NOEXCEPT override { return e_what_.c_str(); }
 
@@ -76,13 +62,7 @@ class IOException : public std::exception {
   //============================================================================
   // P R I V A T E   M E M B E R S
 
-  std::string file_;
-
-  int line_;
-
   std::string e_what_;
-
-  int errno_;
 };
 
 }  // namespace atlas

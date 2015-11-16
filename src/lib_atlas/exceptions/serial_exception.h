@@ -38,7 +38,7 @@ class SerialException : public std::exception {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  SerialException(const char *description) {
+  explicit SerialException(const char *description) {
     std::stringstream ss;
     ss << "SerialException " << description << " failed.";
     e_what_ = ss.str();
