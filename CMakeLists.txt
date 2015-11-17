@@ -21,6 +21,8 @@ endif (NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3")
 
+set(lib_atlas_SRC_DIR "src")
+
 #===============================================================================
 # C A T K I N   C O N F I G U R A T I O N
 
@@ -48,7 +50,7 @@ if (UNIX AND NOT APPLE)
   )
 else ()
   catkin_package(
-      INCLUDE_DIRS src
+      INCLUDE_DIRS ${lib_atlas_SRC_DIR}
       LIBRARIES sonia_atlas
       CATKIN_DEPENDS roscpp std_msgs image_transport cv_bridge
   )
@@ -57,34 +59,21 @@ endif ()
 #===============================================================================
 # I N C L U D E   F I L E S
 
-set(lib_atlas_SRC_DIR "src")
-
 # Get all the files of the projects.
-file(GLOB_RECURSE lib_atlas_HDR_FILES "${lib_atlas_SRC_DIR}/*.h")
-file(GLOB_RECURSE lib_atlas_SRC_FILES
-    "${lib_atlas_SRC_DIR}/*.cc"
-    "${lib_atlas_SRC_DIR}/*.h"
-    )
+file(GLOB_RECURSE lib_atlas_SRC_FILES "${lib_atlas_SRC_DIR}/*.h")
 
 # Include all the directories where source can be found.
 include_directories(
     ${lib_atlas_SRC_DIR}
     ${catkin_INCLUDE_DIRS}
-    ${OpenCV_INCLUDE_DIRS}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
 
-set(TARGET_NAME sonia_atlas)
-
-add_library(${TARGET_NAME} ${lib_atlas_SRC_FILES})
-target_link_libraries(${TARGET_NAME} ${catkin_LIBRARIES})
-
-set_target_properties(${TARGET_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-
-#==========================================================================
-# I N S T A L L I N G   T A R G E T S
+add_library(sonia_atlas ${lib_atlas_SRC_FILES})
+target_link_libraries(sonia_atlas ${catkin_LIBRARIES})
+set_target_properties(sonia_atlas PROPERTIES LINKER_LANGUAGE CXX)
 
 install(
     TARGETS ${TARGET_NAME}
@@ -99,7 +88,9 @@ install(
     PATTERN ".git" EXCLUDE
 )
 
-## Tests
+#==========================================================================
+# U N I T   T E S T S
+
 if (CATKIN_ENABLE_TESTING)
   add_subdirectory(test)
 endif ()
