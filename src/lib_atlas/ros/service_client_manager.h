@@ -39,6 +39,11 @@ namespace atlas {
 /// the managment of storing and deleting ROS Services.
 class ServiceClientManager {
  public:
+  //==========================================================================
+  // T Y P E D E F   A N D   E N U M
+
+  using Ptr = std::shared_ptr<ServiceClientManager>;
+
   static constexpr unsigned short kConnectionAttempts = 3;
 
   //============================================================================

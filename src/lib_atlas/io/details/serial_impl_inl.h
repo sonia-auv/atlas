@@ -451,7 +451,7 @@ ATLAS_INLINE void Serial::SerialImpl::ReconfigurePort() {
 #else
   // CMSPAR is not defined on OSX. So do not support mark or space parity.
   else if (parity_ == parity_mark || parity_ == parity_space) {
-    throw invalid_argument("OS does not support mark or space parity");
+    throw std::invalid_argument("OS does not support mark or space parity");
   }
 #endif  // ifdef CMSPAR
   else {
@@ -964,7 +964,7 @@ ATLAS_INLINE bool Serial::SerialImpl::WaitForChange() {
     int status;
 
     if (-1 == ioctl(fd_, TIOCMGET, &status)) {
-      stringstream ss;
+      std::stringstream ss;
       ss << "waitForChange failed on a call to ioctl(TIOCMGET): " << errno
          << " " << strerror(errno);
       throw(SerialException(ss.str().c_str()));

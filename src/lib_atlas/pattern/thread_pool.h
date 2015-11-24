@@ -58,6 +58,11 @@ namespace atlas {
  */
 class ThreadPool {
  public:
+  //==========================================================================
+  // T Y P E D E F   A N D   E N U M
+
+  using Ptr = std::shared_ptr<ThreadPool>;
+
   //============================================================================
   // P U B L I C   C / D T O R S
 

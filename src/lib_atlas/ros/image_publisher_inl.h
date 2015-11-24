@@ -41,8 +41,7 @@ ATLAS_ALWAYS_INLINE ImagePublisher::ImagePublisher(
     const std::string &topic_name) ATLAS_NOEXCEPT
     : topic_name_(topic_name),
       img_transport_(ros::NodeHandle()),
-      publisher_() {
-  publisher_ = img_transport_.advertise(topic_name_, 1);
+      publisher_(img_transport_.advertise(topic_name_, 1)) {
 }
 
 //------------------------------------------------------------------------------

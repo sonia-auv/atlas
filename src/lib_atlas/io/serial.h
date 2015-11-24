@@ -99,6 +99,11 @@ typedef enum {
  * In order to disable the interbyte timeout, set it to Timeout::max().
  */
 struct Timeout {
+  //==========================================================================
+  // T Y P E D E F   A N D   E N U M
+
+  using Ptr = std::shared_ptr<Timeout>;
+
   //============================================================================
   // P U B L I C   C / D T O R S
 
@@ -159,6 +164,11 @@ struct Timeout {
  */
 class Serial {
  public:
+  //==========================================================================
+  // T Y P E D E F   A N D   E N U M
+
+  using Ptr = std::shared_ptr<Serial>;
+
   //============================================================================
   // P U B L I C   C / D T O R S
 

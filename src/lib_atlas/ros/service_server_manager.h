@@ -45,6 +45,11 @@ namespace atlas {
 template <class T>
 class ServiceServerManager {
  public:
+  //==========================================================================
+  // T Y P E D E F   A N D   E N U M
+
+  using Ptr = std::shared_ptr<ServiceServerManager<T>>;
+
   //============================================================================
   // T Y P E D E F   A N D   E N U M
 

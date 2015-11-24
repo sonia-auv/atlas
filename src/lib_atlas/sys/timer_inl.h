@@ -29,6 +29,11 @@
 
 #include <math.h>
 #include <thread>
+#include <lib_atlas/macros.h>
+#ifdef __MACH__
+#include <mach/clock.h>
+#include <mach/mach.h>
+#endif
 
 namespace atlas {
 
@@ -163,11 +168,11 @@ template <class Up_, class Tp_>
 ATLAS_ALWAYS_INLINE std::string Timer<Up_, Tp_>::CurrentDate() ATLAS_NOEXCEPT {
   time_t now = time(0);
   struct tm tstruct;
-  std::string buf;
+  char *buf = nullptr;
   tstruct = *localtime(&now);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
   // for more information about date/time format
-  strftime(buf.c_str(), sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+  std::strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
   return buf;
 }
 

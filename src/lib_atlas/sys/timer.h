@@ -37,6 +37,11 @@ template <class Ut_ = std::chrono::milliseconds,
           class Tp_ = std::chrono::steady_clock>
 class Timer {
  public:
+  //==========================================================================
+  // T Y P E D E F   A N D   E N U M
+
+  using Ptr = std::shared_ptr<Timer<Ut_, Tp_>>;
+
   //============================================================================
   // P U B L I C   C / D T O R S
 
