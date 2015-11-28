@@ -34,6 +34,11 @@
 
 namespace atlas {
 
+/**
+ * General exception of handling all access error to a ressource.
+ * The ressource can be a device as well as a file. The error can be thrown
+ * whenever an access protocol error is detected.
+ */
 class IOException : public std::exception {
  public:
   //==========================================================================
@@ -44,13 +49,14 @@ class IOException : public std::exception {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  explicit IOException(const char *description) {
+  explicit IOException(const char *description) ATLAS_NOEXCEPT {
     std::stringstream ss;
     ss << "IOException " << description << " failed.";
     e_what_ = ss.str();
   }
 
-  IOException(const IOException &other) : e_what_(other.e_what_) {}
+  explicit IOException(const IOException &rhs) ATLAS_NOEXCEPT
+      : e_what_(rhs.e_what_) {}
 
   virtual ~IOException() ATLAS_NOEXCEPT {}
 

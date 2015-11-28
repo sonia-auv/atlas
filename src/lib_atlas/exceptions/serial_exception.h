@@ -34,6 +34,11 @@
 
 namespace atlas {
 
+/**
+ * The SerialException is made for handling all serial related exception.
+ * This exception is general and the usage of a more specific exception
+ * is recommended.
+ */
 class SerialException : public std::exception {
  public:
   //==========================================================================
@@ -44,13 +49,14 @@ class SerialException : public std::exception {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  explicit SerialException(const char *description) {
+  explicit SerialException(const char *description) ATLAS_NOEXCEPT {
     std::stringstream ss;
     ss << "SerialException " << description << " failed.";
     e_what_ = ss.str();
   }
 
-  SerialException(const SerialException &other) : e_what_(other.e_what_) {}
+  explicit SerialException(const SerialException &rhs) ATLAS_NOEXCEPT
+      : e_what_(rhs.e_what_) {}
 
   virtual ~SerialException() ATLAS_NOEXCEPT {}
 

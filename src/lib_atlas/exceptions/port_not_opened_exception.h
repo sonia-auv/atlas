@@ -34,6 +34,11 @@
 
 namespace atlas {
 
+/**
+ * Exception that handle access error while opening a connexion to a port.
+ * This is not dependent on the type of device as a PortNotOpenedException
+ * can be use for a TCP connection as well as a Serial connection.
+ */
 class PortNotOpenedException : public std::exception {
  public:
   //==========================================================================
@@ -44,14 +49,14 @@ class PortNotOpenedException : public std::exception {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  explicit PortNotOpenedException(const char *description) {
+  explicit PortNotOpenedException(const char *description) ATLAS_NOEXCEPT {
     std::stringstream ss;
     ss << "PortNotOpenedException " << description << " failed.";
     e_what_ = ss.str();
   }
 
-  PortNotOpenedException(const PortNotOpenedException &other)
-      : e_what_(other.e_what_) {}
+  explicit PortNotOpenedException(const PortNotOpenedException &rhs)
+      ATLAS_NOEXCEPT : e_what_(rhs.e_what_) {}
 
   virtual ~PortNotOpenedException() ATLAS_NOEXCEPT {}
 

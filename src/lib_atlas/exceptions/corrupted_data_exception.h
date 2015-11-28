@@ -34,6 +34,10 @@
 
 namespace atlas {
 
+/**
+ * Class for handling corrupted data that may be received from a device.
+ * If the data cannot be parsed, an exception of this type should be thrown.
+ */
 class CorruptedDataException : public std::exception {
  public:
   //==========================================================================
@@ -44,14 +48,14 @@ class CorruptedDataException : public std::exception {
   //============================================================================
   // P U B L I C   C / D T O R S
 
-  explicit CorruptedDataException(const char *description) {
+  explicit CorruptedDataException(const char *description) ATLAS_NOEXCEPT {
     std::stringstream ss;
-    ss << "SerialException " << description << " failed.";
+    ss << "CorruptedDataException " << description << " failed.";
     e_what_ = ss.str();
   }
 
-  CorruptedDataException(const CorruptedDataException &other)
-      : e_what_(other.e_what_) {}
+  explicit CorruptedDataException(const CorruptedDataException &rhs)
+      ATLAS_NOEXCEPT : e_what_(rhs.e_what_) {}
 
   virtual ~CorruptedDataException() ATLAS_NOEXCEPT {}
 
