@@ -27,6 +27,7 @@
 #define LIB_ATLAS_EXCEPTIONS_PORT_NOT_OPENED_EXCEPTION_H_
 
 #include <string>
+#include <memory>
 #include <iostream>
 #include <stdexcept>
 #include <lib_atlas/macros.h>

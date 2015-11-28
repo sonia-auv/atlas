@@ -26,6 +26,7 @@
 #ifndef LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
 #define LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
 
+#include <memory>
 #include <assert.h>
 #include <exception>
 #include <algorithm>

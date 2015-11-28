@@ -27,6 +27,7 @@
 #define LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_
 
 #include <mutex>
+#include <memory>
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>

@@ -37,6 +37,7 @@
 #define LIB_ATLAS_IO_SERIAL_H_
 
 #include <limits>
+#include <memory>
 #include <vector>
 #include <string>
 #include <cstring>

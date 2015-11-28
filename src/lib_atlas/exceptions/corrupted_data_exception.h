@@ -27,6 +27,7 @@
 #define LIB_ATLAS_EXCEPTIONS_CORRUPTED_DATA_EXCEPTION_H_
 
 #include <string>
+#include <memory>
 #include <iostream>
 #include <stdexcept>
 #include <lib_atlas/macros.h>

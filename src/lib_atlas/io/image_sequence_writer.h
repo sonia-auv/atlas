@@ -26,6 +26,7 @@
 #ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
 #define LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
 
+#include <memory>
 #include <atomic>
 #include <mutex>
 #include <thread>

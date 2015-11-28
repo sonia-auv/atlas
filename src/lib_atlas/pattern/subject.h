@@ -25,6 +25,7 @@
 #ifndef LIB_ATLAS_PATTERN_SUBJECT_H_
 #define LIB_ATLAS_PATTERN_SUBJECT_H_
 
+#include <memory>
 #include <vector>
 #include <mutex>
 

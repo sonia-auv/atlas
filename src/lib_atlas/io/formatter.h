@@ -5,6 +5,7 @@
 #ifndef LIB_ATLAS_IO_FORMATTER_H_
 #define LIB_ATLAS_IO_FORMATTER_H_
 
+#include <memory>
 #include <string>
 #include <vector>
 #include <stdlib.h>

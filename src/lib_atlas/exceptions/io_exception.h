@@ -27,6 +27,7 @@
 #define LIB_ATLAS_EXCEPTIONS_IO_EXCEPTION_H_
 
 #include <string>
+#include <memory>
 #include <iostream>
 #include <stdexcept>
 #include <lib_atlas/macros.h>

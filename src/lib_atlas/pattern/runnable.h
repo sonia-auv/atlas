@@ -28,6 +28,7 @@
 
 #include <atomic>
 #include <thread>
+#include <memory>
 #include <lib_atlas/macros.h>
 
 namespace atlas {

@@ -29,6 +29,7 @@
 #include <condition_variable>
 #include <atomic>
 #include <mutex>
+#include <memory>
 #include <thread>
 #include <opencv2/core/core.hpp>
 #include <lib_atlas/pattern/subject.h>

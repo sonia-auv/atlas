@@ -26,6 +26,7 @@
 #ifndef LIB_ATLAS_SYSTEM_TIMER_H_
 #define LIB_ATLAS_SYSTEM_TIMER_H_
 
+#include <memory>
 #include <iostream>
 #include <chrono>
 #include <mutex>
