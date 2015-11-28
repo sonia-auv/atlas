@@ -55,7 +55,7 @@ class SerialException : public std::exception {
     e_what_ = ss.str();
   }
 
-  explicit SerialException(const SerialException &rhs) ATLAS_NOEXCEPT
+  SerialException(const SerialException &rhs) ATLAS_NOEXCEPT
       : e_what_(rhs.e_what_) {}
 
   virtual ~SerialException() ATLAS_NOEXCEPT {}

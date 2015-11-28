@@ -55,8 +55,7 @@ class IOException : public std::exception {
     e_what_ = ss.str();
   }
 
-  explicit IOException(const IOException &rhs) ATLAS_NOEXCEPT
-      : e_what_(rhs.e_what_) {}
+  IOException(const IOException &rhs) ATLAS_NOEXCEPT : e_what_(rhs.e_what_) {}
 
   virtual ~IOException() ATLAS_NOEXCEPT {}
 

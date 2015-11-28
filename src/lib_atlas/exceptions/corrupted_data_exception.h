@@ -54,8 +54,8 @@ class CorruptedDataException : public std::exception {
     e_what_ = ss.str();
   }
 
-  explicit CorruptedDataException(const CorruptedDataException &rhs)
-      ATLAS_NOEXCEPT : e_what_(rhs.e_what_) {}
+  CorruptedDataException(const CorruptedDataException &rhs) ATLAS_NOEXCEPT
+      : e_what_(rhs.e_what_) {}
 
   virtual ~CorruptedDataException() ATLAS_NOEXCEPT {}
 
