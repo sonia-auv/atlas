@@ -29,8 +29,10 @@
 #include <string>
 #include <memory>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <lib_atlas/macros.h>
+
 
 namespace atlas {
 
