@@ -48,7 +48,7 @@ class ArgArray : public std::vector<ArgBase *> {
 
 static void FormatItem(std::ostringstream &ss, const std::string &item,
                        const ArgArray &args) {
-  int index = 0;
+  size_t index = 0;
   int alignment = 0;
   std::string fmt;
 
