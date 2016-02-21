@@ -39,6 +39,9 @@ find_package(catkin REQUIRED COMPONENTS
     cv_bridge
     )
 
+find_package(catkin REQUIRED cmake_modules)
+find_package(Eigen REQUIRED)
+
 if (UNIX AND NOT APPLE)
   # If Linux, add rt and pthread
   catkin_package(
@@ -50,7 +53,7 @@ if (UNIX AND NOT APPLE)
       message_runtime
       image_transport
       cv_bridge
-      DEPENDS rt pthread
+      DEPENDS rt pthread Eigen
   )
 else ()
   catkin_package(
@@ -70,13 +73,14 @@ file(GLOB_RECURSE lib_atlas_SRC_FILES "${lib_atlas_SRC_DIR}/*.h")
 include_directories(
     ${lib_atlas_SRC_DIR}
     ${catkin_INCLUDE_DIRS}
+    ${Eigen_INCLUDE_DIRS}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
 
 add_library(sonia_atlas ${lib_atlas_SRC_FILES})
-target_link_libraries(sonia_atlas ${catkin_LIBRARIES})
+target_link_libraries(sonia_atlas ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 set_target_properties(sonia_atlas PROPERTIES LINKER_LANGUAGE CXX)
 
 install(
