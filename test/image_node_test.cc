@@ -35,7 +35,5 @@ atlas::ServiceServerManager<std::string> test();
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
 
-  ros::init(argc, argv, "atlas_image_node_test");
-
   return RUN_ALL_TESTS();
 }
