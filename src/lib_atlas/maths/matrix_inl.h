@@ -23,17 +23,17 @@
  * along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdexcept>
 #ifndef LIB_ATLAS_MATHS_MATRIX_H_
 #error This file may only be included matrix.h
 #endif  // LIB_ATLAS_MATHS_MATRIX_H_
+
+#include <stdexcept>
 
 namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m)
-    ATLAS_NOEXCEPT {
+ATLAS_INLINE Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m) {
   Eigen::Matrix3d eye;
   eye.setIdentity();
 
@@ -88,5 +88,52 @@ ATLAS_INLINE Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m)
   }
   return b;
 }
+
+//------------------------------------------------------------------------------
+//
+ATLAS_INLINE Eigen::Matrix3d QuatToRot(const Eigen::Quaterniond &b)
+    ATLAS_NOEXCEPT {
+  Eigen::Matrix<double, 3, 1> bv = Eigen::Matrix<double, 3, 1>::Zero();
+
+  if (b.norm() != 0) {
+    decltype(b) b_norm = b.normalized();
+    auto w = b_norm.w();
+    bv(0, 0) = b_norm.x();
+    bv(1) = b_norm.y();
+    bv(2) = b_norm.z();
+
+    Eigen::Matrix<double, 3, 3> bc;
+    bc(0, 0) = 0;
+    bc(0, 1) = -bv(2);
+    bc(0, 2) = bv(1);
+    bc(1, 0) = bv(2);
+    bc(1, 1) = 0;
+    bc(1, 2) = -bv(0);
+    bc(2, 0) = -bv(1);
+    bc(2, 1) = bv(0);
+    bc(2, 2) = 0;
+
+    Eigen::Matrix<double, 3, 3> eye;
+    eye.setIdentity();
+    return (w * w - bv.transpose() * bv) * eye + 2 * (bv * bv.transpose()) +
+           2 * w * bc;
+  } else {
+    throw std::invalid_argument("Norm of the Quaternion is 0.");
+  }
+}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_INLINE Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d) ATLAS_NOEXCEPT {}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &m)
+    ATLAS_NOEXCEPT {}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Quaterniond &m)
+    ATLAS_NOEXCEPT {}
 
 }  // namespace atlas

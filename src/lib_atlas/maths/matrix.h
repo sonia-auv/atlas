@@ -35,7 +35,15 @@ namespace atlas {
 /**
  * Convert a rotation matrix to a quaternion
  */
-Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m) ATLAS_NOEXCEPT;
+Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m);
+
+Eigen::Matrix3d QuatToRot(const Eigen::Quaterniond &m) ATLAS_NOEXCEPT;
+
+Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d) ATLAS_NOEXCEPT;
+
+Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &m) ATLAS_NOEXCEPT;
+
+Eigen::Quaterniond ExactQuat(const Eigen::Quaterniond &m) ATLAS_NOEXCEPT;
 
 }  // namespace atlas
 
