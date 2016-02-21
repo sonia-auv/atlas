@@ -124,12 +124,29 @@ ATLAS_INLINE Eigen::Matrix3d QuatToRot(const Eigen::Quaterniond &b)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d) ATLAS_NOEXCEPT {}
+ATLAS_INLINE Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &v)
+    ATLAS_NOEXCEPT {
+  Eigen::Matrix3d m = Eigen::Matrix3d::Zero();
+  m(0, 1) = -v(2);
+  m(1, 0) = v(2);
+  m(0, 2) = v(1);
+  m(2, 0) = -v(1);
+  m(1, 2) = -v(0);
+  m(2, 1) = v(0);
+  return m;
+}
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &m)
-    ATLAS_NOEXCEPT {}
+ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &b)
+    ATLAS_NOEXCEPT {
+  auto phi = std::atan2(2 * (b.y() * b.z() - b.w() * b.x()),
+                        1 - 2 * (b.x() * b.x() + b.y() * b.y()));
+  auto theta = std::asin(-2 * (b.x() * b.z() - b.w() * b.y()));
+  auto psi = std::atan2(2 * (b.x() * b.y() - b.w() * b.z()),
+                        1 - 2 * (b.y() * b.y() + b.z() * b.z()));
+  return Eigen::Vector3d(phi, theta, psi);
+}
 
 //------------------------------------------------------------------------------
 //
