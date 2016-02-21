@@ -7,7 +7,6 @@ catkin_add_gtest( runnable_test runnable_test.cc )
 catkin_add_gtest( stats_test stats_test.cc )
 catkin_add_gtest( numbers_test numbers_test.cc )
 catkin_add_gtest( trigo_test trigo_test.cc )
-catkin_add_gtest( histogram_test histogram_test.cc )
 catkin_add_gtest( formatter_test formatter_test.cc )
 
 if(UNIX)
