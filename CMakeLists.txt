@@ -41,6 +41,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 find_package(catkin REQUIRED cmake_modules)
 find_package(Eigen REQUIRED)
+find_package(OpenCV REQUIRED)
 
 if (UNIX AND NOT APPLE)
   # If Linux, add rt and pthread
@@ -71,16 +72,17 @@ file(GLOB_RECURSE lib_atlas_SRC_FILES "${lib_atlas_SRC_DIR}/*.h")
 
 # Include all the directories where source can be found.
 include_directories(
-    ${lib_atlas_SRC_DIR}
     ${catkin_INCLUDE_DIRS}
     ${Eigen_INCLUDE_DIRS}
+    ${OpenCV_INCLUDE_DIRS}
+    ${lib_atlas_SRC_DIR}
 )
 
 #==========================================================================
 # C R E A T E   E X E C U T A B L E
 
 add_library(sonia_atlas ${lib_atlas_SRC_FILES})
-target_link_libraries(sonia_atlas ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
+target_link_libraries(sonia_atlas ${catkin_LIBRARIES} ${Eigen_LIBRARIES} ${OpenCV_LIBRARIES})
 set_target_properties(sonia_atlas PROPERTIES LINKER_LANGUAGE CXX)
 
 install(
