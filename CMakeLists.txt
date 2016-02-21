@@ -35,7 +35,6 @@ find_package(catkin REQUIRED COMPONENTS
     std_msgs
     roscpp
     message_generation
-    message_runtime
     image_transport
     cv_bridge
     )
@@ -45,7 +44,12 @@ if (UNIX AND NOT APPLE)
   catkin_package(
       INCLUDE_DIRS src
       LIBRARIES sonia_atlas
-      CATKIN_DEPENDS roscpp std_msgs image_transport cv_bridge
+      CATKIN_DEPENDS
+      roscpp
+      std_msgs
+      message_runtime
+      image_transport
+      cv_bridge
       DEPENDS rt pthread
   )
 else ()
