@@ -23,6 +23,7 @@
  * along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdexcept>
 #ifndef LIB_ATLAS_MATHS_MATRIX_H_
 #error This file may only be included matrix.h
 #endif  // LIB_ATLAS_MATHS_MATRIX_H_
@@ -31,7 +32,61 @@ namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE Eigen::Matrix3d RotToQuat(const Eigen::Matrix3d &m)
-    ATLAS_NOEXCEPT {}
+ATLAS_INLINE Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m)
+    ATLAS_NOEXCEPT {
+    Eigen::Matrix3d eye;
+    eye.setIdentity();
+
+    Eigen::Matrix3d r = m + (eye - m*m.transpose()) * 0.5 * m;
+    auto m1 = 1+ r(0,0) +  r(1,1) + r(2,2);
+    auto m2 = 1+ r(0,0) -  r(1,1) - r(2,2);
+    auto m3 = 1- r(0,0) +  r(1,1) - r(2,2);
+    auto m4 = 1- r(0,0) -  r(1,1) + r(2,2);
+
+    Eigen::Quaterniond b;
+
+    if((m1 > m2) && (m1 > m3) && (m1 > m4)) {
+        if(m1 > 0) {
+            b.w() = (0.5*std::sqrt(m1));
+            b.x() = (r(2,1)-r(1,2))/(4*b.w());
+            b.y() = (r(0,2)-r(202))/(4*b.w());
+            b.z() = (r(1,0)-r(0,1))/(4*b.w());
+            b.normalize();
+        } else {
+            throw std::runtime_error("M1 won under 0.");
+        }
+    } else if((m2 > m3) && (m2 > m4)) {
+        if(m2 > 0) {
+            b.x() = 0.5 * std::sqrt(m2);
+            b.y() = (r(1,0)+r(0,1))/(4*b.x());
+            b.z() = (r(2, 0) + r(0, 2))/(4*b.x());
+            b.w() = (r(2,1) - r(1, 2))/(4*b.x());
+            b.normalize();
+        } else {
+            throw std::runtime_error("M2 won under 0.");
+        }
+    } else if (m3 > m4) {
+        if (m3 > 0) {
+            b.y() = 0.5*std::sqrt(m3);
+            b.x() = (r(0,1) + r(1,0))/(4*b.y());
+            b.z() = (r(2,1) + r(1,2))/(4*b.y());
+            b.w() = (r(0,2) - r(2,0))/(4*b.y());
+            b.normalize();
+        } else {
+            throw std::runtime_error("M3 won under 0.");
+        }
+    } else {
+        if (m4 > 0) {
+            b.z() = 0.5*std::sqrt(m4);
+            b.x() = (r(0,2) + r(2,0))/(4*b.z());
+            b.y() = (r(1,2) + r(2,1))/(4*b.z());
+            b.w() = (r(1,0) + r(0,1))/(4*b.z());
+            b.normalize();
+        } else {
+            throw std::runtime_error("M4 won under 0.");
+        }
+    }
+    return b;
+}
 
 }  // namespace atlas
