@@ -35,7 +35,7 @@ class ArgBase {
  public:
   ArgBase() {}
   virtual ~ArgBase() {}
-  virtual void Format(std::ostringstream &ss, const std::string &fmt) = 0;
+  virtual void Format(std::ostringstream &ss) = 0;
 };
 
 template <class T>
@@ -43,7 +43,7 @@ class Arg : public ArgBase {
  public:
   Arg(T arg) : m_arg(arg) {}
   virtual ~Arg() {}
-  virtual void Format(std::ostringstream &ss, const std::string &fmt) {
+  virtual void Format(std::ostringstream &ss) {
     ss << m_arg;
   }
 
@@ -54,7 +54,7 @@ class Arg : public ArgBase {
 class ArgArray : public std::vector<ArgBase *> {
  public:
   ArgArray() {}
-  ~ArgArray() {
+  virtual ~ArgArray() {
     std::for_each(begin(), end(), [](ArgBase *p) { delete p; });
   }
 };
@@ -65,11 +65,10 @@ static void FormatItem(std::ostringstream &ss, const std::string &item,
                        const ArgArray &args) {
   size_t index = 0;
   int alignment = 0;
-  std::string fmt;
 
   char *endptr = nullptr;
   index = strtol(&item[0], &endptr, 10);
-  if (index < 0 || index >= args.size()) {
+  if (index >= args.size()) {
     return;
   }
 
@@ -82,11 +81,7 @@ static void FormatItem(std::ostringstream &ss, const std::string &item,
     }
   }
 
-  if (*endptr == ':') {
-    fmt = endptr + 1;
-  }
-
-  args[index]->Format(ss, fmt);
+  args[index]->Format(ss);
 
   return;
 }
