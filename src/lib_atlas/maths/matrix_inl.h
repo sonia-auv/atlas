@@ -149,15 +149,17 @@ ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &b)
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Vector3d &w_ib_b, double dt, const Eigen::Quaterniond &b_k) {
+ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Vector3d &w_ib_b,
+                                          double dt,
+                                          const Eigen::Quaterniond &b_k) {
   // Euqation 10.24 - Farrell (w_in_b assumed to be 0)
-  decltype(w_ib_b) w_bn_b = - w_ib_b;
+  decltype(w_ib_b) w_bn_b = -w_ib_b;
 
   // Integration of the quaternion derivative (Equation D.36 - Farrell)
   decltype(w_bn_b) w = 0.5 * w_bn_b * dt;
   double n = w.norm();
 
-  if(std::abs(n) > 1) {
+  if (std::abs(n) > 1) {
     throw std::runtime_error("Integrated angle too large.");
   }
 
@@ -168,24 +170,24 @@ ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Vector3d &w_ib_b, double 
   w_m(0, 2) = -w(1);
   w_m(0, 3) = -w(2);
   w_m(1, 0) = w(0);
-  w_m(1, 1) = skew_w(0,0);
-  w_m(1, 2) = skew_w(0,1);
-  w_m(1, 3) = skew_w(0,2);
+  w_m(1, 1) = skew_w(0, 0);
+  w_m(1, 2) = skew_w(0, 1);
+  w_m(1, 3) = skew_w(0, 2);
   w_m(2, 0) = w(1);
-  w_m(2, 1) = skew_w(1,0);
-  w_m(2, 2) = skew_w(1,1);
-  w_m(2, 3) = skew_w(1,2);
+  w_m(2, 1) = skew_w(1, 0);
+  w_m(2, 2) = skew_w(1, 1);
+  w_m(2, 3) = skew_w(1, 2);
   w_m(3, 0) = w(2);
-  w_m(3, 1) = skew_w(2,0);
-  w_m(3, 2) = skew_w(2,1);
-  w_m(3, 3) = skew_w(2,2);
+  w_m(3, 1) = skew_w(2, 0);
+  w_m(3, 2) = skew_w(2, 1);
+  w_m(3, 3) = skew_w(2, 2);
 
   double sinw;
   // Handle singularity
   if (n == 0) {
     sinw = 1;
   } else {
-    sinw = std::sin(n)/n;
+    sinw = std::sin(n) / n;
   }
 
   Eigen::Matrix4d eye = Eigen::Matrix4d::Identity();
@@ -199,7 +201,7 @@ ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Vector3d &w_ib_b, double 
   b(3) = b_k.z();
 
   // Equation D.36 - Farrell
-  Eigen::Matrix<double, 4, 1> exact_b = (std::cos(n)*eye + sinw*w_m) * b;
+  Eigen::Matrix<double, 4, 1> exact_b = (std::cos(n) * eye + sinw * w_m) * b;
   return Eigen::Quaterniond(exact_b(0), exact_b(1), exact_b(2), exact_b(3));
 }
 
