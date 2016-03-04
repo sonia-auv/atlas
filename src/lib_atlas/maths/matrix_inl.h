@@ -49,7 +49,7 @@ ATLAS_INLINE Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m) {
     if (m1 > 0) {
       b.w() = (0.5 * std::sqrt(m1));
       b.x() = (r(2, 1) - r(1, 2)) / (4 * b.w());
-      b.y() = (r(0, 2) - r(202)) / (4 * b.w());
+      b.y() = (r(0, 2) - r(2, 0)) / (4 * b.w());
       b.z() = (r(1, 0) - r(0, 1)) / (4 * b.w());
       b.normalize();
     } else {
