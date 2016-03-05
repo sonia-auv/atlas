@@ -43,9 +43,7 @@ class Arg : public ArgBase {
  public:
   Arg(T arg) : m_arg(arg) {}
   virtual ~Arg() {}
-  virtual void Format(std::ostringstream &ss) {
-    ss << m_arg;
-  }
+  virtual void Format(std::ostringstream &ss) { ss << m_arg; }
 
  private:
   T m_arg;

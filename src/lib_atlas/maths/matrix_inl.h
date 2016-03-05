@@ -29,6 +29,13 @@
 
 #include <stdexcept>
 
+using std::cos;
+using std::sin;
+using std::atan2;
+using std::asin;
+using std::pow;
+using std::sqrt;
+
 namespace atlas {
 
 //------------------------------------------------------------------------------
@@ -139,11 +146,11 @@ ATLAS_INLINE Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &v)
 //
 ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &b)
     ATLAS_NOEXCEPT {
-  auto phi = std::atan2(2 * (b.y() * b.z() - b.w() * b.x()),
-                        1 - 2 * (b.x() * b.x() + b.y() * b.y()));
-  auto theta = std::asin(-2 * (b.x() * b.z() - b.w() * b.y()));
-  auto psi = std::atan2(2 * (b.x() * b.y() - b.w() * b.z()),
-                        1 - 2 * (b.y() * b.y() + b.z() * b.z()));
+  auto phi = atan2(2 * (b.y() * b.z() - b.w() * b.x()),
+                   1 - 2 * (pow(b.x(), 2) + pow(b.y(), 2)));
+  auto theta = asin(-2 * (b.x() * b.z() + b.w() * b.y()));
+  auto psi = atan2(2 * (b.x() * b.y() - b.w() * b.z()),
+                   1 - 2 * (pow(b.y(), 2) + pow(b.z(), 2)));
   return Eigen::Vector3d(phi, theta, psi);
 }
 
