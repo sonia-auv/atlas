@@ -43,6 +43,8 @@ Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &v) ATLAS_NOEXCEPT;
 
 Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &m) ATLAS_NOEXCEPT;
 
+Eigen::Matrix3d EulerToRot(double, double, double) ATLAS_NOEXCEPT;
+
 Eigen::Quaterniond ExactQuat(const Eigen::Quaterniond &m);
 
 }  // namespace atlas

@@ -156,6 +156,23 @@ ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &b)
 
 //------------------------------------------------------------------------------
 //
+ATLAS_INLINE Eigen::Matrix3d EulerToRot(double roll, double pitch,
+                                        double yaw) ATLAS_NOEXCEPT {
+  Eigen::Matrix3d r_b_n;
+  r_b_n(0, 0) = cos(pitch) * cos(yaw);
+  r_b_n(0, 1) = sin(roll) * sin(pitch) * cos(yaw) - cos(roll) * sin(yaw);
+  r_b_n(0, 2) = cos(roll) * sin(pitch) * cos(yaw) + sin(roll) * sin(yaw);
+  r_b_n(1, 0) = cos(pitch) * sin(yaw);
+  r_b_n(1, 1) = sin(roll) * sin(pitch) * sin(yaw) + cos(roll) * cos(yaw);
+  r_b_n(1, 2) = cos(roll) * sin(pitch) * sin(yaw) - sin(roll) * cos(yaw);
+  r_b_n(2, 0) = -sin(pitch);
+  r_b_n(2, 1) = sin(roll) * cos(pitch);
+  r_b_n(2, 2) = cos(roll) * cos(pitch);
+  return r_b_n.transpose();
+}
+
+//------------------------------------------------------------------------------
+//
 ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Vector3d &w_ib_b,
                                           double dt,
                                           const Eigen::Quaterniond &b_k) {
