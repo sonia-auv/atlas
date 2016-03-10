@@ -93,7 +93,7 @@ install(
 )
 
 install(
-    DIRECTORY ${lib_atlas_HDR_DIR}/${PROJECT_NAME}/
+    DIRECTORY ${lib_atlas_SRC_DIR}/${PROJECT_NAME}/
     DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
     PATTERN ".git" EXCLUDE
 )
