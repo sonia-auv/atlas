@@ -87,7 +87,7 @@ ATLAS_INLINE Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m) {
       b.z() = 0.5 * std::sqrt(m4);
       b.x() = (r(0, 2) + r(2, 0)) / (4 * b.z());
       b.y() = (r(1, 2) + r(2, 1)) / (4 * b.z());
-      b.w() = (r(1, 0) + r(0, 1)) / (4 * b.z());
+      b.w() = (r(1, 0) - r(0, 1)) / (4 * b.z());
       b.normalize();
     } else {
       throw std::runtime_error("M4 won under 0.");
