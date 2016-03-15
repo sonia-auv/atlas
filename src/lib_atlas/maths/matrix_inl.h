@@ -41,10 +41,8 @@ namespace atlas {
 //------------------------------------------------------------------------------
 //
 ATLAS_INLINE Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m) {
-  Eigen::Matrix3d eye;
-  eye.setIdentity();
-
-  Eigen::Matrix3d r = m + (eye - m * m.transpose()) * 0.5 * m;
+  Eigen::Matrix3d r =
+      m + (Eigen::Matrix3d::Identity(3, 3) - m * m.transpose()) * 0.5 * m;
   auto m1 = 1 + r(0, 0) + r(1, 1) + r(2, 2);
   auto m2 = 1 + r(0, 0) - r(1, 1) - r(2, 2);
   auto m3 = 1 - r(0, 0) + r(1, 1) - r(2, 2);
@@ -119,10 +117,8 @@ ATLAS_INLINE Eigen::Matrix3d QuatToRot(const Eigen::Quaterniond &b) {
     bc(2, 1) = bv(0);
     bc(2, 2) = 0;
 
-    Eigen::Matrix<double, 3, 3> eye;
-    eye.setIdentity();
-    return (w * w - bv.transpose() * bv) * eye + 2 * (bv * bv.transpose()) +
-           2 * w * bc;
+    return (w * w - bv.transpose() * bv) * Eigen::Matrix3d::Identity(3, 3) +
+           2 * (bv * bv.transpose()) + 2 * w * bc;
   } else {
     throw std::invalid_argument("Norm of the Quaternion is 0.");
   }
@@ -214,8 +210,6 @@ ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Vector3d &w_ib_b,
     sinw = std::sin(n) / n;
   }
 
-  Eigen::Matrix4d eye = Eigen::Matrix4d::Identity();
-
   // Cannot multiply the matrix by a quaternion in Eigen, we are forced to do
   // a conversion before...
   Eigen::Matrix<double, 4, 1> b;
@@ -225,7 +219,9 @@ ATLAS_INLINE Eigen::Quaterniond ExactQuat(const Eigen::Vector3d &w_ib_b,
   b(3) = b_k.z();
 
   // Equation D.36 - Farrell
-  Eigen::Matrix<double, 4, 1> exact_b = (std::cos(n) * eye + sinw * w_m) * b;
+  Eigen::Matrix<double, 4, 1> exact_b =
+      (std::cos(n) * Eigen::Matrix<double, 4, 4>::Identity(4, 4) + sinw * w_m) *
+      b;
   return Eigen::Quaterniond(exact_b(0), exact_b(1), exact_b(2), exact_b(3));
 }
 
