@@ -26,15 +26,15 @@
 #ifndef LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
 #define LIB_ATLAS_ROS_IMAGE_PUBLISHER_H_
 
-#include <mutex>
-#include <memory>
-#include <string>
-#include <ros/ros.h>
-#include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
-#include <opencv2/opencv.hpp>
-#include <lib_atlas/macros.h>
+#include <image_transport/image_transport.h>
 #include <lib_atlas/io/image_sequence_writer.h>
+#include <lib_atlas/macros.h>
+#include <ros/ros.h>
+#include <memory>
+#include <mutex>
+#include <opencv2/opencv.hpp>
+#include <string>
 
 namespace atlas {
 

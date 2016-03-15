@@ -26,10 +26,10 @@
 #ifndef LIB_ATLAS_PATTERN_RUNNABLE_H_
 #define LIB_ATLAS_PATTERN_RUNNABLE_H_
 
-#include <atomic>
-#include <thread>
-#include <memory>
 #include <lib_atlas/macros.h>
+#include <atomic>
+#include <memory>
+#include <thread>
 
 namespace atlas {
 

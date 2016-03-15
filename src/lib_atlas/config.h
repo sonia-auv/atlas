@@ -23,8 +23,8 @@
  * along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <string>
 #include <stdlib.h>
+#include <string>
 
 #ifndef LIB_ATLAS_CONFIG_H_
 #define LIB_ATLAS_CONFIG_H_

@@ -27,8 +27,8 @@
 #ifndef LIB_ATLAS_MATHS_STATS_H_
 #define LIB_ATLAS_MATHS_STATS_H_
 
-#include <array>
 #include <lib_atlas/macros.h>
+#include <array>
 
 namespace atlas {
 

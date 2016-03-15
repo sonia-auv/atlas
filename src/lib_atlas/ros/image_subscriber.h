@@ -26,11 +26,11 @@
 #ifndef LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_
 #define LIB_ATLAS_ROS_IMAGE_SUBSCRIBER_H_
 
-#include <mutex>
-#include <memory>
-#include <ros/ros.h>
-#include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+#include <image_transport/image_transport.h>
+#include <ros/ros.h>
+#include <memory>
+#include <mutex>
 #include <opencv2/opencv.hpp>
 
 #include <lib_atlas/io/image_sequence_capture.h>

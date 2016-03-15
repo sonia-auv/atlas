@@ -33,8 +33,8 @@
 #error This file may only be included from serial.h
 #endif
 
-#include <algorithm>
 #include <lib_atlas/io/details/serial_impl.h>
+#include <algorithm>
 
 #if !defined(__OpenBSD__)
 #include <alloca.h>
@@ -169,8 +169,8 @@ ATLAS_INLINE std::string Serial::Read(size_t size) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE size_t
-Serial::ReadLine(std::string &buffer, size_t size, std::string eol) {
+ATLAS_INLINE size_t Serial::ReadLine(std::string &buffer, size_t size,
+                                     std::string eol) {
   ScopedReadLock lock(pimpl_);
   size_t eol_len = eol.length();
   uint8_t *buffer_ = static_cast<uint8_t *>(alloca(size * sizeof(uint8_t)));

@@ -27,8 +27,8 @@
 #error This file may only be included from image_publisher.h
 #endif
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 
 namespace atlas {
 

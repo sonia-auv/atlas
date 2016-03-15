@@ -28,8 +28,8 @@
 #endif
 
 #include <assert.h>
-#include <algorithm>
 #include <lib_atlas/pattern/observer.h>
+#include <algorithm>
 
 namespace atlas {
 

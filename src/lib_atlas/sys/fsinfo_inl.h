@@ -27,12 +27,12 @@
 #error This file may only be included from fsinfo.h
 #endif
 
-#include <exception>
-#include <stdexcept>
-#include <string>
-#include <fstream>
 #include <math.h>
 #include <sys/statvfs.h>
+#include <exception>
+#include <fstream>
+#include <stdexcept>
+#include <string>
 
 namespace atlas {
 

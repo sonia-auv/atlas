@@ -26,12 +26,12 @@
 #ifndef LIB_ATLAS_EXCEPTIONS_CORRUPTED_DATA_EXCEPTION_H_
 #define LIB_ATLAS_EXCEPTIONS_CORRUPTED_DATA_EXCEPTION_H_
 
-#include <string>
-#include <memory>
+#include <lib_atlas/macros.h>
 #include <iostream>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
-#include <lib_atlas/macros.h>
+#include <string>
 
 namespace atlas {
 

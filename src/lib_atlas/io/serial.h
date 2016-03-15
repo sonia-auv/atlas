@@ -36,17 +36,17 @@
 #ifndef LIB_ATLAS_IO_SERIAL_H_
 #define LIB_ATLAS_IO_SERIAL_H_
 
+#include <lib_atlas/exceptions.h>
+#include <lib_atlas/macros.h>
+#include <stdint.h>
+#include <cstring>
+#include <exception>
 #include <limits>
 #include <memory>
-#include <vector>
-#include <string>
-#include <cstring>
 #include <sstream>
-#include <exception>
 #include <stdexcept>
-#include <stdint.h>
-#include <lib_atlas/macros.h>
-#include <lib_atlas/exceptions.h>
+#include <string>
+#include <vector>
 
 #ifdef max
 #undef max

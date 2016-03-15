@@ -27,10 +27,10 @@
 #error This file may only be included numbers.h
 #endif  // LIB_ATLAS_MATHS_NUMBERS_H_
 
+#include <lib_atlas/maths/stats.h>
 #include <cstdlib>
 #include <random>
 #include <stdexcept>
-#include <lib_atlas/maths/stats.h>
 
 namespace atlas {
 
@@ -54,8 +54,8 @@ ATLAS_ALWAYS_INLINE Tp_ ProbabilityDistribution(const Tp_ &u, const Tp_ &s,
 //------------------------------------------------------------------------------
 //
 template <typename Tp_>
-ATLAS_ALWAYS_INLINE Tp_
-Clamp(const Tp_ &x, const Tp_ &xmin, const Tp_ &xmax) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE Tp_ Clamp(const Tp_ &x, const Tp_ &xmin,
+                              const Tp_ &xmax) ATLAS_NOEXCEPT {
   return std::min(std::max(x, xmin), xmax);
 }
 

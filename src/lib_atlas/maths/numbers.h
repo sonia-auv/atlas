@@ -26,14 +26,14 @@
 #ifndef LIB_ATLAS_MATHS_NUMBERS_H_
 #define LIB_ATLAS_MATHS_NUMBERS_H_
 
-#include <math.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <time.h>
-#include <type_traits>
-#include <limits>
 #include <lib_atlas/macros.h>
 #include <lib_atlas/maths/trigo.h>
+#include <math.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <time.h>
+#include <limits>
+#include <type_traits>
 
 namespace atlas {
 

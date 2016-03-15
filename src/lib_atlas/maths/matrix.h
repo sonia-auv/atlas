@@ -26,9 +26,9 @@
 #ifndef LIB_ATLAS_MATHS_MATRIX_H_
 #define LIB_ATLAS_MATHS_MATRIX_H_
 
+#include <lib_atlas/macros.h>
 #include <math.h>
 #include <eigen3/Eigen/Eigen>
-#include <lib_atlas/macros.h>
 
 namespace atlas {
 

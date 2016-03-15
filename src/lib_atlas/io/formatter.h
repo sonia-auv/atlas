@@ -26,14 +26,14 @@
 #ifndef LIB_ATLAS_IO_FORMATTER_H_
 #define LIB_ATLAS_IO_FORMATTER_H_
 
+#include <stdlib.h>
+#include <algorithm>
+#include <iomanip>
+#include <iostream>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <stdlib.h>
-#include <iostream>
-#include <algorithm>
-#include <sstream>
-#include <iomanip>
 #include "lib_atlas/macros.h"
 
 namespace atlas {

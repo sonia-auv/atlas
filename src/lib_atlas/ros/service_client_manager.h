@@ -26,9 +26,9 @@
 #ifndef LIB_ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_
 #define LIB_ATLAS_ROS_SERVICE_CLIENT_MANAGER_H_
 
-#include <memory>
-#include <ros/ros.h>
 #include <lib_atlas/macros.h>
+#include <ros/ros.h>
+#include <memory>
 
 namespace atlas {
 

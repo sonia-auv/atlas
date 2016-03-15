@@ -26,14 +26,14 @@
 #ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
 #define LIB_ATLAS_IO_IMAGE_SEQUENCE_WRITER_H_
 
-#include <memory>
-#include <atomic>
-#include <mutex>
-#include <thread>
-#include <opencv2/core/core.hpp>
 #include <lib_atlas/macros.h>
-#include <lib_atlas/sys/timer.h>
 #include <lib_atlas/pattern/observer.h>
+#include <lib_atlas/sys/timer.h>
+#include <atomic>
+#include <memory>
+#include <mutex>
+#include <opencv2/core/core.hpp>
+#include <thread>
 
 namespace atlas {
 

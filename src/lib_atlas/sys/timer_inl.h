@@ -27,9 +27,9 @@
 #error This file may only be included from timer.h
 #endif
 
+#include <lib_atlas/macros.h>
 #include <math.h>
 #include <thread>
-#include <lib_atlas/macros.h>
 #ifdef __MACH__
 #include <mach/clock.h>
 #include <mach/mach.h>
@@ -154,8 +154,8 @@ ATLAS_ALWAYS_INLINE int64_t Timer<Up_, Tp_>::Now() ATLAS_NOEXCEPT {
 //------------------------------------------------------------------------------
 //
 template <class Up_, class Tp_>
-ATLAS_ALWAYS_INLINE timespec
-Timer<Up_, Tp_>::TimeSpecFromMs(const uint32_t &v) ATLAS_NOEXCEPT {
+ATLAS_ALWAYS_INLINE timespec Timer<Up_, Tp_>::TimeSpecFromMs(const uint32_t &v)
+    ATLAS_NOEXCEPT {
   timespec time;
   time.tv_sec = v / 1e3;
   time.tv_nsec = (v - (time.tv_sec * 1e3)) * 1e6;

@@ -26,12 +26,12 @@
 #ifndef LIB_ATLAS_MATHS_TRIGO_H_
 #define LIB_ATLAS_MATHS_TRIGO_H_
 
+#include <lib_atlas/macros.h>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include <type_traits>
 #include <limits>
-#include <lib_atlas/macros.h>
+#include <type_traits>
 
 namespace atlas {
 

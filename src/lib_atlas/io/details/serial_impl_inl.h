@@ -33,20 +33,20 @@
 #error This file may only be included from serial_impl.h
 #endif
 
+#include <errno.h>
+#include <fcntl.h>
+#include <lib_atlas/exceptions.h>
+#include <paths.h>
+#include <pthread.h>
 #include <stdio.h>
 #include <string.h>
-#include <sstream>
-#include <unistd.h>
-#include <fcntl.h>
 #include <sys/ioctl.h>
+#include <sys/param.h>
 #include <sys/signal.h>
-#include <errno.h>
-#include <paths.h>
 #include <sysexits.h>
 #include <termios.h>
-#include <sys/param.h>
-#include <pthread.h>
-#include <lib_atlas/exceptions.h>
+#include <unistd.h>
+#include <sstream>
 
 #if defined(__linux__)
 #include <linux/serial.h>
@@ -673,8 +673,8 @@ ATLAS_INLINE size_t Serial::SerialImpl::Read(uint8_t *buf, size_t size) {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_INLINE size_t
-Serial::SerialImpl::Write(const uint8_t *data, size_t length) {
+ATLAS_INLINE size_t Serial::SerialImpl::Write(const uint8_t *data,
+                                              size_t length) {
   if (is_open_ == false) {
     throw PortNotOpenedException("Serial::write");
   }

@@ -26,14 +26,14 @@
 #ifndef LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
 #define LIB_ATLAS_IO_IMAGE_SEQUENCE_CAPTURE_H_
 
-#include <condition_variable>
-#include <atomic>
-#include <mutex>
-#include <memory>
-#include <thread>
-#include <opencv2/core/core.hpp>
 #include <lib_atlas/pattern/subject.h>
 #include <lib_atlas/sys/timer.h>
+#include <atomic>
+#include <condition_variable>
+#include <memory>
+#include <mutex>
+#include <opencv2/core/core.hpp>
+#include <thread>
 
 namespace atlas {
 

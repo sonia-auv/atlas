@@ -38,9 +38,9 @@
 #ifndef LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
 #define LIB_ATLAS_IO_DETAILS_SERIAL_IMPL_H_
 
-#include <memory>
-#include <pthread.h>
 #include <lib_atlas/exceptions.h>
+#include <pthread.h>
+#include <memory>
 
 namespace atlas {
 

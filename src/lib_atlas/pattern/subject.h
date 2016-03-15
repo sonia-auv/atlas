@@ -26,8 +26,8 @@
 #define LIB_ATLAS_PATTERN_SUBJECT_H_
 
 #include <memory>
-#include <vector>
 #include <mutex>
+#include <vector>
 
 #include <lib_atlas/macros.h>
 

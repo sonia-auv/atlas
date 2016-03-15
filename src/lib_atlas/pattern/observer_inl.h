@@ -27,8 +27,8 @@
 #error This file may only be included from observer.h
 #endif
 
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 
 namespace atlas {
 

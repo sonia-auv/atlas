@@ -26,11 +26,11 @@
 #ifndef LIB_ATLAS_PATTERN_OBSERVER_H_
 #define LIB_ATLAS_PATTERN_OBSERVER_H_
 
+#include <functional>
+#include <memory>
+#include <mutex>
 #include <type_traits>
 #include <vector>
-#include <memory>
-#include <functional>
-#include <mutex>
 
 #include <lib_atlas/macros.h>
 #include <lib_atlas/pattern/subject.h>

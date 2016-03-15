@@ -27,8 +27,8 @@
 #error This file may only be included from image_sequence_writer.h
 #endif
 
-#include <functional>
 #include <lib_atlas/sys/timer.h>
+#include <functional>
 
 namespace atlas {
 

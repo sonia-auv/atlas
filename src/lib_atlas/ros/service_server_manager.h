@@ -26,14 +26,14 @@
 #ifndef LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
 #define LIB_ATLAS_ROS_SERVICE_SERVER_MANAGER_H_
 
-#include <memory>
 #include <assert.h>
-#include <exception>
+#include <lib_atlas/macros.h>
+#include <ros/ros.h>
 #include <algorithm>
+#include <exception>
 #include <functional>
 #include <map>
-#include <ros/ros.h>
-#include <lib_atlas/macros.h>
+#include <memory>
 
 namespace atlas {
 

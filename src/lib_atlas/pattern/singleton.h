@@ -26,8 +26,8 @@
 #ifndef LIB_ATLAS_PATTERN_SINGLETON_H_
 #define LIB_ATLAS_PATTERN_SINGLETON_H_
 
-#include <memory>
 #include <lib_atlas/macros.h>
+#include <memory>
 
 namespace atlas {
 

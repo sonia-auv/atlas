@@ -26,15 +26,15 @@
 #ifndef LIB_ATLAS_PATTERN_THREAD_POOL_H_
 #define LIB_ATLAS_PATTERN_THREAD_POOL_H_
 
-#include <vector>
-#include <queue>
-#include <memory>
-#include <thread>
-#include <mutex>
 #include <condition_variable>
-#include <future>
 #include <functional>
+#include <future>
+#include <memory>
+#include <mutex>
+#include <queue>
 #include <stdexcept>
+#include <thread>
+#include <vector>
 
 #include <lib_atlas/macros.h>
 
