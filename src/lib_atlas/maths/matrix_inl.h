@@ -102,7 +102,7 @@ ATLAS_INLINE Eigen::Matrix3d QuatToRot(const Eigen::Quaterniond &b) {
   if (b.norm() != 0) {
     decltype(b) b_norm = b.normalized();
     auto w = b_norm.w();
-    bv(0, 0) = b_norm.x();
+    bv(0) = b_norm.x();
     bv(1) = b_norm.y();
     bv(2) = b_norm.z();
 
