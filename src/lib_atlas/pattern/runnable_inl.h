@@ -34,7 +34,8 @@ namespace atlas {
 
 //------------------------------------------------------------------------------
 //
-ATLAS_ALWAYS_INLINE Runnable::Runnable() ATLAS_NOEXCEPT : thread_(), stop_() {}
+ATLAS_ALWAYS_INLINE Runnable::Runnable() ATLAS_NOEXCEPT : thread_(nullptr),
+                                                          stop_(false) {}
 
 //------------------------------------------------------------------------------
 //
