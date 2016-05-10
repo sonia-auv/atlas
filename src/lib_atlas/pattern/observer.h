@@ -97,13 +97,13 @@ class Observer {
    * If not, then simply override this and do nothing.
    */
   virtual void OnSubjectNotify(Subject<Args_...> &subject,
-                               Args_... args) ATLAS_NOEXCEPT = 0;
+                               Args_... args) = 0;
 
  private:
   //============================================================================
   // P R I V A T E   M E T H O D S
 
-  virtual void OnSubjectConnected(Subject<Args_...> &subject) ATLAS_NOEXCEPT;
+  virtual void OnSubjectConnected(Subject<Args_...> &subject);
 
   virtual void OnSubjectDisconnected(Subject<Args_...> &subject);
 

@@ -104,7 +104,7 @@ ATLAS_ALWAYS_INLINE void Observer<Args_...>::DetachFromAllSubject()
 //
 template <typename... Args_>
 ATLAS_ALWAYS_INLINE void Observer<Args_...>::OnSubjectConnected(
-    Subject<Args_...> &subject) ATLAS_NOEXCEPT {
+    Subject<Args_...> &subject) {
   std::unique_lock<std::mutex> locker(subjects_mutex_);
   auto it = std::find(subjects_.begin(), subjects_.end(), &subject);
   if (it != subjects_.end()) {
