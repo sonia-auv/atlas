@@ -60,7 +60,9 @@ class Runnable {
   /**
    * Makes no sense to copy a thread, delete the copy ctor instead.
    */
-  explicit Runnable(Runnable const&) = delete;
+  explicit Runnable(const Runnable &) = delete;
+
+  explicit Runnable(Runnable &&) = delete;
 
   //============================================================================
   // P U B L I C   O P E R A T O R S
@@ -68,7 +70,9 @@ class Runnable {
   /**
    * Makes no sense to copy a thread, delete the copy operator instead.
    */
-  Runnable& operator=(Runnable const&) = delete;
+  Runnable& operator=(const Runnable &) = delete;
+
+  Runnable& operator=(Runnable &&) = delete;
 
   //============================================================================
   // P U B L I C  M E T H O D S
