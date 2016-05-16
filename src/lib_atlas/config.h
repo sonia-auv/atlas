@@ -25,6 +25,7 @@
 
 #include <stdlib.h>
 #include <string>
+#include "lib_atlas/macros.h"
 
 #ifndef LIB_ATLAS_CONFIG_H_
 #define LIB_ATLAS_CONFIG_H_
@@ -32,7 +33,11 @@
 namespace atlas {
 
 /// The path where the system will save all the configurations.
+#ifdef OS_DARWIN
+const std::string kWorkspaceRoot = getenv("ROS_SONIA_WS");
+#else
 const std::string kWorkspaceRoot = std::getenv("ROS_SONIA_WS");
+#endif
 
 /// The path where the system will save all the log files (e.g. from Logger).
 const std::string kLogPath = kWorkspaceRoot + std::string{"log"};
