@@ -96,8 +96,7 @@ class Observer {
    * If so, then the method will be called instead of the delegate.
    * If not, then simply override this and do nothing.
    */
-  virtual void OnSubjectNotify(Subject<Args_...> &subject,
-                               Args_... args) = 0;
+  virtual void OnSubjectNotify(Subject<Args_...> &subject, Args_... args) = 0;
 
  private:
   //============================================================================

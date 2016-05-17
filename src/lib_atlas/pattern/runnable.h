@@ -70,9 +70,9 @@ class Runnable {
   /**
    * Makes no sense to copy a thread, delete the copy operator instead.
    */
-  Runnable& operator=(const Runnable &) = delete;
+  Runnable &operator=(const Runnable &) = delete;
 
-  Runnable& operator=(Runnable &&) = delete;
+  Runnable &operator=(Runnable &&) = delete;
 
   //============================================================================
   // P U B L I C  M E T H O D S
