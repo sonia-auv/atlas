@@ -58,6 +58,10 @@ class ConfigurationParser {
   template <typename Tp_>
   void FindParameter(const std::string &str, Tp_ &p) ATLAS_NOEXCEPT;
 
+  template <typename Tp_>
+  void FindParameter(const std::string &str,
+                     const std::function<void(const Tp_ &)> &f) ATLAS_NOEXCEPT;
+
   //==========================================================================
   // P R I V A T E   M E M B E R S
 
@@ -76,6 +80,22 @@ ATLAS_INLINE void ConfigurationParser::FindParameter(const std::string &str,
                                                      Tp_ &p) ATLAS_NOEXCEPT {
   if (nh_.hasParam(name_space_ + "/" + str)) {
     nh_.getParam(name_space_ + "/" + str, p);
+  } else {
+    ROS_WARN_STREAM("Did not find " << name_space_ << "/" << str
+                                    << ". Using default value instead.");
+  }
+}
+
+//-----------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_INLINE void ConfigurationParser::FindParameter(
+    const std::string &str,
+    const std::function<void(const Tp_ &)> &f) ATLAS_NOEXCEPT {
+  if (nh_.hasParam(name_space_ + "/" + str)) {
+    Tp_ p;
+    nh_.getParam(name_space_ + "/" + str, p);
+    f(p);
   } else {
     ROS_WARN_STREAM("Did not find " << name_space_ << "/" << str
                                     << ". Using default value instead.");
