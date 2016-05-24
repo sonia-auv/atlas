@@ -46,8 +46,8 @@ class ConfigurationParser {
   // P U B L I C   C / D T O R S
 
   explicit ConfigurationParser(const ros::NodeHandle &nh,
-                               const std::string &name_space = "") : nh_(nh),
- name_space_(name_space) {}
+                               const std::string &name_space = "")
+      : nh_(nh), name_space_(name_space) {}
 
   virtual ~ConfigurationParser() = default;
 
@@ -73,12 +73,12 @@ class ConfigurationParser {
 //
 template <typename Tp_>
 ATLAS_INLINE void ConfigurationParser::FindParameter(const std::string &str,
-                                        Tp_ &p) ATLAS_NOEXCEPT {
+                                                     Tp_ &p) ATLAS_NOEXCEPT {
   if (nh_.hasParam(name_space_ + "/" + str)) {
     nh_.getParam(name_space_ + "/" + str, p);
   } else {
     ROS_WARN_STREAM("Did not find " << name_space_ << "/" << str
-                        << ". Using default value instead.");
+                                    << ". Using default value instead.");
   }
 }
 
