@@ -73,7 +73,7 @@ class PID {
 
   /// Set the refresh frequency of the controller in hertz.
   /// If you don't know the refresh frequency you can set the refresh interval
-  /// using setRefreshRate
+  /// using SetRefreshInterval
   void SetRefreshRate(const double &refresh_rate);
 
   /// Set the minimun error for computation of the PID loop. The default is 0.0
@@ -97,7 +97,7 @@ class PID {
   /// error will be computed subtracting the feedback input from this value
   void SetDesiredPoint(const double &desired_point);
 
-  /// The refresh funcion that make all the PID computation.
+  /// The refresh function that make all the PID computations.
   /// Call it at specific rate, setted by setRefreshRate or setRefreshInterval
   /// (read descriptions).
   /// (use a timer interrupt if used on a embedded microcontroller)

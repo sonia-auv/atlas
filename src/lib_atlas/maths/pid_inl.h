@@ -32,10 +32,11 @@ namespace atlas {
 //------------------------------------------------------------------------------
 //
 ATLAS_INLINE PID::PID()
-    : last_error_(0.f),
-      last_output_(0.f),
-      integral_(0.f),
-      error_threshold_(0.f) {}
+    : last_error_(0.),
+      last_output_(0.),
+      integral_(0.),
+      interval_(1.),
+      error_threshold_(0.) {}
 
 //------------------------------------------------------------------------------
 //
@@ -98,7 +99,7 @@ ATLAS_INLINE void PID::SetDesiredPoint(const double &desired_point) {
 //
 ATLAS_INLINE double PID::Refresh(const double &feedback_input) {
   error_ = set_point_ - feedback_input;
-  if (error_ >= error_threshold_ or error_ <= -error_threshold_) {
+  if (error_ >= fabs(error_threshold_) && error_ != 0) {
     last_output_ =
         k_.p * error_ + k_.i * integral_ + k_.d * (error_ - last_error_);
     if (last_output_ > output_upper_limit_) {
