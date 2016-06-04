@@ -151,7 +151,7 @@ ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &b)
 
   auto yaw = atan2( 2*(q.x()*q.y()+q.w()*q.z()), q.w()*q.w() + q.x()*q.x() -
       q.y()*q.y() - q.z()*q.z());
-  auto pitch = asin_input;
+  auto pitch = asin(asin_input);
   auto roll = atan2(2*(q.y()*q.z()+q.w()*q.x()), q.w()*q.w() - q.x()*q.x() -
       q.y()*q.y() + q.z()*q.z());
   return Eigen::Vector3d(roll, pitch, yaw);
