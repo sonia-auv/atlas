@@ -26,6 +26,18 @@
 #include <gtest/gtest.h>
 #include <lib_atlas/maths/matrix.h>
 
+TEST(MatrixTest, QuatToEuler) {
+  Eigen::Quaterniond q;
+  q.w() = 0.00501813488735;
+  q.x() = -0.0822811981613;
+  q.y() = -0.996591510943;
+  q.z() = 0.00316064590555;
+
+  auto xyz = atlas::QuatToEuler(q);
+  ASSERT_NEAR(xyz(0), -3.134466730930046, 0.001);
+  ASSERT_NEAR(xyz(1), -0.009482079820205, 0.001);
+  ASSERT_NEAR(xyz(2), 2.976807314666800, 0.001);
+}
 
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);

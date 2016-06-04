@@ -47,6 +47,8 @@ Eigen::Matrix3d EulerToRot(double, double, double) ATLAS_NOEXCEPT;
 
 Eigen::Quaterniond ExactQuat(const Eigen::Quaterniond &m);
 
+Eigen::Quaterniond NormalizeQuat(const Eigen::Quaterniond &b) ATLAS_NOEXCEPT;
+
 }  // namespace atlas
 
 #include <lib_atlas/maths/matrix_inl.h>

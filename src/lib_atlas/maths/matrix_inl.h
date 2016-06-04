@@ -142,12 +142,38 @@ ATLAS_INLINE Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &v)
 //
 ATLAS_INLINE Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &b)
     ATLAS_NOEXCEPT {
-  auto phi = atan2(2 * (b.y() * b.z() - b.w() * b.x()),
-                   1 - 2 * (pow(b.x(), 2) + pow(b.y(), 2)));
-  auto theta = asin(-2 * (b.x() * b.z() + b.w() * b.y()));
-  auto psi = atan2(2 * (b.x() * b.y() - b.w() * b.z()),
-                   1 - 2 * (pow(b.y(), 2) + pow(b.z(), 2)));
-  return Eigen::Vector3d(phi, theta, psi);
+  Eigen::Quaterniond q = NormalizeQuat(b);
+
+  // Cap all inputs to asin to 1, since values >1 produce complex results
+  auto asin_input = -2*(q.x()*q.z()-q.w()*q.y());
+  asin_input = asin_input > 1 ? 1 : asin_input;
+
+
+  auto yaw = atan2( 2*(q.x()*q.y()+q.w()*q.z()), q.w()*q.w() + q.x()*q.x() -
+      q.y()*q.y() - q.z()*q.z());
+  auto pitch = asin_input;
+  auto roll = atan2(2*(q.y()*q.z()+q.w()*q.x()), q.w()*q.w() - q.x()*q.x() -
+      q.y()*q.y() + q.z()*q.z());
+  return Eigen::Vector3d(roll, pitch, yaw);
+}
+
+//------------------------------------------------------------------------------
+//
+ATLAS_INLINE Eigen::Quaterniond NormalizeQuat(const Eigen::Quaterniond &b)
+ATLAS_NOEXCEPT {
+  double n = b.x()*b.x() + b.y()*b.y() + b.z()*b.z() + b.w()*b.w();
+
+  if (n == 1)
+    return b;
+
+  n = 1.0f / sqrt(n);
+  auto normalized_b = b;
+  normalized_b.w() = b.w() * n;
+  normalized_b.x() = b.x() * n;
+  normalized_b.y() = b.y() * n;
+  normalized_b.z() = b.z() * n;
+  return normalized_b;
+
 }
 
 //------------------------------------------------------------------------------
