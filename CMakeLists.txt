@@ -21,6 +21,10 @@ endif (NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3")
 
+if(APPLE)
+  set(CMAKE_MACOSX_RPATH 1)
+endif()
+
 set(lib_atlas_SRC_DIR "src")
 
 #===============================================================================
