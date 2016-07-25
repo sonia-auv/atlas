@@ -1,17 +1,19 @@
 <package>
-  <!-- Package Metadata -->
   <name>lib_atlas</name>
-  <maintainer email="thibaut.mattio@gmail.com">Thibaut Mattio</maintainer>
-  <description>
-    A librairie that helps you build ROS packages faster
-  </description>
-  <version>0.0.1</version>
-  <license>MIT</license>
 
-  <!-- Required by Catkin -->
+  <author>Thibaut Mattio</author>
+
+  <maintainer email="thibaut.mattio@gmail.com">Thibaut Mattio</maintainer>
+
+  <description>
+    A library that helps you build ROS packages faster
+  </description>
+  <version>1.0.0</version>
+
+  <license>GPLv3</license>
+
   <buildtool_depend>catkin</buildtool_depend>
 
-  <!-- Package Dependencies -->
   <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>message_generation</build_depend>
