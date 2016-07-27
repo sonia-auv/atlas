@@ -59,6 +59,7 @@ ATLAS_ALWAYS_INLINE void ImagePublisher::WriteImage(const cv::Mat &image)
   if (!image.empty()) {
     sensor_msgs::ImagePtr msg =
         cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
+    msg->header.stamp = ros::Time::now();
     publisher_.publish(msg);
     cv::waitKey(1);
   }
