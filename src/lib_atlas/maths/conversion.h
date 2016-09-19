@@ -1,5 +1,8 @@
+//
+// Created by jeremie on 9/19/16.
+//
 /**
- * \file	maths.h
+ * \file	matrix.h
  * \author	Thibaut Mattio <thibaut.mattio@gmail.com>
  * \date	20/02/2016
  *
@@ -23,13 +26,19 @@
  * along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LIB_ATLAS_MATHS_H_
-#define LIB_ATLAS_MATHS_H_
+#ifndef LIB_ATLAS_CONVERSION_H_
+#define LIB_ATLAS_CONVERSION_H_
 
-#include <lib_atlas/maths/matrix.h>
-#include <lib_atlas/maths/numbers.h>
-#include <lib_atlas/maths/stats.h>
-#include <lib_atlas/maths/trigo.h>
-#include <lib_atlas/maths/conversion.h>
+#include <lib_atlas/macros.h>
+#include <math.h>
 
-#endif  // LIB_ATLAS_MATHS_H_
+namespace atlas {
+
+double RadianToDegree(const double &radian) ATLAS_NOEXCEPT;
+double DegreeToRadian(const double &degree) ATLAS_NOEXCEPT;
+
+}  // namespace atlas
+
+#include <lib_atlas/maths/conversion_inl.h>
+
+#endif //LIB_ATLAS_CONVERSION_H_

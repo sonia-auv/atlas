@@ -32,18 +32,40 @@
 
 namespace atlas {
 
-/**
+/*!
  * Convert a rotation matrix to a quaternion
  */
-Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m);
-
-Eigen::Matrix3d QuatToRot(const Eigen::Quaterniond &m);
-
-Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &v) ATLAS_NOEXCEPT;
-
+Eigen::Quaterniond RotToQuat(const Eigen::Matrix3d &m) ATLAS_NOEXCEPT;
+/*!
+ * Converts a quaternion to a rotation matrix. The function normalize
+ * the quaternion before using it.
+ */
+Eigen::Matrix3d QuatToRot(const Eigen::Quaterniond &m) ATLAS_NOEXCEPT;
+/*!
+ * Converts a quaternion to an set of euler angles in radians.
+ * The output vector is [x, y, z] == [roll, pitch, yaw]
+ */
 Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &m) ATLAS_NOEXCEPT;
 
-Eigen::Matrix3d EulerToRot(double, double, double) ATLAS_NOEXCEPT;
+/*!
+ * Converts a euler angles set to a quaternion
+ * The input vector is [x, y, z] == [roll, pitch, yaw]
+ */
+Eigen::Quaterniond EulerToQuat(const Eigen::Vector3d &vec) ATLAS_NOEXCEPT;
+
+/*!
+ * Converts a euler angles set to a rotation matrix
+ * The input vector is [x, y, z] == [roll, pitch, yaw]
+ */
+Eigen::Matrix3d EulerToRot(const Eigen::Vector3d &vec) ATLAS_NOEXCEPT;
+
+/*!
+ * Converts a rotation matrix to a euler angles set
+ * The output vector is [x, y, z] == [roll, pitch, yaw]
+ */
+Eigen::Vector3d RotToEuler(const Eigen::Matrix3d &rot) ATLAS_NOEXCEPT;
+
+Eigen::Matrix3d SkewMatrix(const Eigen::Vector3d &v) ATLAS_NOEXCEPT;
 
 Eigen::Quaterniond ExactQuat(const Eigen::Quaterniond &m);
 
