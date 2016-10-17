@@ -28,7 +28,7 @@
 #endif  // LIB_ATLAS_MATHS_MATRIX_H_
 
 #include <stdexcept>
-#include <Eigen/Geometry>
+#include <eigen3/Eigen/Geometry>
 #include "lib_atlas/maths/conversion.h"
 
 using std::cos;

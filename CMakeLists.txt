@@ -8,7 +8,7 @@
 #===============================================================================
 # G L O B A L   P R O J E C T   C O N F I G U R A T I O N
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(lib_atlas)
 
@@ -44,7 +44,7 @@ find_package(catkin REQUIRED COMPONENTS
     )
 
 find_package(catkin REQUIRED cmake_modules)
-find_package(Eigen3 REQUIRED)
+#find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 
 if (UNIX AND NOT APPLE)

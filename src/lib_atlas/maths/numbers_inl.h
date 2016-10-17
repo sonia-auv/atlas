@@ -101,4 +101,12 @@ ATLAS_ALWAYS_INLINE Tp_ SetPrecision(const Tp_ &v, uint32_t d) ATLAS_NOEXCEPT {
   return round(v * factor) / factor;
 }
 
+//------------------------------------------------------------------------------
+//
+template <typename Tp_>
+ATLAS_ALWAYS_INLINE int signum(Tp_ val) ATLAS_NOEXCEPT{
+  return (Tp_(0) < val) - (val < Tp_(0));
+}
+
+
 }  // namespace atlas

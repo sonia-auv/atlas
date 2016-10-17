@@ -96,6 +96,13 @@ double NormalizedGaussian(const double &x, const double &v) ATLAS_NOEXCEPT;
 template <typename Tp_>
 Tp_ SetPrecision(const Tp_ &v, uint32_t d) ATLAS_NOEXCEPT;
 
+  /**
+   * This function will return the -1,0, or 1 depending on the sign of the provided val;
+   * -1 for a number negative, 0 for 0 and 1 for positive number.
+   * http://stackoverflow.com/questions/1903954/is-there-a-standard-sign-function-signum-sgn-in-c-c
+   */
+template <typename Tp_>
+int signum(Tp_ val) ATLAS_NOEXCEPT;
 }  // namespace atlas
 
 #include <lib_atlas/maths/numbers_inl.h>
