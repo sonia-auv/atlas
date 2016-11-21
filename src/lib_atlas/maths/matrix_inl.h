@@ -63,9 +63,9 @@ ATLAS_INLINE Eigen::Matrix3d EulerToRot(const Eigen::Vector3d &vec)
 ATLAS_NOEXCEPT {
   // To compile, must separate the construction and the = operator...
   Eigen::Matrix3d m;
-  m = Eigen::AngleAxisd(vec.x(), Eigen::Vector3d::UnitX())
+  m = Eigen::AngleAxisd(vec.x(), Eigen::Vector3d::UnitZ())
       * Eigen::AngleAxisd(vec.y(), Eigen::Vector3d::UnitY())
-      * Eigen::AngleAxisd(vec.z(), Eigen::Vector3d::UnitZ());
+      * Eigen::AngleAxisd(vec.z(), Eigen::Vector3d::UnitX());
   return m;
 }
 
@@ -74,7 +74,7 @@ ATLAS_NOEXCEPT {
 ATLAS_INLINE Eigen::Vector3d RotToEuler(const Eigen::Matrix3d &rot)
 ATLAS_NOEXCEPT {
   Eigen::Vector3d vec;
-  vec = rot.eulerAngles(0,1,2);
+  vec = rot.eulerAngles(2,1,0);
   return vec;
 }
 

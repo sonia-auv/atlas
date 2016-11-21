@@ -49,13 +49,13 @@ Eigen::Vector3d QuatToEuler(const Eigen::Quaterniond &m) ATLAS_NOEXCEPT;
 
 /*!
  * Converts a euler angles set to a quaternion
- * The input vector is [x, y, z] == [roll, pitch, yaw]
+ * The input vector is [x, y, z] == [yaw, pitch, roll]
  */
 Eigen::Quaterniond EulerToQuat(const Eigen::Vector3d &vec) ATLAS_NOEXCEPT;
 
 /*!
  * Converts a euler angles set to a rotation matrix
- * The input vector is [x, y, z] == [roll, pitch, yaw]
+ * The input vector is [x, y, z] == [yaw, pitch, roll]
  */
 Eigen::Matrix3d EulerToRot(const Eigen::Vector3d &vec) ATLAS_NOEXCEPT;
 
