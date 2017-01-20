@@ -21,19 +21,10 @@ endif (NOT CMAKE_BUILD_TYPE)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -std=c++11")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3")
 
-if(APPLE)
-  set(CMAKE_MACOSX_RPATH 1)
-endif()
-
 set(lib_atlas_SRC_DIR "src")
 
 #===============================================================================
 # C A T K I N   C O N F I G U R A T I O N
-
-if (APPLE)
-  find_library(IOKIT_LIBRARY IOKit)
-  find_library(FOUNDATION_LIBRARY Foundation)
-endif ()
 
 find_package(catkin REQUIRED COMPONENTS
     std_msgs
@@ -44,11 +35,9 @@ find_package(catkin REQUIRED COMPONENTS
     )
 
 find_package(catkin REQUIRED cmake_modules)
-#find_package(Eigen3 REQUIRED)
+find_package(Eigen REQUIRED)
 find_package(OpenCV REQUIRED)
 
-if (UNIX AND NOT APPLE)
-  # If Linux, add rt and pthread
   catkin_package(
       INCLUDE_DIRS src
       LIBRARIES sonia_atlas
@@ -60,13 +49,6 @@ if (UNIX AND NOT APPLE)
       cv_bridge
       DEPENDS rt pthread Eigen
   )
-else ()
-  catkin_package(
-      INCLUDE_DIRS ${lib_atlas_SRC_DIR}
-      LIBRARIES sonia_atlas
-      CATKIN_DEPENDS roscpp std_msgs image_transport cv_bridge
-  )
-endif ()
 
 #===============================================================================
 # I N C L U D E   F I L E S
