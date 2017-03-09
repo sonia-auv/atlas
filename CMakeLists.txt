@@ -35,7 +35,7 @@ find_package(catkin REQUIRED COMPONENTS
     )
 
 find_package(catkin REQUIRED cmake_modules)
-find_package(Eigen REQUIRED)
+find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
 
   catkin_package(
@@ -47,7 +47,7 @@ find_package(OpenCV REQUIRED)
       message_runtime
       image_transport
       cv_bridge
-      DEPENDS rt pthread Eigen
+      #DEPENDS rt pthread Eigen3
   )
 
 #===============================================================================
